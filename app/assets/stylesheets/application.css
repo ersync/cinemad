@@ -1,3 +1,41 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+@layer base {
+
+    @font-face {
+        font-family: "SourcePro-Light" ;
+        src: url("@assets/fonts/Source-Sans-Light.woff2") format('woff2');
+        font-weight: 300;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: "SourcePro-Normal" ;
+        src: url("@assets/fonts/Source-Sans-Normal.woff2") format('woff2');
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: "SourcePro-Italic" ;
+        src: url("@assets/fonts/Source-Sans-Italic.woff2") format('woff2');
+        font-weight: 400;
+        font-style: italic;
+    }
+
+    @font-face {
+        font-family: "SourcePro-SemiBold" ;
+        src: url("@assets/fonts/Source-Sans-SemiBold.woff2") format('woff2');
+        font-weight: 600;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: "SourcePro-Bold" ;
+        src: url("@assets/fonts/Source-Sans-Bold.woff2") format('woff2');
+        font-weight: 700;
+        font-style: normal;
+    }
+}
