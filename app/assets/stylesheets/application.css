@@ -39,3 +39,15 @@
         font-style: normal;
     }
 }
+
+@layer base {
+
+    .overlay {
+        @apply invisible opacity-0 fixed inset-0 w-full h-full z-10 bg-black/40 transition-all
+    }
+
+    .overlay--visible {
+        @apply visible opacity-100
+    }
+
+}

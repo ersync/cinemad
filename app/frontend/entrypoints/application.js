@@ -26,3 +26,19 @@ console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify
 
 // Example: Import a stylesheet in app/frontend/index.css
 // import '~/index.css'
+
+
+const mobileNavBtn = document.querySelector(".mobile-nav-btn");
+const mobileMenuCloseBtn = document.querySelector(".mobile-close-btn");
+const overlay = document.querySelector(".overlay");
+const mobileMenu = document.querySelector(".mobile-menu");
+
+function toggleMenu() {
+    overlay.classList.toggle("overlay--visible");
+    mobileMenu.classList.toggle("-right-72");
+    mobileMenu.classList.toggle("right-0");
+}
+
+mobileNavBtn.addEventListener("click", toggleMenu);
+mobileMenuCloseBtn.addEventListener("click", toggleMenu);
+overlay.addEventListener("click", toggleMenu);

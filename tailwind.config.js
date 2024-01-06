@@ -4,12 +4,13 @@ module.exports = {
     './app/helpers/**/*.rb',
     './app/assets/stylesheets/**/*.css',
     './app/views/**/*.{html,html.erb,erb}',
-    './app/frontend/components/**/*.js',
+    './app/frontend/**/*.js',
   ],
   theme: {
     extend: {
       colors: {
-        "tmdbDarkBlue": "#032541"
+        "tmdbDarkBlue": "#032541",
+        "tmdbHoverGray": "#f8f9fa"
       },
       fontFamily: {
         SourceProLight: "SourcePro-Light",
@@ -30,6 +31,11 @@ module.exports = {
       'xl': '1320px',
     }
   },
-  plugins: [],
+  plugins: [
+    function ({addVariant}) {
+      addVariant('child', '& > *');
+      addVariant('child-hover', '& > *:hover');
+    }
+  ],
 }
 
