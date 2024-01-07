@@ -10,7 +10,9 @@ module.exports = {
     extend: {
       colors: {
         "tmdbDarkBlue": "#032541",
-        "tmdbHoverGray": "#f8f9fa"
+        "tmdbHoverGray": "#f8f9fa",
+        "tmdbLightBlue": "#120244",
+        "tmdbDarkGray": "#212529"
       },
       fontFamily: {
         SourceProLight: "SourcePro-Light",
