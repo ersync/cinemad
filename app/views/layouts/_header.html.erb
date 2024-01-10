@@ -1,10 +1,10 @@
-<div class="fixed w-full">
+<div class="fixed w-full z-50">
   <!--desktop header-->
   <header class="hidden sm:flex items-center w-full h-16 bg-tmdbDarkBlue font-SourceProSemiBold text-white antialiased">
     <div class="container">
       <div class="flex justify-between items-center min-h-10 mx-auto px-6">
         <nav class="flex leading-10">
-          <a href="#" class="inline-block w-[154px] h-10 mr-4 md:mr-6">
+          <a href="#" class="inline-block w-[154px] h-10 mr-4 md:mr-6 select-none">
             <img class="h-5 inline-block" src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg" alt="">
           </a>
           <ul class="flex gap-4 md:gap-6 lg:gap-8 h-10">
@@ -62,21 +62,35 @@
     </div>
   </header>
   <!--mobile header-->
-  <div class="sm:hidden w-full h-16 px-4 bg-tmdbDarkBlue font-SourceProSemiBold text-white antialiased">
-    <div class="flex justify-between items-center h-full">
-      <!--logo-->
-      <div class="w-[154px] h-10 mr-3 md:mr-6 leading-10">
-        <img class="h-5 inline-block" src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg" alt="">
-      </div>
+  <div class="flex flex-col justify-center sm:hidden w-full h-16 px-5 bg-tmdbDarkBlue font-SourceProSemiBold text-white antialiased">
+    <!--mobile header-->
+    <div class="flex justify-between items-center">
       <!--mobile nav button-->
-      <div class="mobile-nav-btn">
-        <svg class="w-8 h-8 cursor-pointer">
+      <div class="mobile-nav-btn w-[62px]">
+        <svg class="w-6 h-6 cursor-pointer font-semibold">
           <use xlink:href="#bars"></use>
         </svg>
       </div>
+      <!--logo-->
+      <div class="w-14 h-10 leading-10 select-none">
+        <img class="inline-block" src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg" alt="">
+      </div>
+      <!--user profile-->
+      <div class="flex justify-between gap-x-3.5">
+        <div class="mobile-nav-btn">
+          <svg class="w-6 h-6 cursor-pointer text-white">
+            <use xlink:href="#user-profile"></use>
+          </svg>
+        </div>
+        <div class="mobile-nav-btn">
+          <svg class="w-6 h-6 cursor-pointer text-white">
+            <use xlink:href="#search"></use>
+          </svg>
+        </div>
+      </div>
     </div>
     <!--mobile nav-->
-    <div class="mobile-menu w-64 min-h-screen fixed z-50 top-0 -right-72 bottom-0 bg-white transition-all">
+    <div class="mobile-menu w-[90%] min-h-screen fixed z-50 top-16 -left-[90%] bottom-0 bg-tmdbDarkBlue/90 backdrop-blur-[20px] transition-all z-50">
       <div class="flex justify-between items-center px-4 h-16 leading-[64px] border-b border-b-gray-200">
         <!--nav close button-->
         <div class="mobile-close-btn pt-1">
@@ -85,12 +99,11 @@
           </svg>
         </div>
         <!--nav-logo-->
-        <div class="w-36">
+        <div class="w-36 select-none">
           <img class="h-5 inline-block" src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg" alt="">
         </div>
       </div>
     </div>
-
   </div>
-  <div class="overlay sm:hidden"></div>
+  <div class="overlay sm:hidden top-[2000px]"></div>
 </div>
