@@ -63,7 +63,7 @@
   </header>
   <!--mobile header-->
   <div class="flex flex-col justify-center sm:hidden w-full h-16 px-5 bg-tmdbDarkBlue font-SourceProSemiBold text-white antialiased">
-    <!--mobile header-->
+    <!--mobile nav-->
     <div class="flex justify-between items-center">
       <!--mobile nav button-->
       <div class="mobile-nav-btn w-[62px]">
@@ -89,21 +89,63 @@
         </div>
       </div>
     </div>
-    <!--mobile nav-->
-    <div class="mobile-menu w-[90%] min-h-screen fixed z-50 top-16 -left-[90%] bottom-0 bg-tmdbDarkBlue/90 backdrop-blur-[20px] transition-all z-50">
-      <div class="flex justify-between items-center px-4 h-16 leading-[64px] border-b border-b-gray-200">
-        <!--nav close button-->
-        <div class="mobile-close-btn pt-1">
-          <svg class="w-5 h-5 text-black text-tmdbDarkBlue/50 cursor-pointer">
-            <use xlink:href="#x-mark"></use>
-          </svg>
-        </div>
-        <!--nav-logo-->
-        <div class="w-36 select-none">
-          <img class="h-5 inline-block" src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg" alt="">
-        </div>
+    <!--mobile menu-->
+    <div class="mobile-menu w-[90%] min-h-screen fixed z-50 top-16 -left-[90%] bottom-0 p-5 bg-tmdbDarkBlue/90 backdrop-blur-[20px] transition-all z-50 select-none overflow-y-scroll">
+      <div class="overflow-y-scroll">
+        <ul class="space-y-2.5">
+          <li>
+            <div class="flex items-center gap-2">
+              <svg class="w-3 h-3">
+                <use xlink:href="#people"></use>
+              </svg>
+              <span class="category-movies inline-block font-SourceProSemiBold text-xl cursor-pointer">Movies</span>
+            </div>
+            <ul class="movies-submenu submenu font-SourceProNormal ml-3 antialiased child:mb-2.5 transition-all">
+              <li><a href="#">Popular</a></li>
+              <li><a href="#">Top Rated</a></li>
+              <li><a href="#">Upcoming</a></li>
+              <li><a href="#">Now Playing</a></li>
+            </ul>
+          </li>
+          <li>
+            <div class="flex items-center gap-2">
+              <svg class="w-3 h-3">
+                <use xlink:href="#people"></use>
+              </svg>
+              <span class="category-tv-shows inline-block font-SourceProSemiBold text-xl cursor-pointer">TV Shows</span>
+            </div>
+            <ul class="tv-shows-submenu submenu font-SourceProNormal ml-3 antialiased child:mb-2.5 transition-all">
+              <li><a href="#">Popular</a></li>
+              <li><a href="#">Top Rated</a></li>
+              <li><a href="#">Upcoming</a></li>
+              <li><a href="#">Now Playing</a></li>
+            </ul>
+          </li>
+          <li>
+            <div class="flex items-center gap-2">
+              <svg class="w-3 h-3">
+                <use xlink:href="#people"></use>
+              </svg>
+              <span class="category-people inline-block font-SourceProSemiBold text-xl cursor-pointer">People</span>
+            </div>
+            <ul class="people-submenu submenu font-SourceProNormal ml-3 antialiased child:mb-2.5 transition-all">
+              <li><a href="#">Popular</a></li>
+              <li><a href="#">Top Rated</a></li>
+              <li><a href="#">Upcoming</a></li>
+              <li><a href="#">Now Playing</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="font-SourceProSemiBold text-white/60 space-y-2.5 mt-7 mb-16">
+          <li><a href="">Contribution Bible</a></li>
+          <li><a href="">Discussions</a></li>
+          <li><a href="">Leaderboard</a></li>
+          <li><a href="">API</a></li>
+          <li><a href="">Support</a></li>
+          <li><a href="">About</a></li>
+        </ul>
       </div>
     </div>
   </div>
-  <div class="overlay sm:hidden top-[2000px]"></div>
+  <div class="overlay sm:hidden top-16"></div>
 </div>

@@ -27,18 +27,33 @@ console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify
 // Example: Import a stylesheet in app/frontend/index.css
 // import '~/index.css'
 
-
-const mobileNavBtn = document.querySelector(".mobile-nav-btn");
-const mobileMenuCloseBtn = document.querySelector(".mobile-close-btn");
-const overlay = document.querySelector(".overlay");
-const mobileMenu = document.querySelector(".mobile-menu");
+const elements = {
+  mobileNavBtn: document.querySelector(".mobile-nav-btn"),
+  mobileMenuCloseBtn: document.querySelector(".mobile-close-btn"),
+  overlay: document.querySelector(".overlay"),
+  mobileMenu: document.querySelector(".mobile-menu"),
+  foo: document.querySelector(".foo"),
+  categoryMovies: document.querySelector('.category-movies'),
+  categoryTvShows: document.querySelector('.category-tv-shows'),
+  categoryPeople: document.querySelector('.category-people'),
+  moviesSubmenu: document.querySelector(".movies-submenu"),
+  tvShowsSubmenu: document.querySelector(".tv-shows-submenu"),
+  peopleSubmenu: document.querySelector(".people-submenu")
+};
 
 function toggleMenu() {
-    overlay.classList.toggle("overlay--visible");
-    mobileMenu.classList.toggle("-right-72");
-    mobileMenu.classList.toggle("right-0");
+  elements.overlay.classList.toggle("overlay--visible");
+  elements.mobileMenu.classList.toggle("-left-[90%]");
+  elements.mobileMenu.classList.toggle("left-0");
 }
 
-mobileNavBtn.addEventListener("click", toggleMenu);
-mobileMenuCloseBtn.addEventListener("click", toggleMenu);
-overlay.addEventListener("click", toggleMenu);
+function toggleSubmenu(submenu) {
+  submenu.classList.toggle("submenu--open");
+}
+
+elements.mobileNavBtn.addEventListener("click", toggleMenu);
+elements.overlay.addEventListener("click", toggleMenu);
+
+elements.categoryMovies.addEventListener("click", () => toggleSubmenu(elements.moviesSubmenu));
+elements.categoryTvShows.addEventListener("click", () => toggleSubmenu(elements.tvShowsSubmenu));
+elements.categoryPeople.addEventListener("click", () => toggleSubmenu(elements.peopleSubmenu));
