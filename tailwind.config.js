@@ -10,6 +10,7 @@ module.exports = {
     extend: {
       colors: {
         "tmdbDarkBlue": "#032541",
+        "tmdbDarkerBlue": "#1f1f34",
         "tmdbHoverGray": "#f8f9fa",
         "tmdbLightBlue": "#120244",
         "tmdbDarkGray": "#212529"
