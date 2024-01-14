@@ -1,53 +1,58 @@
-<div class="w-full min-h-[570px] font-SourceProNormal antialiased header-image text-white">
-  <div class="header-gradient h-full">
+<!-- Desktop Header Section -->
+<div class="hidden sm:block min-h-[570px] font-SourceProNormal antialiased header-image text-white">
+  <div class="header-gradient-desktop h-full">
     <div class="container h-full">
       <div class="flex justify-start items-center gap-6 lg:gap-10 h-full py-4 px-2 md:py-[30px] md:px-0 ">
-        <!--cover-->
+        <!-- Cover Section -->
         <div class="flex flex-col shrink-0 w-[300px] h-[510px] rounded-lg overflow-hidden">
+          <!-- Movie Cover Image -->
           <div class="grow">
             <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/5weKu49pzJCt06OPpjvT80efnQj.jpg" alt="cover">
           </div>
+          <!-- Streaming Details -->
           <div class="flex justify-center items-center gap-3 h-[60px] bg-tmdbDarkBlue">
             <div class="w-9 h-9 ">
-              <img src="https://www.themoviedb.org/t/p/original/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg" alt=""></div>
+              <img src="https://www.themoviedb.org/t/p/original/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg" alt="">
+            </div>
             <div>
               <h4 class="text-white/80 leading-4">Now Streaming</h4>
               <h3 class="font-SourceProSemiBold leading-4">Watch Now</h3>
             </div>
           </div>
         </div>
-        <!--details-->
+        <!-- Movie Details Section -->
         <div class="flex flex-col justify-center items-start grow">
-          <!--title-->
+          <!-- Title and Release Year -->
           <div class="mb-6">
             <h2 class="font-SourceProBold text-[1.7rem] md:text-[2.2rem] leading-10">Spider-Man: No Way Home
               <span class="text-white/80 font-SourceProNormal">(2021)</span></h2>
-            <p>
+            <!-- Movie Rating and Release Date -->
+            <div>
               <span class="text-white/60 border border-white/60 inline-flex justify-center items-center py-0.5 px-1 mr-[7px] rounded-sm leading-4">12A</span>
               15/12/2021 (GB)<span class="disc relative ml-5"></span>Action, Adventure, Science Fiction
               <span class="disc relative ml-5"></span>2h 28m
-            </p>
+            </div>
           </div>
-          <!--    rating-->
+          <!-- Rating Icons Section -->
           <div class="hidden sm:flex justify-center items-center h-[68px] mb-5">
-            <div class=" w-[113px]"></div>
+            <div class="w-20 md:w-[113px]"></div>
             <ul class="flex gap-2 lg:gap-x-5 flex-wrap">
-              <li class="flex justify-center items-center w-[46px] h-[46px] bg-tmdbDarkBlue rounded-full">
+              <li class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-tmdbDarkBlue rounded-full">
                 <svg class="h-4 w-4">
                   <use xlink:href="#list"></use>
                 </svg>
               </li>
-              <li class="flex justify-center items-center w-[46px] h-[46px] bg-tmdbDarkBlue rounded-full">
+              <li class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-tmdbDarkBlue rounded-full">
                 <svg class="h-4 w-4">
-                  <use xlink:href="#heart" class="h-4 w-4 inline-block"></use>
+                  <use xlink:href="#heart"></use>
                 </svg>
               </li>
-              <li class="flex justify-center items-center w-[46px] h-[46px] bg-tmdbDarkBlue rounded-full">
+              <li class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-tmdbDarkBlue rounded-full">
                 <svg class="h-4 w-4">
                   <use xlink:href="#bookmark"></use>
                 </svg>
               </li>
-              <li class="flex justify-center items-center w-[46px] h-[46px] bg-tmdbDarkBlue rounded-full">
+              <li class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-tmdbDarkBlue rounded-full">
                 <svg class="h-4 w-4">
                   <use xlink:href="#star"></use>
                 </svg>
@@ -60,29 +65,27 @@
               </li>
             </ul>
           </div>
-          <!--    words-->
+          <!-- Movie Overview Section -->
           <div>
             <p class="text-[1.1rem] italic text-white/70 leading-4 mt-3 md:mt-0">The Multiverse unleashed.</p>
+            <!-- Movie Overview Text -->
             <div>
               <h3 class="text-[1.3rem] font-SourceProSemiBold mt-2.5 mb-2">Overview</h3>
-              <p class="leading-5 text-justify lg:text-left">Peter Parker is unmasked and no longer able to separate his
-                normal life from the
-                high-stakes of being a
-                super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him
-                to discover what it truly means to be Spider-Man.
+              <p class="leading-5 text-justify lg:text-left">
+                Peter Parker is unmasked and no longer able to separate his normal life from the
+                high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes become even more
+                dangerous, forcing him to discover what it truly means to be Spider-Man.
               </p>
+              <!-- Movie Crew Section -->
               <ul class="flex flex-wrap justify-start gap-y-5 font-SourceProBold mt-5">
                 <li class="basis-1/3">Stan Lee<h4 class="font-SourceProNormal text-[0.9rem] leading-3">Characters</h4>
                 </li>
                 <li class="basis-1/3">Steve Ditko
-                  <h4 class="font-SourceProNormal text-[0.9rem] leading-3">Characters</h4>
-                </li>
+                  <h4 class="font-SourceProNormal text-[0.9rem] leading-3">Characters</h4></li>
                 <li class="basis-1/3">Jon Watts<h4 class="font-SourceProNormal text-[0.9rem] leading-3">Director</h4>
                 </li>
-                <li class="basis-1/3">Erik Jon<h4 class="font-SourceProNormal text-[0.9rem] leading-3">Writer</h4>
-                </li>
-                <li class="basis-1/3">Jon Watts<h4 class="font-SourceProNormal text-[0.9rem] leading-3">Writer</h4>
-                </li>
+                <li class="basis-1/3">Erik Jon<h4 class="font-SourceProNormal text-[0.9rem] leading-3">Writer</h4></li>
+                <li class="basis-1/3">Jon Watts<h4 class="font-SourceProNormal text-[0.9rem] leading-3">Writer</h4></li>
               </ul>
             </div>
           </div>
@@ -91,3 +94,63 @@
     </div>
   </div>
 </div>
+
+<!-- Mobile Header Section -->
+<div class="sm:hidden font-SourceProNormal antialiased text-white bg-tmdbDarkerBlue">
+  <div class="h-[calc(100vw/2.22222)] header-image">
+    <div class="relative header-gradient-mobile h-full">
+      <div class="absolute top-0 bottom-0 my-auto left-5 h-[calc((100vw/2.222222)_-_40px)] w-[calc(((100vw/2.222222)_-_40px)/1.5)]">
+        <!-- Mobile Movie Cover Image -->
+        <img class="" src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/5weKu49pzJCt06OPpjvT80efnQj.jpg" alt="">
+      </div>
+    </div>
+  </div>
+  <!-- Mobile Movie Title Section -->
+  <h2 class="text-center text-[calc(.6em_+_3vw)] font-SourceProSemiBold py-4 px-5 leading-[34px]">Spider-Man: No Way
+    Home
+    <span class="font-SourceProNormal text-white/80 text-[0.8em]">(2021)</span></h2>
+  <!-- Mobile Rating Icons Section -->
+  <div class="flex justify-center items-center h-[66px]">
+    <div></div>
+    <div></div>
+  </div>
+  <!-- Mobile Movie Details Section -->
+  <div class="flex flex-col justify-center items-center bg-black/10 p-2.5 border-y border-y-black/20 leading-[18px]">
+    <!-- Mobile Movie Details Text -->
+    <div>
+      <span class="text-white/60 border border-white/60 inline-flex justify-center items-center py-0.5 px-1 mr-[7px] rounded-sm leading-4">12A</span>
+      <span>15/12/2021 (GB)</span>
+      <span class="disc relative ml-5"></span>
+      <span>2h 28m</span>
+    </div>
+    <div>
+      <span>Action, Adventure, Science Fiction</span>
+    </div>
+  </div>
+  <div class="p-5">
+    <p class="text-[1.1rem] italic text-white/70 leading-4">The Multiverse unleashed.</p>
+    <div>
+      <h3 class="text-[1.3rem] font-SourceProSemiBold mt-2.5 mb-2">Overview</h3>
+      <p class="leading-5">Peter Parker is unmasked and no longer able to separate his
+        normal life from the
+        high-stakes of being a
+        super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him
+        to discover what it truly means to be Spider-Man.
+      </p>
+      <ul class="flex flex-wrap justify-start gap-y-5 font-SourceProBold mt-5">
+        <li class="basis-1/2">Stan Lee<h4 class="font-SourceProNormal text-[0.9rem] leading-3">Characters</h4>
+        </li>
+        <li class="basis-1/2">Steve Ditko
+          <h4 class="font-SourceProNormal text-[0.9rem] leading-3">Characters</h4>
+        </li>
+        <li class="basis-1/2">Jon Watts<h4 class="font-SourceProNormal text-[0.9rem] leading-3">Director</h4>
+        </li>
+        <li class="basis-1/2">Erik Jon<h4 class="font-SourceProNormal text-[0.9rem] leading-3">Writer</h4>
+        </li>
+        <li class="basis-1/2">Jon Watts<h4 class="font-SourceProNormal text-[0.9rem] leading-3">Writer</h4>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="h-20 bg-white"></div>

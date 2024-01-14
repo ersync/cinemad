@@ -62,15 +62,19 @@
         @apply visible opacity-100
     }
 
-    .header-gradient {
+    .header-gradient-desktop {
         background: linear-gradient(to right, rgba(31.5, 31.5, 52.5, 1) calc((50vw - 170px) - 340px), rgba(31.5, 31.5, 52.5, 0.84) 50%, rgba(31.5, 31.5, 52.5, 0.84) 100%);
+    }
+
+    .header-gradient-mobile {
+        background: linear-gradient(to right, rgba(31.5, 31.5, 52.5, 1) 20%, rgba(31.5, 31.5, 52.5, 0) 50%);
     }
 
     .header-image {
         background: url('@assets/images/1.jpg');
         background-size: cover;
         background-repeat: no-repeat;
-        background-position: left calc((50vw - 170px) - 340px) top;
+        @apply bg-[calc((((100vw_/_2.222222)_-_20px)_/_1.5)_/_2)_0] sm:bg-[left_calc((50vw_-_170px)_-_340px)_top];
     }
 
 }
