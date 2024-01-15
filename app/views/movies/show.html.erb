@@ -2,8 +2,18 @@
 <%= render partial: "/movies/header" %>
 <div class="container">
   <div class="flex gap-6 mt-[30px]">
-    <%= render partial: "/movies/cast" %>
+    <!--left-side-->
+    <div class="font-SourceProNormal overflow-hidden px-4">
+      <!--cast-->
+      <%= render partial: "/movies/cast" %>
+      <!--social-->
+      <%= render partial: "/movies/social" %>
+      <!--media-->
+      <%= render partial: "/movies/media" %>
+    </div>
+    <!--right-side-->
     <div class="min-w-[260px]"></div>
+
   </div>
 </div>
 
