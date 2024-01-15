@@ -13,7 +13,9 @@ module.exports = {
         "tmdbDarkerBlue": "#1f1f34",
         "tmdbHoverGray": "#f8f9fa",
         "tmdbLightBlue": "#120244",
-        "tmdbDarkGray": "#212529"
+        "tmdbDarkGray": "#212529",
+        "tmdbLightGray": "#e3e3e3",
+
       },
       fontFamily: {
         SourceProLight: "SourcePro-Light",
@@ -34,6 +36,9 @@ module.exports = {
       'md': '768px',
       'lg': '1024px',
       'xl': '1320px',
+    },
+    boxShadow: {
+      "light": "0 2px 8px rgba(0,0,0,.1)"
     }
   },
   plugins: [
