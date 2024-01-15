@@ -1,0 +1,115 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer base {
+
+    @font-face {
+        font-family: "SourcePro-Light" ;
+        src: url("@assets/fonts/Source-Sans-Light.woff2") format('woff2');
+        font-weight: 300;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: "SourcePro-Normal" ;
+        src: url("@assets/fonts/Source-Sans-Normal.woff2") format('woff2');
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: "SourcePro-Italic" ;
+        src: url("@assets/fonts/Source-Sans-Italic.woff2") format('woff2');
+        font-weight: 400;
+        font-style: italic;
+    }
+
+    @font-face {
+        font-family: "SourcePro-SemiBold" ;
+        src: url("@assets/fonts/Source-Sans-SemiBold.woff2") format('woff2');
+        font-weight: 600;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: "SourcePro-Bold" ;
+        src: url("@assets/fonts/Source-Sans-Bold.woff2") format('woff2');
+        font-weight: 700;
+        font-style: normal;
+    }
+}
+
+@layer base {
+
+  .disc::before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    border-radius: 100%;
+    background-color: white;
+    opacity: 0.9;
+    position: absolute;
+    top: calc(50% - 1px);
+    left: -12px;
+  }
+
+  .overlay {
+    @apply invisible opacity-0 fixed inset-0 w-full h-full z-10 bg-black/40 transition-all
+  }
+
+  .overlay--visible {
+    @apply visible opacity-100
+  }
+
+  .header-gradient-desktop {
+    background: linear-gradient(to right, rgba(31.5, 31.5, 52.5, 1) calc((50vw - 170px) - 340px), rgba(31.5, 31.5, 52.5, 0.84) 50%, rgba(31.5, 31.5, 52.5, 0.84) 100%);
+  }
+
+  .header-gradient-mobile {
+    background: linear-gradient(to right, rgba(31.5, 31.5, 52.5, 1) 20%, rgba(31.5, 31.5, 52.5, 0) 50%);
+  }
+
+  .header-image {
+    background: url('@assets/images/1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    @apply bg-[calc((((100vw_/_2.222222)_-_20px)_/_1.5)_/_2)_0] sm:bg-[left_calc((50vw_-_170px)_-_340px)_top];
+  }
+
+  .scrollbar {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: hidden !important;
+    overflow-x: scroll !important;
+    /*    margin-left: -10px;*/
+    /*    margin-top: -10px;*/
+  }
+
+
+  .scrollbar::-webkit-scrollbar {
+    height: 8px;
+    width: 8px
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    background: transparent
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(230, 230, 230, 0.8);
+    border-radius: 20px
+  }
+
+}
+
+
+@layer components {
+  .submenu {
+    @apply max-h-0 overflow-hidden mb-2.5;
+  }
+
+  .submenu--open {
+    @apply max-h-min mb-7 mt-2.5;
+  }
+
+}
