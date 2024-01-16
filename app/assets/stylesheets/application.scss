@@ -4,40 +4,40 @@
 
 @layer base {
 
-    @font-face {
-        font-family: "SourcePro-Light" ;
-        src: url("@assets/fonts/Source-Sans-Light.woff2") format('woff2');
-        font-weight: 300;
-        font-style: normal;
-    }
+  @font-face {
+    font-family: "SourcePro-Light" ;
+    src: url("@assets/fonts/Source-Sans-Light.woff2") format('woff2');
+    font-weight: 300;
+    font-style: normal;
+  }
 
-    @font-face {
-        font-family: "SourcePro-Normal" ;
-        src: url("@assets/fonts/Source-Sans-Normal.woff2") format('woff2');
-        font-weight: 400;
-        font-style: normal;
-    }
+  @font-face {
+    font-family: "SourcePro-Normal" ;
+    src: url("@assets/fonts/Source-Sans-Normal.woff2") format('woff2');
+    font-weight: 400;
+    font-style: normal;
+  }
 
-    @font-face {
-        font-family: "SourcePro-Italic" ;
-        src: url("@assets/fonts/Source-Sans-Italic.woff2") format('woff2');
-        font-weight: 400;
-        font-style: italic;
-    }
+  @font-face {
+    font-family: "SourcePro-Italic" ;
+    src: url("@assets/fonts/Source-Sans-Italic.woff2") format('woff2');
+    font-weight: 400;
+    font-style: italic;
+  }
 
-    @font-face {
-        font-family: "SourcePro-SemiBold" ;
-        src: url("@assets/fonts/Source-Sans-SemiBold.woff2") format('woff2');
-        font-weight: 600;
-        font-style: normal;
-    }
+  @font-face {
+    font-family: "SourcePro-SemiBold" ;
+    src: url("@assets/fonts/Source-Sans-SemiBold.woff2") format('woff2');
+    font-weight: 600;
+    font-style: normal;
+  }
 
-    @font-face {
-        font-family: "SourcePro-Bold" ;
-        src: url("@assets/fonts/Source-Sans-Bold.woff2") format('woff2');
-        font-weight: 700;
-        font-style: normal;
-    }
+  @font-face {
+    font-family: "SourcePro-Bold" ;
+    src: url("@assets/fonts/Source-Sans-Bold.woff2") format('woff2');
+    font-weight: 700;
+    font-style: normal;
+  }
 }
 
 @layer base {
@@ -75,6 +75,13 @@
     background-size: cover;
     background-repeat: no-repeat;
     @apply bg-[calc((((100vw_/_2.222222)_-_20px)_/_1.5)_/_2)_0] sm:bg-[left_calc((50vw_-_170px)_-_340px)_top];
+  }
+
+  .collection-bg {
+    background-image: linear-gradient(to right, rgba(3, 37, 65, 1) 0%, rgba(3, 37, 65, 0.6) 100%), url('@assets/images/2.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 
   .scrollbar {
