@@ -1,7 +1,7 @@
 <%= render partial: "/layouts/shortcut_bar" %>
 <%= render partial: "/movies/header" %>
 <div class="container">
-  <div class="flex gap-6 my-[30px]">
+  <div class="flex gap-x-3.5 my-[30px]">
     <!--left-side-->
     <div class="font-SourceProNormal overflow-hidden px-4">
       <!--cast-->
@@ -16,8 +16,9 @@
       <%= render partial: "/movies/recommendation" %>
     </div>
     <!--right-side-->
-    <div class="min-w-[260px]"></div>
-
+    <div class="min-w-[260px] max-w-[261px]">
+      <%= render partial: "/movies/column" %>
+    </div>
   </div>
 </div>
 
