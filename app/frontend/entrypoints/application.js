@@ -1,3 +1,6 @@
+import {initializeEasyPieChart} from './easyPieChart';
+
+
 // To see this message, add the following to the `<head>` section in your
 // views/layouts/application.html.erb
 //
@@ -57,3 +60,12 @@ elements.overlay.addEventListener("click", toggleMenu);
 elements.categoryMovies.addEventListener("click", () => toggleSubmenu(elements.moviesSubmenu));
 elements.categoryTvShows.addEventListener("click", () => toggleSubmenu(elements.tvShowsSubmenu));
 elements.categoryPeople.addEventListener("click", () => toggleSubmenu(elements.peopleSubmenu));
+
+
+$(function () {
+  initializeEasyPieChart('.big-chart .user_score_chart', 68, 5, 2000);
+});
+
+$(function () {
+  initializeEasyPieChart('.small-chart .user_score_chart', 42, 3, 2000);
+});

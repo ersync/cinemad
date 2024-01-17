@@ -23,7 +23,7 @@
         <!-- Movie Details Section -->
         <div class="flex flex-col justify-center items-start grow">
           <!-- Title and Release Year -->
-          <div class="mb-6">
+          <div>
             <h2 class="font-SourceProBold text-[1.7rem] md:text-[2.2rem] leading-10">Spider-Man: No Way Home
               <span class="text-white/80 font-SourceProNormal">(2021)</span></h2>
             <!-- Movie Rating and Release Date -->
@@ -33,10 +33,22 @@
               <span class="disc relative ml-5"></span>2h 28m
             </div>
           </div>
-          <!-- Rating Icons Section -->
-          <div class="hidden sm:flex justify-center items-center h-[68px] mb-5">
-            <div class="w-20 md:w-[113px]"></div>
-            <ul class="flex gap-2 lg:gap-x-5 flex-wrap">
+          <!-- Actions Section -->
+          <div class="hidden sm:flex sm:flex-col md:flex-row justify-center gap-2 lg:gap-x-5 sm:items-start md:items-center md:h-[68px] my-4 md:my-6">
+            <!-- Rating -->
+            <div class="flex justify-center items-center">
+              <a href="#" class="flex justify-center items-center">
+                <div class='consensus'>
+                  <div class='outer_ring big-chart'>
+                    <div class='user_score_chart movie-score flex justify-center items-center icon-r84 pt-[9px] pl-[3px]' data-percent="84">
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <span class="font-SourceProBold ml-1.5 leading-5">User<br/>Score</span>
+            </div>
+            <!-- Actions -->
+            <ul class="flex items-center justify-start gap-2 lg:gap-x-5 flex-wrap">
               <li class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-tmdbDarkBlue rounded-full">
                 <svg class="h-4 w-4">
                   <use xlink:href="#list"></use>
