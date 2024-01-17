@@ -119,4 +119,8 @@
     @apply max-h-min mb-7 mt-2.5;
   }
 
+  .tag {
+    @apply text-[12.96px] leading-4 rounded-md bg-black/10 inline-block rounded-[4px] px-2.5 py-1 border border-tmdbLightGray;
+  }
+
 }
