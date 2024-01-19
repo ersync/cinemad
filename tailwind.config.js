@@ -9,9 +9,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        "tmdbLightBlue": "#120244",
         "tmdbDarkBlue": "#032541",
+        "tmdbDarkerBlue": "#1c1c30",
+        "tmdbPrimaryColor": "#202035",
+        // "tmdbDarkerBlue": "#1f1f34",
+        "tmdbLightGray": "#e3e3e3",
+        "tmdbDarkGray": "#212529",
         "tmdbHoverGray": "#f8f9fa",
-        "tmdbLightBlue": "#01b4e4",
 
       },
       fontFamily: {
@@ -22,15 +27,20 @@ module.exports = {
         SourceProBold: "SourcePro-Bold"
       },
       container: {
+        padding: "1rem",
         center: true,
 
       }
     },
     screens: {
+      'xs': '480px',
       'sm': '640px',
       'md': '768px',
       'lg': '1024px',
       'xl': '1320px',
+    },
+    boxShadow: {
+      "light": "0 2px 8px rgba(0,0,0,.1)"
     }
   },
   plugins: [
