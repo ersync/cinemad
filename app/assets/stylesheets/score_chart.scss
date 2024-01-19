@@ -103,8 +103,10 @@ div.consensus .user_score_chart .percent {
   width: 100%;
   height: 100%;
   text-align: center;
-  line-height: 50px;
   color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .consensus .outer_ring canvas {

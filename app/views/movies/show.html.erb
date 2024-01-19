@@ -1,9 +1,9 @@
 <%= render partial: "/layouts/shortcut_bar" %>
 <%= render partial: "/movies/header" %>
 <div class="container">
-  <div class="flex gap-x-3.5 my-[30px]">
+  <div class="flex flex-col lg:flex-row gap-x-3.5 lg:gap-x-[30px] gap-y-8 my-[30px]">
     <!--left-side-->
-    <div class="font-SourceProNormal overflow-hidden px-4">
+    <div class="font-SourceProNormal overflow-hidden">
       <!--cast-->
       <%= render partial: "/movies/cast" %>
       <!--social-->
@@ -16,7 +16,7 @@
       <%= render partial: "/movies/recommendation" %>
     </div>
     <!--right-side-->
-    <div class="min-w-[260px] max-w-[261px]">
+    <div class="min-w-[260px] lg:max-w-[261px] mx-auto">
       <%= render partial: "/movies/column" %>
     </div>
   </div>
