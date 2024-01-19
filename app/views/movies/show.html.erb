@@ -1,2 +1,25 @@
-<h1>Movies#show</h1>
-<p>Find me in app/views/movies/show.html.erb</p>
+<%= render partial: "/layouts/shortcut_bar" %>
+<%= render partial: "/movies/header" %>
+<div class="container">
+  <div class="flex flex-col lg:flex-row gap-x-3.5 lg:gap-x-[30px] gap-y-8 my-[30px]">
+    <!--left-side-->
+    <div class="font-SourceProNormal overflow-hidden">
+      <!--cast-->
+      <%= render partial: "/movies/cast" %>
+      <!--social-->
+      <%= render partial: "/movies/social" %>
+      <!--media-->
+      <%= render partial: "/movies/media" %>
+      <!--collection-->
+      <%= render partial: "/movies/collection" %>
+      <!--recommendation-->
+      <%= render partial: "/movies/recommendation" %>
+    </div>
+    <!--right-side-->
+    <div class="min-w-[260px] lg:max-w-[261px] mx-auto">
+      <%= render partial: "/movies/column" %>
+    </div>
+  </div>
+</div>
+
+
