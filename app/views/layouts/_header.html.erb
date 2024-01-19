@@ -2,12 +2,12 @@
   <!--desktop header-->
   <header class="hidden sm:flex items-center w-full h-16 bg-tmdbDarkBlue font-SourceProSemiBold text-white antialiased">
     <div class="container">
-      <div class="flex justify-between items-center min-h-10 mx-auto px-5">
+      <div class="flex justify-between items-center min-h-10 mx-auto">
         <nav class="flex leading-10">
           <a href="#" class="inline-block w-[154px] h-10 mr-4 md:mr-6 select-none">
             <img class="h-5 inline-block" src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg" alt="">
           </a>
-          <ul class="flex gap-4 md:gap-6 lg:gap-8 h-10">
+          <ul class="flex gap-4 md:gap-5 lg:gap-8 h-10">
             <li class="relative group cursor-pointer"><a href="#">Movies</a>
               <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all delay-75 duration-200 absolute py-2 w-44 bg-white text-black rounded font-SourceProNormal top-full child-hover:bg-tmdbHoverGray child:block child:pl-6">
                 <a href="#">Popular</a>
@@ -40,17 +40,17 @@
           </ul>
         </nav>
         <div>
-          <ul class="flex gap-3 md:gap-6 lg:gap-[30px] h-10 leading-10">
-            <li class="hidden lg:flex justify-center items-center cursor-pointer">
+          <ul class="flex gap-3 md:gap-5 lg:gap-[30px] h-10 leading-10">
+            <li class="hidden md:flex justify-center items-center cursor-pointer">
               <svg class="w-5 pt-1.5">
                 <use xlink:href="#plus"></use>
               </svg>
             </li>
-            <li class="hidden lg:block">
+            <li class="hidden md:block">
               <a class="text-[0.9rem] px-[5px] py-[3px] border-white border rounded-[3px] transition-all duration-100 hover:bg-white hover:text-tmdbDarkBlue" href="">EN</a>
             </li>
             <li><a href="">Login</a></li>
-            <li><a href="">Join <span class="hidden md:inline">TMDB</span></a></li>
+            <li><a href="">Join <span class="hidden lg:inline-block">TMDB</span></a></li>
             <li class="flex justify-center items-center cursor-pointer">
               <svg class="w-[30px] h-[30px]">
                 <use xlink:href="#search"></use>

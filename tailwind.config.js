@@ -9,12 +9,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "tmdbDarkBlue": "#032541",
-        "tmdbDarkerBlue": "#1f1f34",
-        "tmdbHoverGray": "#f8f9fa",
         "tmdbLightBlue": "#120244",
-        "tmdbDarkGray": "#212529",
+        "tmdbDarkBlue": "#032541",
+        "tmdbDarkerBlue": "#1c1c30",
+        "tmdbPrimaryColor": "#202035",
+        // "tmdbDarkerBlue": "#1f1f34",
         "tmdbLightGray": "#e3e3e3",
+        "tmdbDarkGray": "#212529",
+        "tmdbHoverGray": "#f8f9fa",
 
       },
       fontFamily: {
@@ -25,13 +27,13 @@ module.exports = {
         SourceProBold: "SourcePro-Bold"
       },
       container: {
+        padding: "1rem",
         center: true,
 
       }
     },
     screens: {
-      '2xs': '320px',
-      'xs': '480px',
+      // 'xs': '480px',
       'sm': '640px',
       'md': '768px',
       'lg': '1024px',
