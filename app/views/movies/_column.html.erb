@@ -27,13 +27,13 @@
         </li>
         <li>
           <strong class="font-SourceProSemiBold block leading-4 antialiased">Original
-            Language:</strong><span>English</span>
+            Language:</strong><span><%= @movie.language %></span>
         </li>
         <li>
-          <strong class="font-SourceProSemiBold block leading-4 antialiased">Budget:</strong><span>$200,000,000.00</span>
+          <strong class="font-SourceProSemiBold block leading-4 antialiased">Budget:</strong><span>$<%= @movie.budget %></span>
         </li>
         <li>
-          <strong class="font-SourceProSemiBold block leading-4 antialiased">Revenue:</strong><span>$1,921,847,111.00</span>
+          <strong class="font-SourceProSemiBold block leading-4 antialiased">Revenue:</strong><span>$<%= @movie.revenue %></span>
         </li>
       </ul>
     </div>
@@ -42,31 +42,9 @@
   <div>
     <h4 class="text-[1.1rem] font-SourceProSemiBold mb-2.5">Keywords</h4>
     <ul class="flex gap-x-[5px] gap-y-2.5 flex-wrap child:tag pb-[30px] border-b border-[#d7d7d7]">
-      <li>new york city</li>
-      <li>loss of loved one</li>
-      <li>showdown</li>
-      <li>secret identity</li>
-      <li>hero</li>
-      <li>magic</li>
-      <li>villain</li>
-      <li>dangerous</li>
-      <li>vigilante</li>
-      <li>portal</li>
-      <li>sequel</li>
-      <li>superhero</li>
-      <li>superhero team</li>
-      <li>alternate reality</li>
-      <li>masked vigilante</li>
-      <li>spider web</li>
-      <li>aftercreditsstinger</li>
-      <li>duringcreditsstinger</li>
-      <li>marvel cinematic universe (mcu)</li>
-      <li>teenage hero</li>
-      <li>fight for justice</li>
-      <li>superhero teamup</li>
-      <li>returning hero</li>
-      <li>crossover</li>
-      <li>teamwork</li>
+      <% @movie.keywords.each do |keyword| %>
+        <li><%= keyword.name %></li>
+      <% end %>
     </ul>
   </div>
   <!-- Content Score section -->

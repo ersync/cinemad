@@ -10,10 +10,10 @@ class CreateMovies < ActiveRecord::Migration[7.1]
       t.integer :release_status
       t.string :language
       t.decimal :budget
-      t.decimal :revenue
-      t.text :overview
+      t.string :revenue
       t.string :image_filename
       t.string :gradient_color
+      t.text :overview
 
       t.timestamps
     end
