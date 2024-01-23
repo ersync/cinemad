@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head class="light-mode">
   <title>TmdbClone</title>
   <meta charset="UTF-8">
   <meta name="viewport"
@@ -26,7 +26,7 @@
 
 </head>
 
-<body>
+<body class="flex flex-col min-h-screen">
 <svg class="hidden">
   <symbol id="search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
     <path fill="#01B4E4" id="search" d="M27.207,24.37866,20.6106,17.78235a9.03069,9.03069,0,1,0-2.82825,2.82825L24.37878,27.207a1,1,0,0,0,1.41425,0l1.414-1.41418A1,1,0,0,0,27.207,24.37866ZM13,19a6,6,0,1,1,6-6A6.00657,6.00657,0,0,1,13,19Z"/>
@@ -118,7 +118,205 @@
   <symbol id="expand" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
     <path fill="#ffffff" id="fullscreen" d="M13.72156,12.06732a.5.5,0,0,1-.06812.62219l-.96374.96375a.5.5,0,0,1-.6222.06811L7.89624,11.064,6.19342,12.76642a.49983.49983,0,0,1-.847-.27521L4.10779,4.67969a.49976.49976,0,0,1,.57184-.57184L12.491,5.34619a.50011.50011,0,0,1,.27527.8476L11.06378,7.896Zm5.58874,1.58594a.5.5,0,0,0,.6222.06811L24.10376,11.064l1.70282,1.70246a.49983.49983,0,0,0,.847-.27521l1.23858-7.81152a.49976.49976,0,0,0-.57184-.57184L19.509,5.34619a.50011.50011,0,0,0-.27527.8476L20.93622,7.896l-2.65778,4.17132a.5.5,0,0,0,.06812.62219Zm-6.6206,4.69348a.5.5,0,0,0-.6222-.06811L7.89624,20.936,6.19342,19.23358a.49983.49983,0,0,0-.847.27521L4.10779,27.32031a.49976.49976,0,0,0,.57184.57184l7.8114-1.23834a.50011.50011,0,0,0,.27527-.8476L11.06378,24.104l2.65778-4.17132a.5.5,0,0,0-.06812-.62219Zm13.11688.88684L24.10376,20.936,19.9325,18.27863a.5.5,0,0,0-.6222.06811l-.96374.96375a.5.5,0,0,0-.06812.62219L20.93622,24.104,19.2337,25.80621a.50011.50011,0,0,0,.27527.8476l7.8114,1.23834a.49976.49976,0,0,0,.57184-.57184l-1.23858-7.81152A.49983.49983,0,0,0,25.80658,19.23358Z"/>
   </symbol>
+  <symbol id="google" style="enable-background:new 0 0 150 150;" version="1.1" viewBox="0 0 150 150" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <style type="text/css">
+        .st0 {
+            fill: #1A73E8;
+        }
 
+        .st1 {
+            fill: #EA4335;
+        }
+
+        .st2 {
+            fill: #4285F4;
+        }
+
+        .st3 {
+            fill: #FBBC04;
+        }
+
+        .st4 {
+            fill: #34A853;
+        }
+
+        .st5 {
+            fill: #4CAF50;
+        }
+
+        .st6 {
+            fill: #1E88E5;
+        }
+
+        .st7 {
+            fill: #E53935;
+        }
+
+        .st8 {
+            fill: #C62828;
+        }
+
+        .st9 {
+            fill: #FBC02D;
+        }
+
+        .st10 {
+            fill: #1565C0;
+        }
+
+        .st11 {
+            fill: #2E7D32;
+        }
+
+        .st12 {
+            fill: #F6B704;
+        }
+
+        .st13 {
+            fill: #E54335;
+        }
+
+        .st14 {
+            fill: #4280EF;
+        }
+
+        .st15 {
+            fill: #34A353;
+        }
+
+        .st16 {
+            clip-path: url(#SVGID_2_);
+        }
+
+        .st17 {
+            fill: #188038;
+        }
+
+        .st18 {
+            opacity: 0.2;
+            fill: #FFFFFF;
+            enable-background: new;
+        }
+
+        .st19 {
+            opacity: 0.3;
+            fill: #0D652D;
+            enable-background: new;
+        }
+
+        .st20 {
+            clip-path: url(#SVGID_4_);
+        }
+
+        .st21 {
+            opacity: 0.3;
+            fill: url(#_45_shadow_1_);
+            enable-background: new;
+        }
+
+        .st22 {
+            clip-path: url(#SVGID_6_);
+        }
+
+        .st23 {
+            fill: #FA7B17;
+        }
+
+        .st24 {
+            opacity: 0.3;
+            fill: #174EA6;
+            enable-background: new;
+        }
+
+        .st25 {
+            opacity: 0.3;
+            fill: #A50E0E;
+            enable-background: new;
+        }
+
+        .st26 {
+            opacity: 0.3;
+            fill: #E37400;
+            enable-background: new;
+        }
+
+        .st27 {
+            fill: url(#Finish_mask_1_);
+        }
+
+        .st28 {
+            fill: #FFFFFF;
+        }
+
+        .st29 {
+            fill: #0C9D58;
+        }
+
+        .st30 {
+            opacity: 0.2;
+            fill: #004D40;
+            enable-background: new;
+        }
+
+        .st31 {
+            opacity: 0.2;
+            fill: #3E2723;
+            enable-background: new;
+        }
+
+        .st32 {
+            fill: #FFC107;
+        }
+
+        .st33 {
+            opacity: 0.2;
+            fill: #1A237E;
+            enable-background: new;
+        }
+
+        .st34 {
+            opacity: 0.2;
+        }
+
+        .st35 {
+            fill: #1A237E;
+        }
+
+        .st36 {
+            fill: url(#SVGID_7_);
+        }
+
+        .st37 {
+            fill: #FBBC05;
+        }
+
+        .st38 {
+            clip-path: url(#SVGID_9_);
+            fill: #E53935;
+        }
+
+        .st39 {
+            clip-path: url(#SVGID_11_);
+            fill: #FBC02D;
+        }
+
+        .st40 {
+            clip-path: url(#SVGID_13_);
+            fill: #E53935;
+        }
+
+        .st41 {
+            clip-path: url(#SVGID_15_);
+            fill: #FBC02D;
+        }
+    </style>
+    <g>
+      <path class="st14" d="M120,76.1c0-3.1-0.3-6.3-0.8-9.3H75.9v17.7h24.8c-1,5.7-4.3,10.7-9.2,13.9l14.8,11.5   C115,101.8,120,90,120,76.1L120,76.1z"/>
+      <path class="st15" d="M75.9,120.9c12.4,0,22.8-4.1,30.4-11.1L91.5,98.4c-4.1,2.8-9.4,4.4-15.6,4.4c-12,0-22.1-8.1-25.8-18.9   L34.9,95.6C42.7,111.1,58.5,120.9,75.9,120.9z"/>
+      <path class="st12" d="M50.1,83.8c-1.9-5.7-1.9-11.9,0-17.6L34.9,54.4c-6.5,13-6.5,28.3,0,41.2L50.1,83.8z"/>
+      <path class="st13" d="M75.9,47.3c6.5-0.1,12.9,2.4,17.6,6.9L106.6,41C98.3,33.2,87.3,29,75.9,29.1c-17.4,0-33.2,9.8-41,25.3   l15.2,11.8C53.8,55.3,63.9,47.3,75.9,47.3z"/>
+    </g>
+  </symbol>
 </svg>
 <%= render partial: "/layouts/header" %>
 <div class="w-full h-16 bg-green-50"></div> <!--temp -->

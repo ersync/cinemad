@@ -10,6 +10,8 @@ gem "sprockets-rails"
 
 gem "vite_rails", "~> 3.0"
 
+gem "devise", "~> 4.9"
+
 gem "pry-rails", "~> 0.3.9"
 
 gem "image_processing", "~> 1.2"

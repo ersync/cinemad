@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     './app/helpers/**/*.rb',
     './app/assets/stylesheets/**/*.css',
@@ -40,7 +41,8 @@ module.exports = {
       'xl': '1320px',
     },
     boxShadow: {
-      "light": "0 2px 8px rgba(0,0,0,.1)"
+      "light": "0 2px 8px rgba(0,0,0,.1)",
+      "medium": "0px 2px 8px 0px rgba(99, 99, 99, 0.2)"
     }
   },
   plugins: [

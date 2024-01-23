@@ -1,6 +1,6 @@
-<div class="fixed w-full z-50">
+<div class="fixed w-full z-50 antialiased">
   <!--desktop header-->
-  <header class="hidden sm:flex items-center w-full h-16 bg-tmdbDarkBlue font-SourceProSemiBold text-white antialiased">
+  <header class="hidden sm:flex items-center w-full h-16 bg-tmdbDarkBlue font-SourceProSemiBold text-white">
     <div class="container">
       <div class="flex justify-between items-center min-h-10 mx-auto">
         <nav class="flex leading-10">
@@ -49,8 +49,8 @@
             <li class="hidden md:block">
               <a class="text-[0.9rem] px-[5px] py-[3px] border-white border rounded-[3px] transition-all duration-100 hover:bg-white hover:text-tmdbDarkBlue" href="">EN</a>
             </li>
-            <li><a href="">Login</a></li>
-            <li><a href="">Join <span class="hidden lg:inline-block">TMDB</span></a></li>
+            <li><%= link_to "Login", new_user_session_path %></li>
+            <li><%= link_to "Join <span class='hidden lg:inline-block'>TMDB</span>".html_safe, new_user_registration_path %></li>
             <li class="flex justify-center items-center cursor-pointer">
               <svg class="w-[30px] h-[30px]">
                 <use xlink:href="#search"></use>
@@ -62,7 +62,7 @@
     </div>
   </header>
   <!--mobile header-->
-  <div class="flex flex-col justify-center sm:hidden w-full h-16 px-5 bg-tmdbDarkBlue font-SourceProSemiBold text-white antialiased">
+  <div class="flex flex-col justify-center sm:hidden w-full h-16 px-5 bg-tmdbDarkBlue font-SourceProSemiBold text-white">
     <!--mobile nav-->
     <div class="flex justify-between items-center">
       <!--mobile nav button-->
@@ -90,7 +90,7 @@
       </div>
     </div>
     <!--mobile menu-->
-    <div class="mobile-menu w-[90%] min-h-screen fixed z-50 top-16 -left-[90%] bottom-0 p-5 bg-tmdbDarkBlue/90 backdrop-blur-[20px] transition-all z-50 select-none overflow-y-scroll">
+    <div class="mobile-menu w-[80%] min-h-screen fixed z-50 top-16 -left-[80%] bottom-0 p-5 bg-tmdbDarkBlue/90 backdrop-blur-[20px] transition-all z-50 select-none overflow-y-scroll">
       <div class="overflow-y-scroll">
         <ul class="space-y-2.5">
           <li>
@@ -100,7 +100,7 @@
               </svg>
               <span class="category-movies inline-block font-SourceProSemiBold text-xl cursor-pointer">Movies</span>
             </div>
-            <ul class="movies-submenu submenu font-SourceProNormal ml-5 antialiased child:mb-2.5 transition-all text-white/75">
+            <ul class="movies-submenu submenu font-SourceProNormal ml-5 child:mb-2.5 transition-all text-white/75">
               <li><a href="#">Popular</a></li>
               <li><a href="#">Top Rated</a></li>
               <li><a href="#">Upcoming</a></li>
@@ -114,7 +114,7 @@
               </svg>
               <span class="category-tv-shows inline-block font-SourceProSemiBold text-xl cursor-pointer">TV Shows</span>
             </div>
-            <ul class="tv-shows-submenu submenu font-SourceProNormal ml-5 antialiased child:mb-2.5 transition-all text-white/75">
+            <ul class="tv-shows-submenu submenu font-SourceProNormal ml-5 child:mb-2.5 transition-all text-white/75">
               <li><a href="#">Popular</a></li>
               <li><a href="#">Top Rated</a></li>
               <li><a href="#">Upcoming</a></li>
@@ -128,7 +128,7 @@
               </svg>
               <span class="category-people inline-block font-SourceProSemiBold text-xl cursor-pointer">People</span>
             </div>
-            <ul class="people-submenu submenu font-SourceProNormal ml-5 antialiased child:mb-2.5 transition-all text-white/75">
+            <ul class="people-submenu submenu font-SourceProNormal ml-5 child:mb-2.5 transition-all text-white/75">
               <li><a href="#">Popular</a></li>
               <li><a href="#">Top Rated</a></li>
               <li><a href="#">Upcoming</a></li>
@@ -136,7 +136,7 @@
             </ul>
           </li>
         </ul>
-        <ul class="font-SourceProSemiBold text-white/60 space-y-2.5 mt-7 mb-16">
+        <ul class="font-SourceProSemiBold text-white/60 space-y-2.5 mt-7">
           <li><a href="">Contribution Bible</a></li>
           <li><a href="">Discussions</a></li>
           <li><a href="">Leaderboard</a></li>
@@ -144,6 +144,13 @@
           <li><a href="">Support</a></li>
           <li><a href="">About</a></li>
         </ul>
+        <div class="w-60 h-px bg-white/10 rounded-lg my-7"></div>
+        <div class="font-SourceProSemiBold flex justify-start items-center gap-4 mb-16">
+          <%= link_to "Sign In", new_user_session_path, class: "w-28 h-10 rounded-lg overflow-hidden border-1 border-gray-100 bg-tmdbDarkBlue shadow-light text-center leading-[40px]"
+          %>
+          <%= link_to "Join TMDB", new_user_registration_path, class: "w-28 h-10 rounded-lg overflow-hidden border-1 border-gray-100 bg-white/90 shadow-light text-tmdbDarkBlue text-center leading-[40px]"
+          %>
+        </div>
       </div>
     </div>
   </div>
