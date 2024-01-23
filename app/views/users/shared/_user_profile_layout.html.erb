@@ -1,0 +1,43 @@
+<div class="font-SourceProNormal antialiased">
+  <div class="text-white h-[230px] user-profile-header font-SourceProNormal">
+    <div class="mx-auto max-w-[1420px]">
+      <div class="container h-full flex justify-start items-center py-10 px-4 gap-2 sm:gap-10">
+        <div class="w-[18vw] h-[18vw] sm:w-[150px] sm:h-[150px] rounded-full bg-[#01b3e4] text-[3rem] sm:text-[4rem] flex justify-center items-center shrink-0"><%= user.username[0].upcase %></div>
+        <div>
+          <div>
+            <h2 class="font-SourceProBold text-[2rem] inline-block mr-2.5"><a href=""><%= user.username %></a>
+            </h2>
+            <span class="text-[0.9rem] sm:text-[1.1rem] text-white/70 inline-block">Member
+            since <%= user.created_at.strftime("%B %Y") %></span>
+          </div>
+
+          <div class="flex mt-1">
+            <div class="flex justify-center items-center">
+              <a href="#" class="flex justify-center items-center hover:scale-110 cursor-pointer transition-all">
+                <div class="consensus">
+                  <div class="outer_ring medium-chart sm:big-chart">
+                    <div class="user_score_chart movie-score flex justify-center items-center icon-r<%= current_user.avg_rating %> pl-0.5" data-percent="<%= current_user.avg_rating %>">
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <span class="inline-block mr-3 pl-3 pr-3 text-xs sm:text-base sm:mr-[30px] sm:pl-[15px] sm:pr-[30px] border-r border-white">Average</br>Movie Score</span>
+            </div>
+            <div class="flex justify-center items-center">
+              <a href="#" class="flex justify-center items-center hover:scale-110 cursor-pointer transition-all">
+                <div class="consensus">
+                  <div class="outer_ring medium-chart sm:big-chart">
+                    <div class="user_score_chart movie-score flex justify-center items-center icon-r<%= current_user.avg_rating %>  %> pl-0.5" data-percent="<%= current_user.avg_rating %>">
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <span class="inline-block pl-[12px] text-xs sm:text-base">Average</br>Movie Score</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= render partial: "/users/shared/shortcut_bar_profile" %>
+</div>

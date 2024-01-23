@@ -20,6 +20,18 @@ Bundler.require(*Rails.groups)
 
 module TmdbClone
   class Application < Rails::Application
+
+    config.after_initialize do
+      ActiveRecord::Base.logger = Logger.new(STDOUT)
+      ActiveRecord::Base.logger.level = Logger::DEBUG
+
+      ActiveSupport::Notifications.subscribe("sql.active_record") do |name, start, finish, id, payload|
+        duration = (finish - start).to_f.round(2)
+        message = "Hit DB (#{duration}s) #{payload[:name]} : #{payload[:sql]}"
+        Rails.logger.debug(message)
+      end
+    end
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
 

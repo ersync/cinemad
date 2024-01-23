@@ -101,6 +101,15 @@
     border-radius: 20px
   }
 
+  .user-profile-header {
+    background-image: radial-gradient(at 30% top, #073844 0%, rgba(3, 37, 65, 1) 70%);
+  }
+
+  .user-profile-header > div {
+    background-image: url(https://www.themoviedb.org/assets/2/v4/account_pipes/light_blue-a230b623827400e967c6eb7241d88086f2eb9264c0789d0dab15ae6f1df1421a.svg);
+    background-position: center -250px;
+  }
+
 }
 
 
@@ -118,3 +127,5 @@
   }
 
 }
+
+

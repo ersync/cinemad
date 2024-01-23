@@ -1,0 +1,50 @@
+<ul class="relative flex justify-center items-center px-5 gap-3 sm:gap-8 lg:gap-10 h-[46px] font-SourceProNormal border-b border-tmdbLightGray antialiased bg-white child-hover:text-tmdbDarkGray/70">
+  <li class="relative group cursor-pointer text-center">
+    <div class="flex items-center gap-1 h-[46px] border-b-4 border-tmdbLighterBlue">
+      <a href="#">Overview</a>
+      <svg class="inline-block w-3 h-3">
+        <use xlink:href="#dropdown"></use>
+      </svg>
+    </div>
+    <div class="absolute invisible opacity-0 group-hover:visible z-40 group-hover:opacity-100 transition-all delay-75 duration-200 bg-white text-left rounded font-SourceProNormal child-hover:bg-tmdbHoverGray child:block child:px-6 child:py-[3px] child:block border border-black/15 rounded-[4px]">
+      <%= link_to "Main", user_profile_path(current_user), class: "pt-0" %>
+      <a href="#">Favorites</a>
+      <a href="#">Recommendations</a>
+      <a href="#" class="pb-0">Edit Profile</a>
+    </div>
+  </li>
+  <li class="relative group cursor-pointer text-center">
+    <div class="flex items-center gap-1">
+      <a href="#">Discussions</a>
+    </div>
+  </li>
+  <li class="relative group cursor-pointer text-center">
+    <div class="flex items-center gap-1">
+      <a href="#">List</a>
+    </div>
+  </li>
+  <li class="relative group cursor-pointer text-center">
+    <div class="flex items-center gap-1 h-[46px]">
+      <a href="#">Ratings</a>
+      <svg class="inline-block w-3 h-3">
+        <use xlink:href="#dropdown"></use>
+      </svg>
+    </div>
+    <div class="absolute right-0 invisible opacity-0 group-hover:visible z-40 group-hover:opacity-100 transition-all delay-75 duration-200 w-36 bg-white text-left rounded font-SourceProNormal child-hover:bg-tmdbHoverGray child:block child:pl-6 child:py-[3px] child:block border border-black/15 rounded-[4px]">
+      <%= link_to "Movies", ratings_user_path(current_user) %>
+      <a href="#">TV Shows</a>
+    </div>
+  </li>
+  <li class="relative group cursor-pointer text-center">
+    <div class="flex items-center gap-1">
+      <a href="#">Watchlist</a>
+      <svg class="inline-block w-3 h-3 h-[46px]">
+        <use xlink:href="#dropdown"></use>
+      </svg>
+    </div>
+    <div class="absolute right-0 invisible opacity-0 group-hover:visible z-40 group-hover:opacity-100 transition-all delay-75 duration-200 w-36 bg-white text-left rounded font-SourceProNormal  child-hover:bg-tmdbHoverGray child:block child:pl-6 child:py-[3px] child:block border border-black/15 rounded-[4px]">
+      <%= link_to "Movies", watchlist_user_path(current_user) %>
+      <a href="#">TV Shows</a>
+    </div>
+  </li>
+</ul>

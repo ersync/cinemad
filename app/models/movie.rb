@@ -1,6 +1,9 @@
 class Movie < ApplicationRecord
   has_one_attached :cover
   has_one_attached :background
+  has_many_attached :posters
+  has_many_attached :videos
+  has_many_attached :backdrops
 
   has_many :movie_people, dependent: :destroy
   has_many :people, through: :movie_people
@@ -12,10 +15,29 @@ class Movie < ApplicationRecord
   has_many :movie_keywords
   has_many :keywords, through: :movie_keywords
 
+  has_many :reviews
+  has_many :users, through: :reviews
+
+  has_many :ratings
+  has_many :users, through: :ratings
+
+  belongs_to :collection, optional: true
+
+  has_many :watchlist_movies
+  has_many :watchlists, through: :watchlist_movies
+
+  def self.random_recommendations(limit = 7)
+    Movie.where(id: [4, 10, 11, 12, 13]).order('RANDOM()').limit(limit)
+  end
+
   def cast
     people.includes(:movie_people)
           .where(movie_people: { role_id: 1 })
           .order(created_at: :asc)
+  end
+
+  def avg_score
+    ratings.average(:score).to_i
   end
 
 end

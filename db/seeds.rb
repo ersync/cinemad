@@ -603,3 +603,76 @@ end
 
 keyword_ids = (1..25).to_a
 Movie.find(10).keywords << Keyword.find(keyword_ids)
+
+# users
+
+User.create!(username: "foo", email: "foo@bar.com", password: "foobar", password_confirmation: "foobar")
+
+# reviews
+
+Review.create!(user_id: 1, movie_id: 12, rating: 5.0, content: %{t's like looking in a mirror, only, not.
+
+There's a tendency to undervalue the action movie. Certainly there's a wide expanse of land in cinema world where film fans reside, where the thought of praising an action film for being "classic" cinema is considered treason against the very word. Yet some of the artistry involved in the genre's leading lights is purely sublime, regardless of how bizarre and unlikely the plot is. Enter John Woo's berserker, ear splitting, high octane actioner, Face/Off. Rightly sitting along side the likes of Die Hard and Predator as genre pieces that showcase how good things can be when it all comes together, Woo's movie is as much fun as you could wish to have for over two hours of explosive, fantastical, unadulterated cinema.
+
+The plot sees John Travolta's serious family man cop, Sean Archer, devote his life to catching unbalanced maniacal bad guy Castor Troy (Nicolas Cage). There's some bad history between the two and when Archer manages to capture both Troy and his equally vile brother, Pollux (Alessandro Nivola), it would seem to be closure for Archer and his family. However, it's found that the Troy's have left a ticking bomb somewhere in Los Angeles, and if undetected it will flatten L.A. and kill practically everyone. So, Archer undergoes a revolutionary face-swapping procedure with the now comatose Castor and sets about getting the information from the incarcerated Pollux. But wait!, Castor wakes up and turns the tables by assuming Archer's identity, setting the wheels in motion for each man to live the others life until the Face/Off between the pair will decide their respective fate.
+
+Unbelievable? Of course. Who cares? Well nobody should really, because surely going into a film like this one is expecting the ludicrous. Both Cage and Travolta are superbly realising the spectacular nature of the script, and being mesmerising in the duality of the roles into the bargain. Make no bones about it, Woo and his team have crafted a benchmark action movie. There's a trail of thought that suggests that Woo basically keeps making the same movie, that's a fair enough point, sure enough, all of his staple action sequences and traits are evident in Face/Off. Yet Woo has delved into his characters, given them some flesh on their action bones, and then upped the anti in action set pieces to cloak them in chaotic beauty. From the opening Jet escape/pursuit set up, to the outrageous speed boat finale, the film is one long exhilarating breath taker. Joan Allen, Gina Gershon, Dominique Swain & Nick Cassavetes all file into the background playing important characters who are rightly secondary to the protagonists, while a ream of extras come and go as each are dispatched in a hail of Woo inspired carnage. The pace never sags and the eyes and ears are treated to a vibrancy that is often sadly missing from many other big budgeted action blockbusters.
+
+This is a masterpiece of action cinema, so even as a Orson Welles crane shot is a magnificent thing, so it be with the sight of two stunt men flailing thru the air in a spray of exploding water. Oh yes sir, this is a classic alright. 10/10})
+
+Review.create!(user_id: 1, movie_id: 4, rating: 5.0, content: %{I can always rely on this franchise to give me what I desire from it.
+
+'Fast X' is a great time. I adore the whole series and have done so since watching the opening entry of it as a teen, sure it has changed tremendously since those halcyonic days of 2001 (OK, I was like 5 then...) but my fondness and enjoyment of these films remains unchanged - quality entertainment!
+
+I love the main cast, particularly those we've had since the beginning or thereabouts - from Vin Diesel and Michelle Rodriguez to Tyrese Gibson and Ludacris (I'm gonna need a spin-off with those two if you're reading, Universal!) to Sung Kang and Jordana Brewster (want more of the latter, but I get it's tricky with the absence of Paul Walker; who is still missed). I'll never tire (tyre?) of watching them together.
+
+Away from those guys, the recurrence of the likes of Charlize Theron, John Cena and Nathalie Emmanuel is pleasant and the additions of Brie Larson and Jason Momoa are highly welcomed. I wasn't sure if Momoa was a bit too over the top in parts, but all in all he makes for a memorable antagonist - he certainly commits to the role!
+
+The action continues to be absolutely bonkers and I continue to be absolutely onboard with everything and anything that is portrayed onscreen. The look of the film, the sound of the film... I dig it all to be honest. It's loud as heck, but that's exactly what I'd want from a 'Fast & Furious' flick. A film worth the admission fee, as usual.
+
+Bring on 'Fast XI' or whatever they decide to call it. Apparently we're still getting another one after that, which I personally hope has its own sequel, which in turn has its sequel, followed by another seque... you get my point. I wanna be 105 and sat in the cinema watching another one of these.😂})
+
+Review.create!(user_id: 1, movie_id: 10, rating: 5.0, content: %{Spectral happenings on an estate in the Channel Islands after WWII (no spoilers)
+
+RELEASED IN 2001 and written & directed by Alejandro Amenábar, "The Others" is a haunted house flick about a woman (Nicole Kidman) who lives in an old manor on one of the Channel Islands with her two photosensitive children immediately after WWII. After three people arrive seeking employment, they increasingly become convinced that the abode is haunted.
+
+While this is a fantasy movie in that it depicts supernatural happenings, like doors mysteriously opening and closing, these types of unexplainable things have been known to happen. The movie is a serious exploration of what may really be occurring. The mansion seems sterile and there’s a one-dimensional pale ‘look’ to the bulk of the picture, which was intentional for obvious reasons. Speaking of which, the perpetually fog-laden grounds create a nice ghostly ambiance.
+
+Everything hinges on whether the last act effectively reveals the truth and it does. The film provides intriguing food for thought.
+
+THE MOVIE RUNS 1 hour, 44 minutes and was shot in Cantabria, Spain (exteriors of the mansion); Penshurst, Kent, England (The Lime Walk) and Madrid.
+
+GRADE: B/B-})
+
+Review.create!(user_id: 1, movie_id: 11, rating: 5.0, content: %{Don't you get it? You're a rat in a maze.
+
+US Marshal Teddy Daniels (Leonardo DiCaprio) travels to an island asylum facility for the criminally insane with his newly assigned partner Chuck Aule (Mark Ruffalo). Their reason for being at Ashecliff Hospital is to investigate the mysterious disappearance of murderess Rachel Solando. But Teddy has another issue to deal with at Ashecliff, namely a meeting with Andrew Laeddis (Elias Koteas), the man he believes responsible for the death of his wife (Michelle Williams). Nothing is what it seems at the facility though, and the further Teddy & Chuck investigate, the murkier the truths of Ashecliff become.
+
+Directed by Martin Scorsese, Shutter Island is adapted from the best selling novel of the same name written by Dennis Lehane ("Mystic River/Gone Baby Gone"). It finds the talented director getting closer to horror than at any point in his career, it also finds him arguably over cooking his grits. Lehane's novel is a page turning lesson in thriller writing, there's no need for deep cranial thinking or fill in the blanks like musings. Scorsese has crafted a movie that, whilst both stylish and moody, is far more intricate than it needed to be.
+
+From the off we saw reams of amateur reviewers dissecting the film and searching for other worldly cinematic meanings. The truth is, is that they don't exist, it is just a great story pinging with psychological twisters. Lehane himself said he felt it was a book he kind of knocked out while in his flow (he undersells himself mind). Scorsese, clearly loving the source to be sure, has crammed too much in for the film to be an across the board winner. Technically accomplished? Without doubt. Depth to the story? You bet. But the reality is that the depth isn't enough to sustain all the genre blending atmospherics that is Marty's want. One is inclined to feel that he so aware that he is treading on well worn genre ground (spot the homages to film noir, old time horror and Hitchcockian grandeur), that he's trying to steer the viewers away from the obviousness on offer. The film is further let down by the second half, where it positively crawls along, something not helped by the fact that the first hour bristles with moody excitement and a promise of clinically executed terror. Anticipation can be a real killer at times...
+
+Yet as is normally the way with a professionally assembled Scorsese picture, there's still so much to enjoy and moments that ensure it will always be a divisive film in the New Yorker's cannon. The cast are mostly great, DiCaprio delivers a stunning performance, one that can only be appreciated once the story has reached the climax. Ruffalo (restrained), Ben Kingsley (shifty) & Max Von Sydow (troubling) all do what is needed and in keeping with the tone of the piece. While the girls - Emily Mortimer, Patricia Clarkson & Williams - have small but crucial parts to play.
+
+Then there's the supporting characters played by some quality character actors. Koteas is joined by Jackie Earle Haley, Ted Levein & John Carroll Lynch. How many of you noticed that we here have a roll call of cinematic serial killers? Edgar Reese, Freddy Krueger, Buffalo Bill and Arthur Lee Allen! (OK, Allen was not proved but "Zodiac" the movie lends us to believe it was him). The music used is suitably heart pounding and Robert Richardson's photography is on the money, especially within the dimly lit Ashecliff walls (the foreboding Medfield State Hospital for location filming). The costumes also have a nice 50s look to them, our first encounter of Teddy & Chuck sees them splendidly adorned in film noir hats and coats. While Thelma Schoonmaker's editing is up to the usual tight standard.
+
+It's always tricky when great directors are involved, so unsurprisingly we witnessed at the start a difference of opinion with the critics as to how good Shutter Island is? What most agreed on was that the film fluctuates in quality and should have been, given the talent behind and in front of the camera, a much better picture. There's also no getting away from the fact that if you have read the book first the impact of the ending is considerably weakened. Personally I feel Scorsese was the wrong director for this particular source, but that's me, and be that as it may, he still manages to come out of it in credit with his fans - though even if he just passed gas some of them would proclaim it as a masterpiece... 7.5/10})
+
+# Collections
+
+# Posters
+
+movie_poster_mapping = {
+  10 => (1..5).to_a,
+  11 => (6..10).to_a,
+  12 => (11..15).to_a,
+  13 => (16..20).to_a,
+  4 => (21..25).to_a
+}
+
+movie_poster_mapping.each do |movie_id, poster_ids|
+  poster_ids.each do |poster_id|
+    file_path = File.join(Rails.root, "public/movies/posters/#{poster_id}.jpg")
+    Movie.find(movie_id).posters.attach(io: File.open(file_path), filename: "#{poster_id}.jpg")
+  end
+end

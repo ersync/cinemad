@@ -40,7 +40,7 @@
           </ul>
         </nav>
         <div>
-          <ul class="flex gap-3 md:gap-5 lg:gap-[30px] h-10 leading-10">
+          <ul class="flex gap-4 md:gap-6 lg:gap-[30px] h-10 leading-10">
             <li class="hidden md:flex justify-center items-center cursor-pointer">
               <svg class="w-5 pt-1.5">
                 <use xlink:href="#plus"></use>
@@ -49,8 +49,23 @@
             <li class="hidden md:block">
               <a class="text-[0.9rem] px-[5px] py-[3px] border-white border rounded-[3px] transition-all duration-100 hover:bg-white hover:text-tmdbDarkBlue" href="">EN</a>
             </li>
-            <li><%= link_to "Login", new_user_session_path %></li>
-            <li><%= link_to "Join <span class='hidden lg:inline-block'>TMDB</span>".html_safe, new_user_registration_path %></li>
+            <% if user_signed_in? %>
+              <li class="flex justify-center items-center cursor-pointer">
+                <svg class="w-6 h-6">
+                  <use xlink:href="#bell"></use>
+                </svg>
+              </li>
+              <li class="flex justify-center items-center h-full">
+                <a href="">
+                  <span class="block w-8 h-8 rounded-full bg-red-500 text-sm text-center leading-[32px]">
+                    <%= current_user.username[0].capitalize %>
+                  </span>
+                </a>
+              </li>
+            <% else %>
+              <li><%= link_to "Login", new_user_session_path %></li>
+              <li><%= link_to "Join <span class='hidden lg:inline-block'>TMDB</span>".html_safe, new_user_registration_path %></li>
+            <% end %>
             <li class="flex justify-center items-center cursor-pointer">
               <svg class="w-[30px] h-[30px]">
                 <use xlink:href="#search"></use>
@@ -78,9 +93,11 @@
       <!--user profile-->
       <div class="flex justify-between gap-x-3.5">
         <div class="mobile-nav-btn">
-          <svg class="w-6 h-6 cursor-pointer text-white">
-            <use xlink:href="#user-profile"></use>
-          </svg>
+          <%= link_to(current_user.present? ? user_profile_path(current_user) : new_user_session_path) do %>
+            <svg class="w-6 h-6 cursor-pointer text-white">
+              <use xlink:href="#user-profile"></use>
+            </svg>
+          <% end %>
         </div>
         <div class="mobile-nav-btn">
           <svg class="w-6 h-6 cursor-pointer text-white">
@@ -146,7 +163,7 @@
         </ul>
         <div class="w-60 h-px bg-white/10 rounded-lg my-7"></div>
         <div class="font-SourceProSemiBold flex justify-start items-center gap-4 mb-16">
-          <%= link_to "Sign In", new_user_session_path, class: "w-28 h-10 rounded-lg overflow-hidden border-1 border-gray-100 bg-tmdbDarkBlue shadow-light text-center leading-[40px]"
+          <%= link_to "Join TMDB", new_user_registration_path, class: "w-28 h-10 rounded-lg overflow-hidden border-1 border-gray-100 bg-white/90 shadow-light text-tmdbDarkBlue text-center leading-[40px]"
           %>
           <%= link_to "Join TMDB", new_user_registration_path, class: "w-28 h-10 rounded-lg overflow-hidden border-1 border-gray-100 bg-white/90 shadow-light text-tmdbDarkBlue text-center leading-[40px]"
           %>

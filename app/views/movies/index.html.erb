@@ -1,2 +1,52 @@
-<h1>Movies#index</h1>
-<p>Find me in app/views/movies/index.html.erb</p>
+<div class="font-SourceProNormal antialiased">
+  <div class="text-white h-[90px] user-profile-header font-SourceProNormal">
+    <div class="container h-full flex justify-start items-center px-4 gap-4">
+      <div class="w-12 h-12 rounded-full bg-[#01b3e4] text-[1.5rem] flex justify-center items-center shrink-0"><%= current_user.username[0].upcase %></div>
+      <h2 class="font-SourceProBold text-[2rem] inline-block mr-2.5"><a href=""><%= current_user.username %></a>
+      </h2>
+    </div>
+  </div>
+  <div class="container">
+    <div class="flex gap-4">
+      <div class="w-[258px] h-[505px] rounded-lg overflow-hidden shadow-medium my-5">
+        <div class="h-16 bg-green-500 text-[1.2rem] font-SourceProSemiBold flex justify-start pl-5 items-center text-white">Settings</div>
+        <ul>
+          <li class="">
+            <a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Edit
+              Profile</a>
+          </li>
+          <li class=""><a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Account
+            Settings</a>
+          </li>
+          <li class=""><a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Streaming
+            Services</a>
+          </li>
+          <li class="">
+            <a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Notification
+              Settings</a>
+          </li>
+          <li class="">
+            <a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Blocked
+              Users</a>
+          </li>
+          <li class="">
+            <a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Import List</a>
+          </li>
+          <li class=""><a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Sharing
+            Settings</a>
+          </li>
+          <li class="">
+            <a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Sessions</a>
+          </li>
+          <li class="">
+            <a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">API</a></li>
+          <li class=""><a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Delete
+            Account</a></li>
+        </ul>
+      </div>
+      <div class="">
+        <h2 class="">Edit Profile</h2>
+      </div>
+    </div>
+  </div>
+</div>

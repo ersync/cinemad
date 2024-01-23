@@ -11,6 +11,7 @@ module.exports = {
     extend: {
       colors: {
         "tmdbLightBlue": "#120244",
+        "tmdbLighterBlue": "#01b4e4",
         "tmdbDarkBlue": "#032541",
         "tmdbDarkerBlue": "#1c1c30",
         "tmdbPrimaryColor": "#202035",
@@ -49,6 +50,7 @@ module.exports = {
     function ({addVariant}) {
       addVariant('child', '& > *');
       addVariant('child-hover', '& > *:hover');
+      addVariant('last-child-p', '& > p:last-of-type');
     }
   ],
 }

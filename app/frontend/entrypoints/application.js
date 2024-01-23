@@ -1,35 +1,13 @@
+// Import external module
 import {initializeEasyPieChart} from './easyPieChart';
 
+// Log a message indicating the successful integration of Vite with Rails
+console.log('Vite ⚡️ Rails');
 
-// To see this message, add the following to the `<head>` section in your
-// views/layouts/application.html.erb
-//
-//    <%= vite_client_tag %>
-//    <%= vite_javascript_tag 'application' %>
-console.log('Vite ⚡️ Rails')
+// Log a link to the guide for more information
+console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify.app/guide/rails');
 
-// If using a TypeScript entrypoint file:
-//     <%= vite_typescript_tag 'application' %>
-//
-// If you want to use .jsx or .tsx, add the extension:
-//     <%= vite_javascript_tag 'application.jsx' %>
-
-console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify.app/guide/rails')
-
-// Example: Load Rails libraries in Vite.
-//
-// import * as Turbo from '@hotwired/turbo'
-// Turbo.start()
-//
-// import ActiveStorage from '@rails/activestorage'
-// ActiveStorage.start()
-//
-// // Import all channels.
-// const channels = import.meta.globEager('./**/*_channel.js')
-
-// Example: Import a stylesheet in app/frontend/index.css
-// import '~/index.css'
-
+// DOM elements for easy reference
 const elements = {
   mobileNavBtn: document.querySelector(".mobile-nav-btn"),
   mobileMenuCloseBtn: document.querySelector(".mobile-close-btn"),
@@ -44,16 +22,19 @@ const elements = {
   peopleSubmenu: document.querySelector(".people-submenu")
 };
 
+// Function to toggle the mobile menu visibility
 function toggleMenu() {
   elements.overlay.classList.toggle("overlay--visible");
-  elements.mobileMenu.classList.toggle("-left-[90%]");
+  elements.mobileMenu.classList.toggle("-left-[80%]");
   elements.mobileMenu.classList.toggle("left-0");
 }
 
+// Function to toggle submenu visibility
 function toggleSubmenu(submenu) {
   submenu.classList.toggle("submenu--open");
 }
 
+// Event listeners for mobile navigation and submenus
 elements.mobileNavBtn.addEventListener("click", toggleMenu);
 elements.overlay.addEventListener("click", toggleMenu);
 
@@ -61,11 +42,25 @@ elements.categoryMovies.addEventListener("click", () => toggleSubmenu(elements.m
 elements.categoryTvShows.addEventListener("click", () => toggleSubmenu(elements.tvShowsSubmenu));
 elements.categoryPeople.addEventListener("click", () => toggleSubmenu(elements.peopleSubmenu));
 
-
-$(function () {
+// Initialize EasyPieChart on DOM content load for big and small charts
+document.addEventListener('DOMContentLoaded', function () {
   initializeEasyPieChart('.big-chart .user_score_chart', 68, 5, 2000);
 });
-
-$(function () {
+document.addEventListener('DOMContentLoaded', function () {
+  initializeEasyPieChart('.medium-chart .user_score_chart', 54, 3, 2000);
+});
+document.addEventListener('DOMContentLoaded', function () {
   initializeEasyPieChart('.small-chart .user_score_chart', 42, 3, 2000);
 });
+
+// Prevent space input in the username field
+document.addEventListener('DOMContentLoaded', function () {
+  const usernameInput = document.getElementById('user_username')
+  if (usernameInput) {
+    usernameInput.addEventListener('keypress', function (e) {
+      if (e.which === 32) {
+        e.preventDefault()
+      }
+    })
+  }
+})

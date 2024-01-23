@@ -11,7 +11,7 @@
       <!--media-->
       <%= render partial: "/movies/media" %>
       <!--collection-->
-      <%= render partial: "/movies/collection" %>
+      <%= render partial: "/movies/collection" if @movie.collection %>
       <!--recommendation-->
       <%= render partial: "/movies/recommendation" %>
     </div>
