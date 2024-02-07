@@ -9,6 +9,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      spacing: {
+        "7.5": "1.875rem",
+        "12.5": "3.125rem",
+        "9.5": "2.375rem"
+      },
       colors: {
         "tmdbLightBlue": "#120244",
         "tmdbLighterBlue": "#01b4e4",

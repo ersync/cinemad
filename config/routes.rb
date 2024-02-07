@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   get '/u/:username', to: 'users#show', as: :user_profile
 
-  resources :users, path: "u", only: [:show] do
+  resources :users, path: "u", only: [:show, :edit] do
     get 'ratings', on: :member
     get 'watchlist', on: :member
   end

@@ -1,0 +1,178 @@
+<div class="font-SourceProNormal antialiased text-[#212529]">
+  <div class="text-white h-[90px] user-profile-header font-SourceProNormal">
+    <div class="container h-full flex justify-start items-center px-4 gap-4">
+      <div class="w-12 h-12 rounded-full bg-[#01b3e4] text-[1.5rem] flex justify-center items-center shrink-0"><%= current_user.username[0].upcase %></div>
+      <h2 class="font-SourceProBold text-[2rem] inline-block mr-2.5"><a href=""><%= current_user.username %></a>
+      </h2>
+    </div>
+  </div>
+  <div class="container">
+    <div class="flex gap-7.5 my-5">
+      <div class="hidden sm:block w-[258px] h-[505px] rounded-lg overflow-hidden shadow-medium shrink-0">
+        <div class="h-16 bg-tmdbLighterBlue text-[1.2rem] font-SourceProSemiBold flex justify-start pl-5 items-center text-white">Settings</div>
+        <ul>
+          <li class="">
+            <a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Edit
+              Profile</a>
+          </li>
+          <li class=""><a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Account
+            Settings</a>
+          </li>
+          <li class=""><a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Streaming
+            Services</a>
+          </li>
+          <li class="">
+            <a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Notification
+              Settings</a>
+          </li>
+          <li class="">
+            <a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Blocked
+              Users</a>
+          </li>
+          <li class="">
+            <a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Import List</a>
+          </li>
+          <li class=""><a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Sharing
+            Settings</a>
+          </li>
+          <li class="">
+            <a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Sessions</a>
+          </li>
+          <li class="">
+            <a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">API</a></li>
+          <li class=""><a href="" class="py-2.5 px-5 block hover:bg-black/5 hover:text-green-500 transition-colors">Delete
+            Account</a></li>
+        </ul>
+      </div>
+      <div class="flex-grow">
+        <h2 class="font-SourceProBold text-[1.5rem] mb-7.5">Edit Profile</h2>
+        <div class="mb-4">
+          <a class="w-[162px] h-9 mr-2 font-SourceProBold bg-[#e4e7eb] rounded-md inline-block leading-[36px] text-center hover:bg-[#ced3db] transition-colors" href="">Change
+            Password</a>
+          <a class="w-[134px] h-9 font-SourceProBold bg-[#e4e7eb] rounded-md inline-block leading-[36px] text-center hover:bg-[#ced3db] transition-colors" href="">Change
+            Email</a>
+        </div>
+        <div class="mb-4">
+          <label for="email" class="mb-1 block">Email</label>
+          <input id="email" type="email" placeholder="name@example.com" class="custom-input">
+        </div>
+        <div class="mb-4">
+          <label class="mb-1 block">Current Avatar</label>
+          <span>No avatar found.</span>
+          <a href="" class="text-[#01b4e4]">Upload Your Own?</a>
+          <span class="">&nbsp;•&nbsp;</span>
+          <a href="" class="text-[#01b4e4]">Use Gravatar?</a>
+        </div>
+        <div class="mb-4">
+          <label class="mb-1 block">Background Image</label>
+          <span>No avatar found.</span>
+          <a href="" class="text-[#01b4e4]">Change?</a>
+          <span class="">&nbsp;•&nbsp;</span>
+          <a href="" class="text-[#01b4e4]">Remove Your Background Image?</a>
+        </div>
+        <div class="mb-4">
+          <label class="mb-4 block">Accent color</label>
+          <div class="flex flex-wrap gap-x-5 gap-y-2 items-center child:accent-color-circle child-hover:checked ">
+            <div class="blue"></div>
+            <div class="light-blue "></div>
+            <div class="teal"></div>
+            <div class="green"></div>
+            <div class="purple"></div>
+            <div class="silver"></div>
+            <div class="orange"></div>
+            <div class="yellow"></div>
+            <div class="red"></div>
+            <div class="pink"></div>
+          </div>
+        </div>
+        <div class="mb-4 flex gap-7.5">
+          <div>
+            <label for="gender">Gender</label>
+            <select name="" id="gender" class="w-32 h-9.5 mt-0.5 bg-[#e4e7eb] p-2 rounded-md outline-none block">
+              <option value="">-</option>
+              <option value="">Male</option>
+              <option value="">Female</option>
+            </select>
+          </div>
+          <div class="flex-grow">
+            <label for="name">Name</label>
+            <input id="name" type="text" id="name" class="custom-input" placeholder="Name">
+          </div>
+        </div>
+        <div>
+          <div>
+            <label for="description" class="mb-1 block">Description</label>
+            <textarea id="description" class="custom-input h-24"></textarea>
+          </div>
+          <div class="flex flex-wrap gap-y-4 justify-between items-center gap-x-10 mb-6">
+            <div class="grow w-64">
+              <label for="facebook-field">
+                <svg class="w-4 h-4 inline-block">
+                  <use xlink:href="#facebook"></use>
+                </svg>
+                <span>Facebook</span>
+              </label>
+              <input id="facebook-field" type="text" class="custom-input">
+            </div>
+            <div class="grow w-64">
+              <label for="instagram-field">
+                <svg class="w-4 h-4 inline-block">
+                  <use xlink:href="#instagram"></use>
+                </svg>
+                <span>Instagram</span>
+              </label>
+              <input id="instagram-field" type="text" class="custom-input">
+            </div>
+            <div class="grow w-64">
+              <label for="mastodon-field">
+                <svg class="w-4 h-4 inline-block">
+                  <use xlink:href="#mastodon"></use>
+                </svg>
+                <span>Mastodon</span>
+              </label>
+              <input id="mastodon-field" type="text" class="custom-input">
+            </div>
+            <div class="grow w-64">
+              <label for="twitter-field">
+                <svg class="w-4 h-4 inline-block">
+                  <use xlink:href="#twitter"></use>
+                </svg>
+                <span>Twitter</span>
+              </label>
+              <input id="twitter-field" type="text" class="custom-input">
+            </div>
+            <div class="grow w-64">
+              <label for="tiktok-field">
+                <svg class="w-4 h-4 inline-block">
+                  <use xlink:href="#tiktok"></use>
+                </svg>
+                <span>TikTok</span>
+              </label>
+              <input id="tiktok-field" type="text" class="custom-input">
+            </div>
+            <div class="grow w-64">
+              <label for="vimeo-field">
+                <svg class="w-4 h-4 inline-block">
+                  <use xlink:href="#vimeo"></use>
+                </svg>
+                <span>Vimeo</span>
+              </label>
+              <input id="vimeo-field" type="text" class="custom-input">
+            </div>
+            <div class="grow w-64">
+              <label for="youtube-field">
+                <svg class="w-4 h-4 inline-block">
+                  <use xlink:href="#youtube"></use>
+                </svg>
+                <span>Youtube</span>
+              </label>
+              <input id="youtube-field" type="text" class="custom-input">
+            </div>
+          </div>
+          <button class="text-white text-white font-SourceProBold w-[72px] h-9 bg-tmdbLighterBlue rounded-full overflow-hidden">Save</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

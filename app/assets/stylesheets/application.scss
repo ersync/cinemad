@@ -3,6 +3,20 @@
 @import "tailwindcss/utilities";
 @import "./score_chart";
 
+:root {
+  --accountSilver: 149, 149, 149;
+  --accountPink: 234, 20, 140;
+  --accountPurple: 128, 91, 231;
+  --accountGreen: 1, 210, 119;
+  --accountTeal: 1, 198, 172;
+  --accountLightBlue: 1, 180, 228;
+  --accountBlue: 1, 119, 210;
+  --accountOrange: 210, 119, 1;
+  --accountYellow: 210, 144, 1;
+  --accountRed: 212, 2, 66;
+
+}
+
 @layer base {
 
   @font-face {
@@ -86,7 +100,6 @@
     /*    margin-top: -10px;*/
   }
 
-
   .scrollbar::-webkit-scrollbar {
     height: 8px;
     width: 8px
@@ -126,6 +139,66 @@
     @apply text-[12.96px] leading-4 rounded-md bg-black/10 inline-block rounded-[4px] px-2.5 py-1 border border-tmdbLightGray;
   }
 
+  .accent-color-circle {
+    @apply w-12.5 h-12.5 rounded-full;
+  }
+
+  .checked {
+    background-image: url("https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-739-check-white-a09b2a26e235b77489dfd57be3b66a17ff86efd5fb94d6db5f10cd3ced01e5a6.svg");
+    background-position: center;
+    background-size: 50%;
+    background-repeat: no-repeat;
+  }
+
+  .custom-input {
+    @apply w-full h-9.5 mt-0.5 px-4 py-1.5 bg-white rounded-md border border-tmdbLightGray outline-none;
+  }
+
+  .me {
+    --gap: 50px;
+    --cols: 3;
+    min-width: calc(100% / var(--cols) - var(--gap) / var(--cols) * (var(--cols) - 1));
+  }
+
+  .silver {
+    background-color: rgba(var(--accountSilver), 1)
+  }
+
+  .pink {
+    background-color: rgba(var(--accountPink), 1)
+  }
+
+  .purple {
+    background-color: rgba(var(--accountPurple), 1)
+  }
+
+  .green {
+    background-color: rgba(var(--accountGreen), 1)
+  }
+
+  .teal {
+    background-color: rgba(var(--accountTeal), 1)
+  }
+
+  .light-blue {
+    background-color: rgba(var(--accountLightBlue), 1)
+  }
+
+  .blue {
+    background-color: rgba(var(--accountBlue), 1)
+  }
+
+  .orange {
+    background-color: rgba(var(--accountOrange), 1)
+  }
+
+  .yellow {
+    background-color: rgba(var(--accountYellow), 1)
+  }
+
+  .red {
+    background-color: rgba(var(--accountRed), 1)
+  }
 }
 
 
