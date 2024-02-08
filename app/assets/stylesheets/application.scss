@@ -143,23 +143,6 @@
     @apply w-12.5 h-12.5 rounded-full;
   }
 
-  .checked {
-    background-image: url("https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-739-check-white-a09b2a26e235b77489dfd57be3b66a17ff86efd5fb94d6db5f10cd3ced01e5a6.svg");
-    background-position: center;
-    background-size: 50%;
-    background-repeat: no-repeat;
-  }
-
-  .custom-input {
-    @apply w-full h-9.5 mt-0.5 px-4 py-1.5 bg-white rounded-md border border-tmdbLightGray outline-none;
-  }
-
-  .me {
-    --gap: 50px;
-    --cols: 3;
-    min-width: calc(100% / var(--cols) - var(--gap) / var(--cols) * (var(--cols) - 1));
-  }
-
   .silver {
     background-color: rgba(var(--accountSilver), 1)
   }
@@ -199,6 +182,51 @@
   .red {
     background-color: rgba(var(--accountRed), 1)
   }
+
+  .accent-checked {
+    background-image: url("https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-739-check-white-a09b2a26e235b77489dfd57be3b66a17ff86efd5fb94d6db5f10cd3ced01e5a6.svg");
+    background-position: center;
+    background-size: 50%;
+    background-repeat: no-repeat;
+  }
+
+  .custom-input {
+    @apply w-full h-9.5 mt-0.5 px-4 py-1.5 bg-white rounded-md border border-tmdbLightGray outline-none;
+  }
+
+  .active_tab {
+    @apply bg-tmdbDarkBlue;
+    a {
+      background: linear-gradient(to right, #c0fecf 0, #1ed5a9 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  .fading.fade_visible::after {
+    transition: linear .3s;
+    opacity: 1
+  }
+
+  .fading.fade_invisible::after {
+    transition: linear .3s;
+    opacity: 0
+  }
+
+  .fading::after {
+    content: "";
+    width: 60px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0, #fff 100%);
+    will-change: opacity;
+    pointer-events: none
+  }
+
+
 }
 
 

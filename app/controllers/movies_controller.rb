@@ -10,6 +10,11 @@ class MoviesController < ApplicationController
   end
 
   def index
+
+  end
+
+  def home
+    @random_movies = Movie.random_movies(12)
   end
 
   def new

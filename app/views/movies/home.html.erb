@@ -1,0 +1,52 @@
+<div class="flex justify-center items-start flex-col h-[357px] text-white antialiased p-10 my-auto" style="background:url('https://media.themoviedb.org/t/p/w1920_and_h600_multi_faces_filter(duotone,00192f,00baff)/e3h0knvtz4qPg9dwYdWynALrW9s.jpg') 0 / cover no-repeat;">
+  <div class="container">
+    <h2 class="font-SourceProBold text-[3rem] leading-10">Welcome</h2>
+    <h3 class="font-SourceProSemiBold text-[2rem]">Millions of movies, TV shows and people to discover. Explore
+      now.</h3>
+    <form action="" class="w-full flex mt-[50px]">
+      <input class="h-[46px] py-2.5 px-4 rounded-l-full bg-white w-full outline-none !text-tmdbDarkBlue" type="text" placeholder="Search for a movie, tv show, person.......">
+      <button class="w-[100px] -ml-6 shrink-0 rounded-full font-SourceProBold" style="background: linear-gradient(to right,rgba(30,213,169,1) 0%,rgba(1,180,228,1) 100%);">Search</button>
+    </form>
+  </div>
+</div>
+<div class="container">
+
+  <!-- cards -->
+  <div class="mt-7.5">
+    <div class="flex gap-5 items-center mb-5">
+      <h2 class="font-SourceProSemiBold text-[1.5rem] ">Trending</h2>
+      <div class="flex font-SourceProSemiBold rounded-full border border-tmdbDarkBlue/80 max-w-min overflow-hidden text-tmdbDarkBlue">
+        <span class="block py-1 px-5 rounded-full overflow-hidden"><a class="block w-full">Today</a></span>
+        <span class="active_tab block py-1 px-5 rounded-full overflow-hidden"><a class="inline-block w-full min-w-max ">This Week </a></span>
+      </div>
+    </div>
+    <div class="flex gap-5 my-5 overflow-x-scroll">
+      <% @random_movies.shuffle.each do |movie| %>
+        <div class="w-[150px] shrink-0">
+          <div class="relative">
+            <div class="absolute right-1.5 top-1.5 opacity-50">
+              <svg class="w-[26px] h-[26px]">
+                <use xlink:href="#circle-more"></use>
+              </svg>
+            </div>
+            <%= image_tag movie.cover, class: "h-[225px] rounded-lg" %>
+            <div class="absolute left-3 -bottom-4 flex justify-center items-center">
+              <a href="#" class="flex justify-center items-center hover:scale-110 cursor-pointer transition-all">
+                <div class="consensus">
+                  <div class="outer_ring small-chart">
+                    <div class="user_score_chart movie-score flex justify-center items-center icon-r<%= movie.avg_score %> pl-0.5 pt-1.5 text-[9px]" data-percent="<%= movie.avg_score %>">
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="pl-2.5 mt-6">
+            <h3 class="font-SourceProBold leading-4 line-clamp-2"><%= movie.title %></h3>
+            <span class="text-black/60 text-[0.9rem]"><%= movie.release_date.strftime("%b %d, %Y") %></span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

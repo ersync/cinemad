@@ -40,4 +40,9 @@ class Movie < ApplicationRecord
     ratings.average(:score).to_i
   end
 
+  def self.random_movies(limit = 12)
+    offset = rand(Movie.count - limit)
+    Movie.offset(offset).limit(limit)
+  end
+
 end
