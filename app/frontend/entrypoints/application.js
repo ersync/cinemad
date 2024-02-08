@@ -19,7 +19,8 @@ const elements = {
   categoryPeople: document.querySelector('.category-people'),
   moviesSubmenu: document.querySelector(".movies-submenu"),
   tvShowsSubmenu: document.querySelector(".tv-shows-submenu"),
-  peopleSubmenu: document.querySelector(".people-submenu")
+  peopleSubmenu: document.querySelector(".people-submenu"),
+  castMenu: document.querySelector('.cast-menu') // Add this line
 };
 
 // Function to toggle the mobile menu visibility
@@ -45,22 +46,40 @@ elements.categoryPeople.addEventListener("click", () => toggleSubmenu(elements.p
 // Initialize EasyPieChart on DOM content load for big and small charts
 document.addEventListener('DOMContentLoaded', function () {
   initializeEasyPieChart('.big-chart .user_score_chart', 68, 5, 2000);
-});
-document.addEventListener('DOMContentLoaded', function () {
   initializeEasyPieChart('.medium-chart .user_score_chart', 54, 3, 2000);
-});
-document.addEventListener('DOMContentLoaded', function () {
-  initializeEasyPieChart('.small-chart .user_score_chart', 42, 3, 2000);
+  initializeEasyPieChart('.base-chart .user_score_chart', 42, 3, 2000);
+  initializeEasyPieChart('.small-chart .user_score_chart', 38, 3, 2000);
 });
 
 // Prevent space input in the username field
 document.addEventListener('DOMContentLoaded', function () {
-  const usernameInput = document.getElementById('user_username')
+  const usernameInput = document.getElementById('user_username');
   if (usernameInput) {
     usernameInput.addEventListener('keypress', function (e) {
       if (e.which === 32) {
-        e.preventDefault()
+        e.preventDefault();
       }
-    })
+    });
   }
-})
+});
+
+function handleScroll() {
+  const leftHorizontalOffset = elements.castMenu.scrollLeft; // Use elements.castMenu instead of scrollableElement
+  if (leftHorizontalOffset > 45) {
+    elements.castMenu.classList.add('fade_invisible');
+    elements.castMenu.classList.remove('fade_visible');
+  } else {
+    elements.castMenu.classList.add('fade_visible');
+    elements.castMenu.classList.remove('fade_invisible');
+  }
+}
+
+elements.castMenu.addEventListener('scroll', handleScroll);
+
+
+new ScrollBooster({
+  viewport: document.querySelector('.scrollable-wrapper'),
+  content: document.querySelector('.scrollable-content'),
+  scrollMode: 'native',
+  direction: 'horizontal'
+});
