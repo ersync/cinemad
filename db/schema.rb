@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_29_071302) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_10_150953) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -152,6 +152,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_29_071302) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_favorite_movies", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "movie_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["movie_id"], name: "index_user_favorite_movies_on_movie_id"
+    t.index ["user_id"], name: "index_user_favorite_movies_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -172,6 +181,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_29_071302) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["movie_id"], name: "index_watchlist_movies_on_movie_id"
+    t.index ["watchlist_id", "movie_id"], name: "index_watchlist_movies_on_watchlist_id_and_movie_id", unique: true
     t.index ["watchlist_id"], name: "index_watchlist_movies_on_watchlist_id"
   end
 
@@ -196,6 +206,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_29_071302) do
   add_foreign_key "ratings", "users"
   add_foreign_key "reviews", "movies"
   add_foreign_key "reviews", "users"
+  add_foreign_key "user_favorite_movies", "movies"
+  add_foreign_key "user_favorite_movies", "users"
   add_foreign_key "watchlist_movies", "movies"
   add_foreign_key "watchlist_movies", "watchlists"
   add_foreign_key "watchlists", "users"

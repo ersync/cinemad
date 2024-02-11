@@ -1,6 +1,10 @@
 // Import external module
 import {initializeEasyPieChart} from './easyPieChart';
 
+import axios from 'axios';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+
 // Log a message indicating the successful integration of Vite with Rails
 console.log('Vite ⚡️ Rails');
 
@@ -20,7 +24,10 @@ const elements = {
   moviesSubmenu: document.querySelector(".movies-submenu"),
   tvShowsSubmenu: document.querySelector(".tv-shows-submenu"),
   peopleSubmenu: document.querySelector(".people-submenu"),
-  castMenu: document.querySelector('.cast-menu') // Add this line
+  // todayTrending: document.querySelector(".trending-selector").firstElementChild,
+  // weekTrending: document.querySelector(".trending-selector").lastElementChild,
+  scrollableWrappers: document.querySelectorAll(".scrollable-wrapper"),
+  scrollableContents: document.querySelectorAll(".scrollable-content"),
 };
 
 // Function to toggle the mobile menu visibility
@@ -63,23 +70,103 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-function handleScroll() {
-  const leftHorizontalOffset = elements.castMenu.scrollLeft; // Use elements.castMenu instead of scrollableElement
+function handleFading(wrapper) {
+  const leftHorizontalOffset = wrapper.scrollLeft;
   if (leftHorizontalOffset > 45) {
-    elements.castMenu.classList.add('fade_invisible');
-    elements.castMenu.classList.remove('fade_visible');
+    wrapper.classList.add('fade_invisible');
+    wrapper.classList.remove('fade_visible');
   } else {
-    elements.castMenu.classList.add('fade_visible');
-    elements.castMenu.classList.remove('fade_invisible');
+    wrapper.classList.add('fade_visible');
+    wrapper.classList.remove('fade_invisible');
   }
 }
 
-elements.castMenu.addEventListener('scroll', handleScroll);
+// Loop through each scrollable wrapper and attach scrolling and fading functionality
+elements.scrollableWrappers.forEach(wrapper => {
+  wrapper.addEventListener('scroll', () => handleFading(wrapper));
 
-
-new ScrollBooster({
-  viewport: document.querySelector('.scrollable-wrapper'),
-  content: document.querySelector('.scrollable-content'),
-  scrollMode: 'native',
-  direction: 'horizontal'
+  new ScrollBooster({
+    viewport: wrapper,
+    content: wrapper.querySelector('.scrollable-content'),
+    scrollMode: 'native',
+    direction: 'horizontal'
+  });
 });
+
+
+const {createApp, ref, onMounted} = Vue
+
+createApp({
+  setup() {
+    const isFavorite = ref(false)
+    const isInWatchlist = ref(false)
+    const movieId = document.getElementById('app').getAttribute('data-movie-id');
+
+    const fetchInitialState = async (id) => {
+      try {
+        const [favoriteResponse, watchlistResponse] = await Promise.all([
+          axios.get(`/movies/${id}/favorite`),
+          axios.get(`/movies/${id}/watchlist`)
+        ])
+
+        if (watchlistResponse.status === 200) {
+          isInWatchlist.value = watchlistResponse.data.isInWatchlist;
+        }
+        if (favoriteResponse.status === 200) {
+          isFavorite.value = favoriteResponse.data.isFavorite;
+        }
+      } catch (e) {
+        console.error('Error fetching initial state:', e);
+      }
+    }
+
+    const updateWatchlist = async (id, action) => {
+      try {
+        NProgress.start()
+        const response = await axios[action](`/movies/${id}/watchlist`, null, {
+          headers: {'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content}
+        })
+        if (response.status == 200) {
+          NProgress.done()
+          isInWatchlist.value = response.data.isInWatchlist
+        } else {
+        }
+      } catch (e) {
+        console.error(`Error updating watchlist (action:${action}):`, error);
+      }
+    }
+    const toggleWatchlist = () => {
+      isInWatchlist.value ? updateWatchlist(movieId, 'delete') : updateWatchlist(movieId, 'post');
+    }
+
+    const updateFavorite = async (id, action) => {
+      try {
+        NProgress.start()
+        const response = await axios[action](`/movies/${id}/favorite`, null, {
+          headers: {'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content}
+        })
+        if (response.status == 200) {
+          NProgress.done()
+          isFavorite.value = response.data.isFavorite
+        }
+      } catch (e) {
+        console.error(`Error updating favorite (action:${action}):`, error);
+      }
+    }
+    const toggleFavorite = () => {
+      isFavorite.value ? updateFavorite(movieId, 'delete') : updateFavorite(movieId, 'post');
+    }
+
+
+    onMounted(() => {
+      fetchInitialState(movieId)
+    });
+
+    return {
+      isFavorite,
+      isInWatchlist,
+      toggleWatchlist,
+      toggleFavorite
+    }
+  }
+}).mount('#app')

@@ -26,6 +26,9 @@ class Movie < ApplicationRecord
   has_many :watchlist_movies
   has_many :watchlists, through: :watchlist_movies
 
+  has_many :user_favorite_movies
+  has_many :favorited_by, through: :user_favorite_movies, source: :user
+
   def self.random_recommendations(limit = 7)
     Movie.where(id: [4, 10, 11, 12, 13]).order('RANDOM()').limit(limit)
   end

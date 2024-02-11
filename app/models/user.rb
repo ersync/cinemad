@@ -14,6 +14,9 @@ class User < ApplicationRecord
 
   has_one :watchlist
 
+  has_many :user_favorite_movies
+  has_many :favorite_movies, through: :user_favorite_movies, source: :movie
+
   validates :username, presence: true, uniqueness: { case_sensitive: false }
 
   def avg_rating

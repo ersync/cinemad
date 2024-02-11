@@ -4,7 +4,12 @@ Rails.application.routes.draw do
 
   resources :movies do
     member do
-      get 'posters_ajax', to: 'movies#posters_ajax'
+      post 'favorite', to: 'movies#favorite'
+      get 'favorite', to: 'movies#favorite_status'
+      delete 'favorite', to: 'movies#unfavorite'
+      post 'watchlist', to: 'movies#add_to_watchlist'
+      get 'watchlist', to: 'movies#in_watchlist_status'
+      delete 'watchlist', to: 'movies#remove_from_watchlist'
     end
   end
 

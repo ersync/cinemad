@@ -15,15 +15,17 @@ module.exports = {
         "9.5": "2.375rem"
       },
       colors: {
+        "tmdbPrimaryColor": "#202035",
+        "tmdbDarkerBlue": "#1c1c30",
+        "tmdbDarkBlue": "#032541",
         "tmdbLightBlue": "#120244",
         "tmdbLighterBlue": "#01b4e4",
-        "tmdbDarkBlue": "#032541",
-        "tmdbDarkerBlue": "#1c1c30",
-        "tmdbPrimaryColor": "#202035",
-        // "tmdbDarkerBlue": "#1f1f34",
         "tmdbLightGray": "#e3e3e3",
         "tmdbDarkGray": "#212529",
         "tmdbHoverGray": "#f8f9fa",
+        "tmdbHoverGray": "#f8f9fa",
+        "tmdbLightGreen": "#1ed5a9",
+
 
       },
       fontFamily: {
