@@ -1,7 +1,7 @@
 <div class="mb-[30px] pb-[30px] border-b border-[#d7d7d7] antialiased">
   <h3 class="font-SourceProSemiBold text-[1.2rem] sm:text-[1.4rem] mb-5">Top Billed Cast</h3>
   <div class="relative">
-    <div class="cast-menu scrollable-wrapper font-SourceProNormal scrollbar overflow-scroll mb-5 fading">
+    <div class="scrollable-wrapper font-SourceProNormal scrollbar overflow-scroll mb-5 fading">
       <ul class="scrollable-content flex gap-3.5 mb-2.5">
         <% @movie.cast.each do |person| %>
           <li>
@@ -15,7 +15,6 @@
               </div>
             </div>
           </li>
-
         <% end %>
 
 

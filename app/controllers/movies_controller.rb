@@ -54,12 +54,12 @@ class MoviesController < ApplicationController
   end
 
   def in_watchlist_status
-    isInWatchlist = current_user.watchlist&.movies.exists?(@movie.id)
+    isInWatchlist = current_user.watchlist&.movies&.exists?(@movie.id)
     render json: { isInWatchlist: isInWatchlist }
   end
 
   def add_to_watchlist
-    movie_in_watchlist = current_user.watchlist&.watchlist_movies.find_by(movie_id: @movie.id)
+    movie_in_watchlist = current_user.watchlist&.watchlist_movies&.find_by(movie_id: @movie.id)
     if movie_in_watchlist
       render json: { error: 'Movie is already in the watchlist' }, status: :ok
       return
@@ -74,7 +74,7 @@ class MoviesController < ApplicationController
   end
 
   def remove_from_watchlist
-    movie_in_watchlist = current_user.watchlist&.watchlist_movies.find_by(movie_id: @movie.id)
+    movie_in_watchlist = current_user.watchlist&.watchlist_movies&.find_by(movie_id: @movie.id)
 
     if movie_in_watchlist&.destroy
       render json: { message: 'Movie removed from watchlist successfully', isInWatchlist: false }, status: :ok

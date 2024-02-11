@@ -65,34 +65,43 @@
                 <span class="font-SourceProBold ml-1.5 leading-5">User<br/>Score</span>
               </div>
               <!-- Actions -->
-              <ul class="flex items-center justify-start gap-1.5 lg:gap-x-5 flex-wrap">
-                <li class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-tmdbDarkBlue rounded-full">
-                  <svg class="h-4 w-4">
-                    <use xlink:href="#list"></use>
-                  </svg>
-                </li>
-                <li class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-tmdbDarkBlue rounded-full">
-                  <svg class="h-4 w-4">
-                    <use xlink:href="#heart"></use>
-                  </svg>
-                </li>
-                <li class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-tmdbDarkBlue rounded-full">
-                  <svg class="h-4 w-4">
-                    <use xlink:href="#bookmark"></use>
-                  </svg>
-                </li>
-                <li class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-tmdbDarkBlue rounded-full">
-                  <svg class="h-4 w-4">
-                    <use xlink:href="#star"></use>
-                  </svg>
-                </li>
-                <li class="flex justify-center items-center font-SourceProSemiBold leading-[40px]">
-                  <svg class="inline-block mx-[5px] w-[22px] h-[22px]">
-                    <use xlink:href="#play"></use>
-                  </svg>
-                  <span class="hidden lg:block">Play Trailer</span>
-                </li>
-              </ul>
+              <div id="app" data-movie-id="<%= @movie.id %>">
+                <ul class="flex items-center justify-start gap-1.5 lg:gap-x-5 flex-wrap">
+                  <li class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-white/10 border border-white/5 rounded-full">
+                    <svg class="h-4 w-4">
+                      <use xlink:href="#list"></use>
+                    </svg>
+                  </li>
+                  <a href="" @click.prevent="toggleFavorite">
+                    <li class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-white/10 border border-white/5 rounded-full">
+                      <svg class="h-4 w-4" :class="{'text-pink-500': isFavorite}">
+                        <use xlink:href="#heart"></use>
+                      </svg>
+                    </li>
+                  </a>
+
+
+                  <a href="" @click.prevent="toggleWatchlist">
+                    <li class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-white/10 border border-white/5 rounded-full">
+                      <svg class="h-4 w-4" :class="{'text-red-500': isInWatchlist}">
+                        <use xlink:href="#bookmark"></use>
+                      </svg>
+                    </li>
+                  </a>
+                  <li class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-white/10 border border-white/5 rounded-full">
+                    <svg class="h-4 w-4">
+                      <use xlink:href="#star"></use>
+                    </svg>
+                  </li>
+                  <li class="flex justify-center items-center font-SourceProSemiBold leading-[40px]">
+                    <svg class="inline-block mx-[5px] w-[22px] h-[22px]">
+                      <use xlink:href="#play"></use>
+                    </svg>
+                    <span class="hidden lg:block">Play Trailer</span>
+                  </li>
+                </ul>
+
+              </div>
             </div>
             <!-- Movie Overview Section -->
             <div>

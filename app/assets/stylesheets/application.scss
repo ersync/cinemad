@@ -4,6 +4,17 @@
 @import "./score_chart";
 
 :root {
+  --lightGrey: 227, 227, 227;
+  --darkerGrey: 200, 200, 200;
+  --vibrantDarkBlue: 6, 37, 65;
+  --vibrantLightBlue: 0, 118, 241;
+  --tmdbDarkBlue: 3, 37, 65;
+  --tmdbLightBlue: 1, 180, 228;
+  --tmdbLighterGreen: 192, 254, 207;
+  --tmdbLightGreen: 30, 213, 169;
+  --tmdbLogoGreen: 144, 206, 161;
+  --tmdbLogoOrange: 253, 193, 112;
+  --tmdbLogoRed: 217, 59, 99;
   --accountSilver: 149, 149, 149;
   --accountPink: 234, 20, 140;
   --accountPurple: 128, 91, 231;
@@ -123,28 +134,12 @@
     background-position: center -250px;
   }
 
-}
-
-
-@layer components {
-  .submenu {
-    @apply max-h-0 overflow-hidden mb-2.5;
-  }
-
-  .submenu--open {
-    @apply max-h-min mb-7 mt-2.5;
-  }
-
-  .tag {
-    @apply text-[12.96px] leading-4 rounded-md bg-black/10 inline-block rounded-[4px] px-2.5 py-1 border border-tmdbLightGray;
-  }
-
   .accent-color-circle {
     @apply w-12.5 h-12.5 rounded-full;
   }
 
   .silver {
-    background-color: rgba(var(--accountSilver), 1)
+    background-color: rgba(1, 2, 2, 1)
   }
 
   .pink {
@@ -168,11 +163,11 @@
   }
 
   .blue {
-    background-color: rgba(var(--accountBlue), 1)
+    background-color: rgba(var(--accountBlue), 1);
   }
 
   .orange {
-    background-color: rgba(var(--accountOrange), 1)
+    background-color: rgba(var(--accountOrange), 1);
   }
 
   .yellow {
@@ -183,6 +178,7 @@
     background-color: rgba(var(--accountRed), 1)
   }
 
+
   .accent-checked {
     background-image: url("https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-739-check-white-a09b2a26e235b77489dfd57be3b66a17ff86efd5fb94d6db5f10cd3ced01e5a6.svg");
     background-position: center;
@@ -190,19 +186,6 @@
     background-repeat: no-repeat;
   }
 
-  .custom-input {
-    @apply w-full h-9.5 mt-0.5 px-4 py-1.5 bg-white rounded-md border border-tmdbLightGray outline-none;
-  }
-
-  .active_tab {
-    @apply bg-tmdbDarkBlue;
-    a {
-      background: linear-gradient(to right, #c0fecf 0, #1ed5a9 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-  }
 
   .fading.fade_visible::after {
     transition: linear .3s;
@@ -226,7 +209,50 @@
     pointer-events: none
   }
 
+  .trailers-gradient {
+    background: linear-gradient(to right, rgba(var(--tmdbDarkBlue), .75) 0%, rgba(var(--tmdbDarkBlue), .75) 100%);
+    height: 100%;
+  }
 
 }
 
+
+@layer components {
+  .submenu {
+    @apply max-h-0 overflow-hidden mb-2.5;
+  }
+
+  .submenu--open {
+    @apply max-h-min mb-7 mt-2.5;
+  }
+
+  .tag {
+    @apply text-[12.96px] leading-4 rounded-md bg-black/10 inline-block rounded-[4px] px-2.5 py-1 border border-tmdbLightGray;
+  }
+
+
+  .custom-input {
+    @apply w-full h-9.5 mt-0.5 px-4 py-1.5 bg-white rounded-md border border-tmdbLightGray outline-none;
+  }
+
+  .active_tab {
+    @apply bg-tmdbDarkBlue;
+    a {
+      background: linear-gradient(to right, #c0fecf 0, #1ed5a9 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  .active_tab_trailers {
+
+    @apply text-tmdbDarkBlue;
+    background: linear-gradient(to right, rgb(var(--tmdbLighterGreen)) 0, rgb(var(--tmdbLightGreen)) 100%);
+  }
+
+  .time-period {
+    @apply block py-0.5 px-5 rounded-full overflow-hidden transition-all duration-200
+  }
+}
 
