@@ -1,6 +1,6 @@
 class MoviesController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :get_movie, only: [:favorite, :favorite_status, :unfavorite, :in_watchlist_status, :add_to_watchlist, :remove_from_watchlist]
+  before_action :get_movie, except: [:index, :home]
 
   def show
     @movie = Movie.includes(:keywords).find(params[:id])
@@ -80,6 +80,45 @@ class MoviesController < ApplicationController
       render json: { message: 'Movie removed from watchlist successfully', isInWatchlist: false }, status: :ok
     else
       render json: { error: movie_in_watchlist ? 'Failed to remove movie from watchlist' : 'The movie was not found in the watchlist' }, status: :unprocessable_entity
+    end
+  end
+
+  def avg_rate
+    average_score = @movie.ratings.average(:score).to_i || 0
+    render json: { avg_rate: average_score }
+  end
+
+  def rate
+    rate = params[:rate]
+    user_id = current_user.id
+    movie_id = params[:id]
+
+    rating = Rating.find_or_initialize_by(user_id: user_id, movie_id: movie_id)
+    rating.score = rate
+
+    if rating.save
+      render json: { success: true, message: "Rating updated successfully" }
+    else
+      render json: { success: false, error: "Failed to update rating" }, status: :unprocessable_entity
+    end
+  end
+
+  def unrate
+    user_rating = current_user.ratings.find_by(movie_id: @movie.id)
+    if user_rating&.destroy
+      render json: { message: 'Movie unrated successfully', isRated: false }, status: :ok
+    else
+      render json: { error: user_rating ? 'Failed to unrate movie' : 'The movie was not rated' }, status: :unprocessable_entity
+    end
+  end
+
+  def rating_status
+    user_rating = current_user.ratings&.find_by(movie_id: @movie.id)
+    if user_rating.present?
+      render json: { isRated: true, rate_score: user_rating.score }
+      return
+    else
+      render json: { isRated: false }
     end
   end
 

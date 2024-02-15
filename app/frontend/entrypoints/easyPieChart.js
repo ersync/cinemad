@@ -9,6 +9,18 @@ function initializeEasyPieChart(selector, size, lineWidth, animateDuration) {
     trackColor: "#525151",
     lineCap: "circle",
     animate: animateDuration,
+    onStart: function (from, to) {
+      let counter = from
+      const increment = from < to ? 1 : -1
+      const interval = setInterval(() => {
+        if (counter === to) {
+          clearInterval(interval)
+        } else {
+          counter += increment
+        }
+        this.el.firstElementChild.textContent = counter
+      }, 110 - Math.abs(from - to))
+    }
   });
 }
 

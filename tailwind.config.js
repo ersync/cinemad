@@ -33,7 +33,8 @@ module.exports = {
         SourceProNormal: "SourcePro-Normal",
         SourceProItalic: "SourcePro-Italic",
         SourceProSemiBold: "SourcePro-SemiBold",
-        SourceProBold: "SourcePro-Bold"
+        SourceProBold: "SourcePro-Bold",
+        ConcenBold: "Concen-Bold"
       },
       container: {
         padding: "1rem",

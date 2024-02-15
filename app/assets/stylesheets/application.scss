@@ -64,6 +64,13 @@
     font-weight: 700;
     font-style: normal;
   }
+
+  @font-face {
+    font-family: "Concen-Bold" ;
+    src: url("@assets/fonts/Concen-Bold.woff2") format('woff2');
+    font-weight: 700;
+    font-style: normal;
+  }
 }
 
 @layer base {
@@ -255,4 +262,5 @@
     @apply block py-0.5 px-5 rounded-full overflow-hidden transition-all duration-200
   }
 }
+
 

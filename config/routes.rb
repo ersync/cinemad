@@ -4,6 +4,10 @@ Rails.application.routes.draw do
 
   resources :movies do
     member do
+      post 'rate', to: 'movies#rate'
+      delete 'rate', to: 'movies#unrate'
+      get 'rate', to: 'movies#rating_status'
+      get 'avg_rate', to: 'movies#avg_rate'
       post 'favorite', to: 'movies#favorite'
       get 'favorite', to: 'movies#favorite_status'
       delete 'favorite', to: 'movies#unfavorite'
