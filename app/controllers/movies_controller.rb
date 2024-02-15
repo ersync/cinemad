@@ -33,23 +33,23 @@ class MoviesController < ApplicationController
   def favorite
     movie_in_favorites = current_user.user_favorite_movies.find_by(movie_id: @movie.id)
     if movie_in_favorites
-      render json: { error: 'Movie is already a favorite' }, status: :conflict
+      render json: { success: false, error: 'Movie is already a favorite' }, status: :conflict
       return
     end
     current_user.favorite_movies << @movie
     if current_user.save
-      render json: { isFavorite: true }, status: :ok
+      render json: { success: true, isFavorite: true }, status: :ok
     else
-      render json: { error: 'Failed to add movie to favorites' }, status: :unprocessable_entity
+      render json: { success: false, error: 'Failed to add movie to favorites' }, status: :unprocessable_entity
     end
   end
 
   def unfavorite
     movie_in_favorites = current_user.user_favorite_movies.find_by(movie_id: @movie.id)
     if movie_in_favorites&.destroy
-      render json: { message: 'Movie removed from favorites', isFavorite: false }, status: :ok
+      render json: { success: true, message: 'Movie removed from favorites', isFavorite: false }, status: :ok
     else
-      render json: { error: movie_in_favorites ? 'Failed to remove movie from favorites' : 'The movie was not found in favorites' }, status: :unprocessable_entity
+      render json: { success: false, error: movie_in_favorites ? 'Failed to remove movie from favorites' : 'The movie was not found in favorites' }, status: :unprocessable_entity
     end
   end
 
@@ -67,9 +67,9 @@ class MoviesController < ApplicationController
     watchlist = current_user.watchlist || current_user.build_watchlist
     watchlist.movies << @movie
     if watchlist.save
-      render json: { isInWatchlist: true }, status: :ok
+      render json: { success: true, isInWatchlist: true }, status: :ok
     else
-      render json: { error: 'Failed to add movie to watchlist' }, status: :unprocessable_entity
+      render json: { success: false, error: 'Failed to add movie to watchlist' }, status: :unprocessable_entity
     end
   end
 
@@ -77,15 +77,15 @@ class MoviesController < ApplicationController
     movie_in_watchlist = current_user.watchlist&.watchlist_movies&.find_by(movie_id: @movie.id)
 
     if movie_in_watchlist&.destroy
-      render json: { message: 'Movie removed from watchlist successfully', isInWatchlist: false }, status: :ok
+      render json: { success: true, message: 'Movie removed from watchlist successfully', isInWatchlist: false }, status: :ok
     else
-      render json: { error: movie_in_watchlist ? 'Failed to remove movie from watchlist' : 'The movie was not found in the watchlist' }, status: :unprocessable_entity
+      render json: { success: false, error: movie_in_watchlist ? 'Failed to remove movie from watchlist' : 'The movie was not found in the watchlist' }, status: :unprocessable_entity
     end
   end
 
   def avg_rate
-    average_score = @movie.ratings.average(:score).to_i || 0
-    render json: { avg_rate: average_score }
+    avg_rate = @movie.ratings.average(:score).to_i || 0
+    render json: { avg_rate: avg_rate }
   end
 
   def rate
@@ -97,7 +97,7 @@ class MoviesController < ApplicationController
     rating.score = rate
 
     if rating.save
-      render json: { success: true, message: "Rating updated successfully" }
+      render json: { success: true, isRated: true, message: "Rating updated successfully" }
     else
       render json: { success: false, error: "Failed to update rating" }, status: :unprocessable_entity
     end
@@ -106,19 +106,19 @@ class MoviesController < ApplicationController
   def unrate
     user_rating = current_user.ratings.find_by(movie_id: @movie.id)
     if user_rating&.destroy
-      render json: { message: 'Movie unrated successfully', isRated: false }, status: :ok
+      render json: { success: true, message: 'Movie unrated successfully', isRated: false }, status: :ok
     else
-      render json: { error: user_rating ? 'Failed to unrate movie' : 'The movie was not rated' }, status: :unprocessable_entity
+      render json: { success: false, error: user_rating ? 'Failed to unrate movie' : 'The movie was not rated' }, status: :unprocessable_entity
     end
   end
 
   def rating_status
     user_rating = current_user.ratings&.find_by(movie_id: @movie.id)
     if user_rating.present?
-      render json: { isRated: true, rate_score: user_rating.score }
+      render json: { success: true, isRated: true, rate: user_rating.score }
       return
     else
-      render json: { isRated: false }
+      render json: { success: false, isRated: false }
     end
   end
 

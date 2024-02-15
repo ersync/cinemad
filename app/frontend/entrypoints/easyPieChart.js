@@ -2,7 +2,7 @@ function initializeEasyPieChart(selector, size, lineWidth, animateDuration) {
   $(selector).easyPieChart({
     size: size,
     barColor: function (percent) {
-      return (percent < 50 ? '#c4472c' : percent < 70 ? '#C5C82F' : '#66CE79');
+      return (percent < 50 ? '#c4472c' : percent < 70 ? '#C5C82F' : '#66CE79')
     },
     scaleLength: 0,
     lineWidth: lineWidth,
@@ -21,8 +21,8 @@ function initializeEasyPieChart(selector, size, lineWidth, animateDuration) {
         this.el.firstElementChild.textContent = counter
       }, 110 - Math.abs(from - to))
     }
-  });
+  })
 }
 
-export {initializeEasyPieChart};
+export {initializeEasyPieChart}
 

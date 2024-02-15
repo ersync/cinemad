@@ -3,6 +3,10 @@
 @import "tailwindcss/utilities";
 @import "./score_chart";
 
+[v-cloak] {
+  display: none;
+}
+
 :root {
   --lightGrey: 227, 227, 227;
   --darkerGrey: 200, 200, 200;

@@ -44,4 +44,7 @@ class Movie < ApplicationRecord
     Movie.offset(offset).limit(limit)
   end
 
+  def avg_rate
+    ratings.average(:score).to_i || 0
+  end
 end
