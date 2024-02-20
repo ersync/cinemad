@@ -1,17 +1,45 @@
-<div class="mb-[30px] pb-[30px] border-b border-[#d7d7d7]">
+<div class="mb-[30px] pb-[30px] border-b border-[#d7d7d7]" id="app2" data-movie-id="<%= @movie.id %>">
   <div class="flex items-center gap-[25px] md:gap-[50px] mb-5 font-SourceProSemiBold antialiased">
     <h3 class="text-[1.4em]">Media</h3>
     <div class="flex items-center gap-3 md:gap-6 text-[0.9em] md:text-[1.1em]">
-      <h4 class="border-b-4 border-black pt-2 pb-1 rounded-b-sm">Most Popular</h4>
-      <h4>Videos <span class="text-black/60">67</span></h4>
-      <h4>Backdrops <span class="text-black/60">93</span></h4>
-      <h4>Posters <span class="text-black/60">398</span></h4>
+      <h4 :class="{media_active_tab: activeTab == 'popular_media'}" class="section-tab">
+        <a href="" @click.prevent="getMedia('popular_media')">Most Popular <span class="text-black/60">67</span></a>
+      </h4>
+      <h4 :class="{media_active_tab: activeTab == 'videos'}" class="section-tab">
+        <a href="" @click.prevent="getMedia('videos')">Videos
+          <span class="text-black/60"><%= @movie.videos.size %></span></a>
+      </h4>
+      <h4 :class="{media_active_tab: activeTab == 'backdrops'}" class="section-tab">
+        <a href="" @click.prevent="getMedia('backdrops')">Backdrops
+          <span class="text-black/60"><%= @movie.backdrops.size %></span></a>
+      </h4>
+      <h4 :class="{media_active_tab: activeTab == 'posters'}" class="section-tab">
+        <a href="" @click.prevent="getMedia('posters')">Posters
+          <span class="text-black/60"><%= @movie.posters.size %></span></a>
+      </h4>
     </div>
   </div>
-  <div class="flex h-[240px] md:h-[300px] overflow-scroll scrollbar pb-0.5 rounded-lg">
-    <img class="h-full" src="https://i.ytimg.com/vi/iqyPvdsOWKk/hqdefault.jpg" alt="">
-    <img src="https://media.themoviedb.org/t/p/w533_and_h300_bestv2/14QbnygCuTO0vl7CAFmPf1fgZfV.jpg" alt="">
-    <img src="https://media.themoviedb.org/t/p/w220_and_h330_face/5weKu49pzJCt06OPpjvT80efnQj.jpg" alt="">
-  </div>
+  <div class="scrollable-wrapper scrollbar cursor-grab active:cursor-grabbing min-h-[300px]">
+    <div v-cloak class="scrollable-content transition-all duration-500 flex pb-0.5 rounded-lg child:shrink-0">
+      <div v-for="(media, index) in media.urls" class="relative bg-black inline-block h-full w-[533px]">
+        <div v-if="media.isVideo">
+          <template v-if="!iframeVideos.includes(index)">
+            <div @click="turnToIframe(index)" class="flex justify-center items-center bg-black/70 absolute w-16 h-16 rounded-full inset-0 my-auto mx-auto text-white">
+              <svg class="w-8 h-8">
+                <use xlink:href="#play"></use>
+              </svg>
+            </div>
+            <img :src="'https://i.ytimg.com/vi/' + media.url + '/hqdefault.jpg'" alt="Thumbnail" class="w-[533px] h-[240px] md:h-[300px] object-cover">
+          </template>
+          <iframe v-else width="533" height="240" :src="'https://www.youtube.com/embed/' + media.url" frameborder="0" allowfullscreen class="w-[533px] h-[240px] md:h-[300px] object-cover"></iframe>
+        </div>
+        <img v-else :src="media.url" alt="" class=" h-[300px]">
+      </div>
+    </div>
 
+
+  </div>
 </div>
+
+
+

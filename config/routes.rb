@@ -14,6 +14,10 @@ Rails.application.routes.draw do
       post 'watchlist', to: 'movies#add_to_watchlist'
       get 'watchlist', to: 'movies#in_watchlist_status'
       delete 'watchlist', to: 'movies#remove_from_watchlist'
+      get 'posters', to: 'movies#get_posters'
+      get 'backdrops', to: 'movies#get_backdrops'
+      get 'videos', to: 'movies#get_videos'
+      get 'popular_media', to: 'movies#popular_media'
     end
   end
 

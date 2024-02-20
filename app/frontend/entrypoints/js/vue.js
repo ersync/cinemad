@@ -21,7 +21,7 @@ export function setupApp() {
   const hoveredRateWidth = ref(rateWidth.value)
 
   // Get movie ID from DOM
-  const movieId = document.getElementById('app').getAttribute('data-movie-id')
+  const movieId = document.getElementById('app1').getAttribute('data-movie-id')
 
   // Fetch initial states of favorite, watchlist, and rate
   const fetchInitialStates = async () => {

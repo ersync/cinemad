@@ -660,9 +660,9 @@ It's always tricky when great directors are involved, so unsurprisingly we witne
 
 # Collections
 
-# Posters
+# Media
 
-movie_poster_mapping = {
+movie_media_mapping = {
   10 => (1..5).to_a,
   11 => (6..10).to_a,
   12 => (11..15).to_a,
@@ -670,9 +670,27 @@ movie_poster_mapping = {
   4 => (21..25).to_a
 }
 
-movie_poster_mapping.each do |movie_id, poster_ids|
-  poster_ids.each do |poster_id|
-    file_path = File.join(Rails.root, "public/movies/posters/#{poster_id}.jpg")
-    Movie.find(movie_id).posters.attach(io: File.open(file_path), filename: "#{poster_id}.jpg")
+movie_media_mapping.each do |movie_id, media_ids|
+  media_ids.each do |media_id|
+    file_path1 = File.join(Rails.root, "public/movies/posters/#{media_id}.jpg")
+    file_path2 = File.join(Rails.root, "public/movies/backdrops/#{media_id}.jpg")
+    Movie.find(movie_id).posters.attach(io: File.open(file_path1), filename: "#{media_id}.jpg")
+    Movie.find(movie_id).backdrops.attach(io: File.open(file_path2), filename: "#{media_id}.jpg")
   end
 end
+
+video_ids = {
+  10 => ["GekkoBitLvM", "vON5kiGf1TI", "0IVzuZTPwJI", "pY8AnmpD-wE", "KdBxX4S3LIM"],
+  11 => ["lhX-IJS82JU", "qdPw9x9h5CY", "mzkVNB3FpSQ", "vmvDCDC9Ylc", "Hz0ToXuAxag", "q_E61O-JZVU"],
+  12 => ["3zebJ_NoduE", "5SVNLZXQcP0", "m8nOcQ6834g", "CxrTRZKCbM0", "r2_Xe7Y5ycE"],
+  13 => ["HYoTGYT0-I4", "1qL1xZNJfV4", "670mbaibo2U", "Esjc0rPj3K4"],
+  4 => ["32RAq6JzY-w", "1w90tQTzJz8", "8oBHRjnQCFE", "hzO1U2hhZ_o", "yyvwReEYUNQ"],
+}
+
+video_ids.each do |movie_id, video_ids|
+  video_ids.each do |url|
+    Video.create!(movie_id: movie_id, url: url)
+  end
+end
+
+

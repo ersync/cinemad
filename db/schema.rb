@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_10_150953) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_17_182818) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -175,6 +175,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_10_150953) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  create_table "videos", force: :cascade do |t|
+    t.bigint "movie_id", null: false
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["movie_id"], name: "index_videos_on_movie_id"
+  end
+
   create_table "watchlist_movies", force: :cascade do |t|
     t.bigint "watchlist_id", null: false
     t.bigint "movie_id", null: false
@@ -208,6 +216,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_10_150953) do
   add_foreign_key "reviews", "users"
   add_foreign_key "user_favorite_movies", "movies"
   add_foreign_key "user_favorite_movies", "users"
+  add_foreign_key "videos", "movies"
   add_foreign_key "watchlist_movies", "movies"
   add_foreign_key "watchlist_movies", "watchlists"
   add_foreign_key "watchlists", "users"

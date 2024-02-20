@@ -246,7 +246,7 @@
     @apply w-full h-9.5 mt-0.5 px-4 py-1.5 bg-white rounded-md border border-tmdbLightGray outline-none;
   }
 
-  .active_tab {
+  .homepage_active_tab {
     @apply bg-tmdbDarkBlue;
     a {
       background: linear-gradient(to right, #c0fecf 0, #1ed5a9 100%);
@@ -256,8 +256,7 @@
     }
   }
 
-  .active_tab_trailers {
-
+  .homepage_trailers_active_tab {
     @apply text-tmdbDarkBlue;
     background: linear-gradient(to right, rgb(var(--tmdbLighterGreen)) 0, rgb(var(--tmdbLightGreen)) 100%);
   }
@@ -267,4 +266,11 @@
   }
 }
 
+.media_active_tab {
+  border-color: black !important;
+}
+
+.section-tab {
+  @apply border-b-4 border-white pt-2 pb-1 rounded-b-sm transition-all duration-300
+}
 

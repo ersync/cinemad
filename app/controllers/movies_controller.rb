@@ -116,15 +116,56 @@ class MoviesController < ApplicationController
     user_rating = current_user.ratings&.find_by(movie_id: @movie.id)
     if user_rating.present?
       render json: { success: true, isRated: true, rate: user_rating.score }
-      return
     else
       render json: { success: false, isRated: false }
     end
+  rescue => e
+    render json: { success: false, error: e.message }, status: :unprocessable_entity
+  end
+
+  def get_posters
+    render_media_urls_json(@movie.posters, 'No posters found for the movie')
+  end
+
+  def get_backdrops
+    render_media_urls_json(@movie.backdrops, 'No backdrops found for the movie')
+  end
+
+  def get_videos
+    render_media_urls_json(@movie.videos.order(:id), 'No videos found for the movie') { |video| { url: video.url, isVideo: true } }
+  end
+
+  def popular_media
+    random_videos = @movie.videos.order(Arel.sql('RANDOM()')).limit(2).map { |video| { url: video.url, isVideo: true } }
+
+    random_backdrops = @movie.backdrops.order(Arel.sql('RANDOM()')).limit(2).map { |backdrop| { url: rails_blob_url(backdrop), isVideo: false } }
+
+    urls = random_videos + random_backdrops
+
+    render json: { urls: urls }, status: :ok
+
   end
 
   private
 
   def get_movie
     @movie = Movie.find(params[:id])
+  end
+
+  def render_media_urls_json(media, error_message)
+    if media.present?
+      urls = block_given? ? media.map { |item| yield(item) } : media.map { |item| { url: rails_blob_url(item), isVideo: false } }
+      render json: { success: true, urls: urls }, status: :ok
+    else
+      render_json_error(error_message)
+    end
+  end
+
+  def render_boolean_json(key, value)
+    render json: { key => value }
+  end
+
+  def render_json_error(message)
+    render json: { success: false, error: message }, status: :unprocessable_entity
   end
 end
