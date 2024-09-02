@@ -4,16 +4,19 @@ Rails.application.routes.draw do
 
   resources :movies do
     member do
-      post 'rate', to: 'movies#rate'
+      post 'rate', to: 'movies#set_rate'
       delete 'rate', to: 'movies#unrate'
-      get 'rate', to: 'movies#rating_status'
+      get 'rate', to: 'movies#get_rate'
       get 'avg_rate', to: 'movies#avg_rate'
+
       post 'favorite', to: 'movies#favorite'
       get 'favorite', to: 'movies#favorite_status'
       delete 'favorite', to: 'movies#unfavorite'
+
       post 'watchlist', to: 'movies#add_to_watchlist'
       get 'watchlist', to: 'movies#in_watchlist_status'
       delete 'watchlist', to: 'movies#remove_from_watchlist'
+
       get 'posters', to: 'movies#get_posters'
       get 'backdrops', to: 'movies#get_backdrops'
       get 'videos', to: 'movies#get_videos'

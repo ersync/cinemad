@@ -12,7 +12,6 @@ export function setupApp2() {
 
   const getMedia = async (mediaType) => {
 
-
     try {
       const response = await Fetch.get(`/movies/${movieId}/${mediaType}`)
       media.value.urls = response.urls

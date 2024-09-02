@@ -26,19 +26,22 @@ export function setupApp() {
   // Fetch initial states of favorite, watchlist, and rate
   const fetchInitialStates = async () => {
     try {
+
       const [rateData, favoriteData, watchlistData] = await Promise.all([
         Fetch.get(`/movies/${movieId}/rate`),
         Fetch.get(`/movies/${movieId}/favorite`),
         Fetch.get(`/movies/${movieId}/watchlist`)
       ])
+
       // Handle rate data
       if (rateData.isRated) {
-        rate.value = rateData.rate
+        rate.value = rateData.score
         hoveredRateWidth.value = rateWidth.value
       }
 
       // Handle favorite and watchlist data
       isFavorite.value = favoriteData.isFavorite
+      console.log(isFavorite.value)
       isInWatchlist.value = watchlistData.isInWatchlist
     } catch (error) {
       console.error('Error fetching initial data:', error)
@@ -65,19 +68,22 @@ export function setupApp() {
     }
   }, 300)
 
-  // Unset rate of the movie
+// Unset rate of the movie
   const unsetRate = async (event) => {
     try {
       NProgress.start()
       const {isRated} = await Fetch.delete(`/movies/${movieId}/rate`)
+
       if (!isRated) {
         NProgress.done()
         rate.value = 0
         fetchAvgRate(movieId)
+      } else {
         throw new Error('Failed to unset movie rate')
       }
     } catch (error) {
-      console.error('Error unsetting movie rate:', error)
+      NProgress.done() // Ensure progress is stopped in case of error
+      console.error('Errorqqqunsetting movie rate:', error)
     }
   }
 
@@ -135,6 +141,7 @@ export function setupApp() {
 
   // Toggle favorite status
   const toggleFavorite = _.debounce(() => {
+
     isFavorite.value ? updateState('favorite', 'delete', 'isFavorite', movieId)
       : updateState('favorite', 'post', 'isFavorite', movieId)
   }, 200)
@@ -166,6 +173,7 @@ export function setupApp() {
   onMounted(async () => {
     await fetchInitialStates()
     await fetchAvgRate(movieId)
+    console.log(rateWidth)
   })
 
   // Compute rate class

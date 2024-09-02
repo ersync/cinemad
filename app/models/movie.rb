@@ -31,22 +31,20 @@ class Movie < ApplicationRecord
 
   has_many :videos
 
-  def self.random_recommendations(limit = 7)
-    Movie.where(id: [4, 10, 11, 12, 13]).order('RANDOM()').limit(limit)
+  scope :random, ->(limit = 12) { offset(rand(count - limit)).limit(limit) }
+  scope :random_recommendations, ->(limit = 7) { where(id: [4, 10, 11, 12, 13]).order(Arel.sql('RANDOM()')).limit(limit) }
+
+  def crew_members
+    people.includes(movie_people: :role).where.not(movie_people: { movie_people: { role_id: 1 } })
   end
 
-  def cast
+  def cast_members
     people.includes(:movie_people)
           .where(movie_people: { role_id: 1 })
           .order(created_at: :asc)
   end
 
-  def self.random_movies(limit = 12)
-    offset = rand(Movie.count - limit)
-    Movie.offset(offset).limit(limit)
-  end
-
-  def avg_rate
+  def average_rating
     ratings.average(:score).to_i || 0
   end
 end
