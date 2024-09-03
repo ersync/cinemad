@@ -29,8 +29,4 @@ class MovieMediaService
     { url: rails_blob_url(media, host: "localhost:3000"), isVideo: false }
   end
 
-  def render_boolean_json(key, value)
-    render json: { key => value }
-  end
-
 end
