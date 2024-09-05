@@ -1,21 +1,28 @@
 const {createApp} = Vue
-import Fetch from './js/fetch'
-import {setupApp} from './js/vue'
-import {setupApp2} from './js/vue2'
-import axios from 'axios'
-import NProgress from 'nprogress'
+import {initializeDOM} from "../services/domManipulations"
+import {movieRatingWidget} from '../vue/components/movieRatingWidget'
+import {mediaGalleryWidget} from '../vue/components/mediaGalleryWidget'
 import 'nprogress/nprogress.css'
-import {initializeEasyPieChart} from "./easypiechart"
-import {initializeDOM} from "./js/domManipulations"
+
+const movieId = document.getElementById('movie-rating-container').getAttribute('data-movie-id')
 
 console.log('Vite ⚡️ Rails')
 
+// Initialize the movie rating widget
+const movieRatingApp = createApp({
+  setup() {
+    return movieRatingWidget(movieId)
+  }
+})
+movieRatingApp.mount('#movie-rating-container')
 
-const app1 = createApp({setup: setupApp})
-app1.mount('#app1')
+// Initialize the media gallery widget
+const mediaGalleryApp = createApp({
+  setup() {
+    return mediaGalleryWidget(movieId)
+  }
+})
+mediaGalleryApp.mount('#media-gallery-container')
 
-const app2 = createApp({setup: setupApp2})
-app2.mount('#app2')
-
+// Initialize DOM manipulations
 initializeDOM()
-

@@ -1,5 +1,3 @@
-# spec/services/rating_service_spec.rb
-
 require 'rails_helper'
 
 RSpec.describe RatingService do
