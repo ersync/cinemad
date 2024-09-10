@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_17_182818) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_11_052614) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -43,6 +43,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_17_182818) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "availabilities", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -59,6 +65,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_17_182818) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "movie_availabilities", force: :cascade do |t|
+    t.bigint "movie_id", null: false
+    t.bigint "availability_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["availability_id"], name: "index_movie_availabilities_on_availability_id"
+    t.index ["movie_id", "availability_id"], name: "index_movie_availabilities_on_movie_id_and_availability_id", unique: true
+    t.index ["movie_id"], name: "index_movie_availabilities_on_movie_id"
   end
 
   create_table "movie_categories", force: :cascade do |t|
@@ -89,6 +105,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_17_182818) do
     t.index ["movie_id"], name: "index_movie_people_on_movie_id"
     t.index ["person_id"], name: "index_movie_people_on_person_id"
     t.index ["role_id"], name: "index_movie_people_on_role_id"
+  end
+
+  create_table "movie_release_formats", force: :cascade do |t|
+    t.bigint "movie_id", null: false
+    t.bigint "release_format_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["movie_id"], name: "index_movie_release_formats_on_movie_id"
+    t.index ["release_format_id"], name: "index_movie_release_formats_on_release_format_id"
   end
 
   create_table "movies", force: :cascade do |t|
@@ -133,6 +158,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_17_182818) do
     t.index ["movie_id"], name: "index_ratings_on_movie_id"
     t.index ["user_id", "movie_id"], name: "index_ratings_on_user_id_and_movie_id", unique: true
     t.index ["user_id"], name: "index_ratings_on_user_id"
+  end
+
+  create_table "release_formats", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -202,6 +233,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_17_182818) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "movie_availabilities", "availabilities"
+  add_foreign_key "movie_availabilities", "movies"
   add_foreign_key "movie_categories", "categories"
   add_foreign_key "movie_categories", "movies"
   add_foreign_key "movie_keywords", "keywords"
@@ -209,6 +242,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_17_182818) do
   add_foreign_key "movie_people", "movies"
   add_foreign_key "movie_people", "people"
   add_foreign_key "movie_people", "roles"
+  add_foreign_key "movie_release_formats", "movies"
+  add_foreign_key "movie_release_formats", "release_formats"
   add_foreign_key "movies", "collections"
   add_foreign_key "ratings", "movies"
   add_foreign_key "ratings", "users"

@@ -1,19 +1,33 @@
+# users
+
+User.create!(username: "user1", email: "user1@example.com", password: "user1@example.com", password_confirmation: "user1@example.com")
+User.create!(username: "user2", email: "user2@example.com", password: "user2@example.com", password_confirmation: "user2@example.com")
+User.create!(username: "user3", email: "user3@example.com", password: "user3@example.com", password_confirmation: "user3@example.com")
+User.create!(username: "user4", email: "user4@example.com", password: "user4@example.com", password_confirmation: "user4@example.com")
+User.create!(username: "user5", email: "user5@example.com", password: "user5@example.com", password_confirmation: "user5@example.com")
+User.create!(username: "user6", email: "user6@example.com", password: "user6@example.com", password_confirmation: "user6@example.com")
+User.create!(username: "user7", email: "user7@example.com", password: "user7@example.com", password_confirmation: "user7@example.com")
+User.create!(username: "user8", email: "user8@example.com", password: "user8@example.com", password_confirmation: "user8@example.com")
+User.create!(username: "user9", email: "user9@example.com", password: "user9@example.com", password_confirmation: "user9@example.com")
+User.create!(username: "user10", email: "user10@example.com", password: "user10@example.com", password_confirmation: "user10@example.com")
+
 Category.create!([{ name: 'Horror' }, { name: 'Thriller' }, { name: 'Mystery' }, { name: 'Crime' }, { name: 'Action' }, { name: 'Science Fiction' }, { name: 'Drama' }])
+
 Role.create!([{ name: 'cast' }, { name: 'director' }, { name: 'writer' }, { name: 'screenplay' }, { name: 'story' }, { name: 'novel' }, { name: 'characters' }])
 
-Movie.create!(title: "John Wick: Chapter 4", language: "English", age_rating: "R", budget: "44285000", duration: 170, release_date: Date.new(2023, 03, 24), revenue: "123456789.24", tagline: "No way back, one way out.", overview: "With the price on his head ever increasing, John Wick uncovers a path to defeating The High Table. But before he can earn his freedom, Wick must face off against a new enemy with powerful alliances across the globe and forces that turn old friends into foes.", image_filename: "john_wick.jpg", gradient_color: "#331F1F")
-Movie.create!(title: "The Little Mermaid", language: "English", age_rating: "PG", budget: "44285000", duration: 135, release_date: Date.new(2023, 05, 26), revenue: "123456789.24", tagline: "Watch and you'll see, some day I'll be, part of your world!", overview: "The youngest of King Triton’s daughters, and the most defiant, Ariel longs to find out more about the world beyond the sea, and while visiting the surface, falls for the dashing Prince Eric. With mermaids forbidden to interact with humans, Ariel makes a deal with the evil sea witch, Ursula, which gives her a chance to experience life on land, but ultimately places her life – and her father’s crown – in jeopardy.", image_filename: "little_mermaid.jpg", gradient_color: "#331F1F")
-Movie.create!(title: "FUBAR", language: "English", age_rating: "TV-MA", budget: "44285000", duration: 101, release_date: Date.new(2023, 05, 19), revenue: "123456789.24", tagline: "Heroes don't retire. They reload.", overview: "When a father and daughter discover they both secretly work for the CIA, an already dicey undercover mission turns into a dysfunctional family affair.", image_filename: "john_wick.jpg", gradient_color: "#331F1F")
-Movie.create!(title: "Fast X", language: "English", age_rating: "PG-13", budget: "44285000", duration: 142, release_date: Date.new(2001, 10, 8), revenue: "123456789.24", tagline: "The end of the road begins.", overview: "Over many missions and against impossible odds, Dom Toretto and his family have outsmarted, out,nerved and outdriven every foe in their path. Now, they confront the most lethal opponent they've ever faced: A terrifying threat emerging from the shadows of the past who's fueled by blood revenge, and who is determined to shatter this family and destroy everything—and everyone—that Dom loves, forever.", image_filename: "fast_x.jpg", gradient_color: "#1F1F1F")
-Movie.create!(title: "Blood & Gold", language: "English", age_rating: "R", budget: "44285000", duration: 100, release_date: Date.new(2023, 05, 26), revenue: "123456789.24", overview: "At the end of World War II, a German soldier is looking for his daughter while an SS troop is looking for a Jewish treasure.", image_filename: "fubar.jpeg", gradient_color: "#331F1F")
-Movie.create!(title: "The Super Mario Bros. Movie", language: "English", age_rating: "PG", budget: "44285000", duration: 92, release_date: Date.new(2023, 04, 05), revenue: "123456789.24", overview: "While working underground to fix a water main, Brooklyn plumbers—and brothers—Mario and Luigi are transported down a mysterious pipe and wander into a magical new world. But when the brothers are separated, Mario embarks on an epic quest to find Luigi.", image_filename: "super_mario.jpg", gradient_color: "#331F1F")
-Movie.create!(title: "Dungeons & Dragons: Honor Among Thieves", language: "English", age_rating: "PG-13", budget: "44285000", duration: 134, release_date: Date.new(2023, 03, 31), revenue: "123456789.24", tagline: "No experience necessary.", overview: "A charming thief and a band of unlikely adventurers undertake an epic heist to retrieve a lost relic, but things go dangerously awry when they run afoul of the wrong people.", image_filename: "dungeons.jpg", gradient_color: "#331F1F")
-Movie.create!(title: "Tin & Tina", language: "English", age_rating: "16", budget: "44285000", duration: 119, release_date: Date.new(2023, 05, 26), revenue: "123456789.24", overview: "After a traumatic miscarriage, Lola and her husband Adolfo adopt Tin and Tina, a lovely albino brother and sister with an ultra,catholic education that makes them interpret Holy Bible verbatim.", image_filename: "tin_tina.jpg", gradient_color: "#331F1F")
-Movie.create!(title: "Succession", language: "English", age_rating: "TV-MA", budget: "44285000", duration: 101, release_date: Date.new(2001, 10, 18), revenue: "123456789.24", tagline: "Make your move.", overview: "Follow the lives of the Roy family as they contemplate their future once their aging father begins to step back from the media and entertainment conglomerate they control.", image_filename: "succession.jpg", gradient_color: "#331F1F")
-Movie.create!(title: "The Others", language: "English", age_rating: "PG-13", budget: "17000000.00", duration: 101, release_date: Date.new(2001, 10, 8), revenue: "21000000000", tagline: "Sooner or later they’ll find you.", overview: "Grace is a religious woman who lives in an old house kept dark because her two children, Anne and Nicholas, have a rare sensitivity to light. When the family begins to suspect the house is haunted, Grace fights to protect her children at any cost in the face of strange events and disturbing visions.", image_filename: "the_others.jpg", gradient_color: "#331F1F")
-Movie.create!(title: "Shutter Island", language: "English", age_rating: "R", budget: "17,000,000.00", duration: 138, release_date: Date.new(2010, 2, 19), revenue: "294800000.24", tagline: "Some places never let you go.", overview: "World War II soldier-turned-U.S. Marshal Teddy Daniels investigates the disappearance of a patient from a hospital for the criminally insane, but his efforts are compromised by troubling visions and a mysterious doctor.", image_filename: "shutter_island.jpg", gradient_color: "#0a1f1f")
-Movie.create!(title: "Face/Off", language: "English", age_rating: "R", budget: "44285000", duration: 138, release_date: Date.new(1997, 06, 27), revenue: "245676146.24", tagline: "In order to trap him, he must become him.", overview: "In order to foil a terrorist plot, an FBI agent undergoes facial transplant surgery and assumes the identity of a criminal mastermind. The plan turns sour when the criminal wakes up prematurely and seeks revenge.", image_filename: "face_off.jpg", gradient_color: "#dcb29d")
-Movie.create!(title: "Cube", language: "English", age_rating: "R", budget: "44285000", duration: 90, release_date: Date.new(1998, 8, 11), revenue: "8969065.00", tagline: "Don't look for a reason... Look for a way out.", overview: "A group of strangers find themselves trapped in a maze-like prison. It soon becomes clear that each of them possesses the peculiar skills necessary to escape, if they don't wind up dead first.", image_filename: "cube.jpg", gradient_color: "#344973")
+Movie.create!(title: "John Wick: Chapter 4", language: "en", age_rating: "R", budget: "44285000", duration: 170, release_date: Date.new(2023, 03, 24), revenue: "123456789.24", tagline: "No way back, one way out.", overview: "With the price on his head ever increasing, John Wick uncovers a path to defeating The High Table. But before he can earn his freedom, Wick must face off against a new enemy with powerful alliances across the globe and forces that turn old friends into foes.", image_filename: "john_wick.jpg", gradient_color: "#331F1F")
+Movie.create!(title: "The Little Mermaid", language: "en", age_rating: "PG", budget: "44285000", duration: 135, release_date: Date.new(2023, 05, 26), revenue: "123456789.24", tagline: "Watch and you'll see, some day I'll be, part of your world!", overview: "The youngest of King Triton’s daughters, and the most defiant, Ariel longs to find out more about the world beyond the sea, and while visiting the surface, falls for the dashing Prince Eric. With mermaids forbidden to interact with humans, Ariel makes a deal with the evil sea witch, Ursula, which gives her a chance to experience life on land, but ultimately places her life – and her father’s crown – in jeopardy.", image_filename: "little_mermaid.jpg", gradient_color: "#331F1F")
+Movie.create!(title: "FUBAR", language: "es", age_rating: "TV-MA", budget: "44285000", duration: 101, release_date: Date.new(2023, 05, 19), revenue: "123456789.24", tagline: "Heroes don't retire. They reload.", overview: "When a father and daughter discover they both secretly work for the CIA, an already dicey undercover mission turns into a dysfunctional family affair.", image_filename: "john_wick.jpg", gradient_color: "#331F1F")
+Movie.create!(title: "Fast X", language: "it", age_rating: "PG-13", budget: "44285000", duration: 142, release_date: Date.new(2001, 10, 8), revenue: "123456789.24", tagline: "The end of the road begins.", overview: "Over many missions and against impossible odds, Dom Toretto and his family have outsmarted, out,nerved and outdriven every foe in their path. Now, they confront the most lethal opponent they've ever faced: A terrifying threat emerging from the shadows of the past who's fueled by blood revenge, and who is determined to shatter this family and destroy everything—and everyone—that Dom loves, forever.", image_filename: "fast_x.jpg", gradient_color: "#1F1F1F")
+Movie.create!(title: "Blood & Gold", language: "ko", age_rating: "R", budget: "44285000", duration: 100, release_date: Date.new(2023, 05, 26), revenue: "123456789.24", overview: "At the end of World War II, a German soldier is looking for his daughter while an SS troop is looking for a Jewish treasure.", image_filename: "fubar.jpeg", gradient_color: "#331F1F")
+Movie.create!(title: "The Super Mario Bros. Movie", language: "ko", age_rating: "PG", budget: "44285000", duration: 92, release_date: Date.new(2023, 04, 05), revenue: "123456789.24", overview: "While working underground to fix a water main, Brooklyn plumbers—and brothers—Mario and Luigi are transported down a mysterious pipe and wander into a magical new world. But when the brothers are separated, Mario embarks on an epic quest to find Luigi.", image_filename: "super_mario.jpg", gradient_color: "#331F1F")
+Movie.create!(title: "Dungeons & Dragons: Honor Among Thieves", language: "ja", age_rating: "PG-13", budget: "44285000", duration: 134, release_date: Date.new(2023, 03, 31), revenue: "123456789.24", tagline: "No experience necessary.", overview: "A charming thief and a band of unlikely adventurers undertake an epic heist to retrieve a lost relic, but things go dangerously awry when they run afoul of the wrong people.", image_filename: "dungeons.jpg", gradient_color: "#331F1F")
+Movie.create!(title: "Tin & Tina", language: "en", age_rating: "16", budget: "44285000", duration: 119, release_date: Date.new(2023, 05, 26), revenue: "123456789.24", overview: "After a traumatic miscarriage, Lola and her husband Adolfo adopt Tin and Tina, a lovely albino brother and sister with an ultra,catholic education that makes them interpret Holy Bible verbatim.", image_filename: "tin_tina.jpg", gradient_color: "#331F1F")
+Movie.create!(title: "Succession", language: "en", age_rating: "TV-MA", budget: "44285000", duration: 101, release_date: Date.new(2001, 10, 18), revenue: "123456789.24", tagline: "Make your move.", overview: "Follow the lives of the Roy family as they contemplate their future once their aging father begins to step back from the media and entertainment conglomerate they control.", image_filename: "succession.jpg", gradient_color: "#331F1F")
+Movie.create!(title: "The Others", language: "en", age_rating: "PG-13", budget: "17000000.00", duration: 101, release_date: Date.new(2001, 10, 8), revenue: "21000000000", tagline: "Sooner or later they’ll find you.", overview: "Grace is a religious woman who lives in an old house kept dark because her two children, Anne and Nicholas, have a rare sensitivity to light. When the family begins to suspect the house is haunted, Grace fights to protect her children at any cost in the face of strange events and disturbing visions.", image_filename: "the_others.jpg", gradient_color: "#331F1F")
+Movie.create!(title: "Shutter Island", language: "en", age_rating: "R", budget: "17,000,000.00", duration: 138, release_date: Date.new(2010, 2, 19), revenue: "294800000.24", tagline: "Some places never let you go.", overview: "World War II soldier-turned-U.S. Marshal Teddy Daniels investigates the disappearance of a patient from a hospital for the criminally insane, but his efforts are compromised by troubling visions and a mysterious doctor.", image_filename: "shutter_island.jpg", gradient_color: "#0a1f1f")
+Movie.create!(title: "Face/Off", language: "fr", age_rating: "R", budget: "44285000", duration: 138, release_date: Date.new(1997, 06, 27), revenue: "245676146.24", tagline: "In order to trap him, he must become him.", overview: "In order to foil a terrorist plot, an FBI agent undergoes facial transplant surgery and assumes the identity of a criminal mastermind. The plan turns sour when the criminal wakes up prematurely and seeks revenge.", image_filename: "face_off.jpg", gradient_color: "#dcb29d")
+Movie.create!(title: "Cube", language: "en", age_rating: "R", budget: "44285000", duration: 90, release_date: Date.new(1998, 8, 11), revenue: "8969065.00", tagline: "Don't look for a reason... Look for a way out.", overview: "A group of strangers find themselves trapped in a maze-like prison. It soon becomes clear that each of them possesses the peculiar skills necessary to escape, if they don't wind up dead first.", image_filename: "cube.jpg", gradient_color: "#344973")
 
 Person.create!(name: "Vin Diesel", profession: "actor", gender: "male", date_of_birth: "1967-07-18", place_of_birth: "Alameda County, California, USA", credits: 83, biography: "Mark Sinclair (born July 18, 1967), known professionally as Vin Diesel, is an American actor and producer. One of the world's highest-grossing actors, he is best known for playing Dominic Toretto in the Fast & Furious franchise. Diesel began his career in 1990, but faced difficulty achieving recognition until he wrote, directed and starred in the short film Multi-Facial (1995) and his debut feature Strays (1997); the films prompted Steven Spielberg to cast Diesel in the war epic Saving Private Ryan (1998). Diesel subsequently voiced the titular character in The Iron Giant (1999) and then gained a reputation as an action star after headlining the Fast & Furious, XXX, and The Chronicles of Riddick franchises. He is slated to appear in the upcoming Avatar films. Diesel voices Groot and Groot II in the Marvel Cinematic Universe (MCU); he portrayed the characters in six superhero films, beginning with Guardians of the Galaxy (2014). Diesel has reprised his role as Groot for the Disney+ animated shorts series I Am Groot (2022–present), the television special The Guardians of the Galaxy Holiday Special (2022), and the animated film Ralph Breaks the Internet (2018). Diesel achieved commercial success in the comedy The Pacifier (2005) and his portrayal of Jackie DiNorscio in Find Me Guilty (2006) was praised. He founded the production company One Race Films, where he has also served as a producer or executive producer for his star vehicles. Diesel also founded the record label Racetrack Records and video game developer Tigon Studios, providing his voice and motion capture for all of Tigon's releases. Description above from the Wikipedia article Vin Diesel, licensed under CC-BY-SA, full list of contributors on Wikipedia.", image_filename: "vin.jpg")
 Person.create!(name: "Michelle Rodriguez", profession: "actor", gender: "female", date_of_birth: "1978-07-12", place_of_birth: "Bexar County, Texas, USA", credits: 67, biography: 'Mayte Michelle Rodríguez (born July 12, 1978), known professionally as Michelle Rodriguez, is an American actress, screenwriter, and DJ. She got her breakout role as a troubled boxer in the independent film Girlfight (2000), which was met with critical acclaim and earned her several awards, including the Independent Spirit Award and Gotham Award for Best Debut Performance. The following year, she starred as Letty Ortiz in the blockbuster film The Fast and the Furious (2001), reprising her role in its sequels Fast & Furious (2009), Fast & Furious 6 (2013), and Furious 7 (2015). During her career, Rodriguez has played tough, independent women in a number of successful action films, such as Blue Crush, S.W.A.T., Battle: Los Angeles, and Avatar. She is also known for her roles as Shé in the action comedy films Machete and Machete Kills, and Rain Ocampo in the science fiction films Resident Evil and Resident Evil: Retribution. Rodriguez also branched into television, playing Ana Lucia Cortez in the second season of the series Lost as part of the main cast, before making numerous guest appearances before the series ended. She has also done voice work in video games such as Call of Duty and Halo, and lent her voice for the 3D animated film Turbo and the television series IGPX. With her films grossing over $5 billion collectively, a 2013 Entertainment Weekly article described Rodriguez as "arguably the most iconic actress in the action genre, as well as one of the most visible Latinas in Hollywood".', image_filename: "michelle.jpg")
@@ -450,11 +464,11 @@ Person.create!(name: "André Bijelic",
 )
 
 movies_and_categories = {
-  'The Others' => ['Horror', 'Thriller', 'Mystery'],
-  'Fast X' => ['Action', 'Crime', 'Thriller'],
-  'Face/Off' => ['Action', 'Crime', 'Science Fiction', 'Thriller'],
-  'Cube' => ['Thriller', 'Science Fiction', 'Mystery'],
-  'Shutter Island' => ['Drama', 'Thriller', 'Mystery']
+  'The Others' => ['horror', 'thriller', 'mystery'],
+  'Fast X' => ['action', 'crime', 'thriller'],
+  'Face/Off' => ['action', 'crime', 'Science fiction', 'thriller'],
+  'Cube' => ['thriller', 'science fiction', 'mystery'],
+  'Shutter Island' => ['drama', 'thriller', 'mystery']
 }
 
 movies_and_categories.each do |movie_title, category_names|
@@ -604,10 +618,6 @@ end
 keyword_ids = (1..25).to_a
 Movie.find(10).keywords << Keyword.find(keyword_ids)
 
-# users
-
-User.create!(username: "foo", email: "foo@bar.com", password: "foobar", password_confirmation: "foobar")
-
 # reviews
 
 Review.create!(user_id: 1, movie_id: 12, rating: 5.0, content: %{t's like looking in a mirror, only, not.
@@ -693,4 +703,77 @@ video_ids.each do |movie_id, video_ids|
   end
 end
 
+availabilities = %w[stream free add buy rent]
+availabilities.each do |availability_type|
+  Availability.find_or_create_by(name: availability_type)
+end
 
+release_formats = %w[theatrical premier digital physical TV]
+release_formats.each do |release_format|
+  ReleaseFormat.find_or_create_by(name: release_format)
+end
+
+def create_movie_availabilities(movie_id, availabilities)
+  availabilities.each do |availability_id|
+    MovieAvailability.create!(
+      movie_id: movie_id,
+      availability_id: availability_id
+    )
+  end
+end
+
+sample_availabilities = {
+  1 => [1],
+  2 => [1, 2],
+  3 => [2, 3],
+  4 => [2],
+  5 => [3],
+  6 => [1, 4],
+  7 => [1, 2, 4],
+  8 => [1],
+  9 => [2],
+  10 => [3],
+  11 => [4],
+  12 => [1, 3],
+  13 => [2, 4],
+}
+
+sample_availabilities.each do |movie_id, availability_ids|
+  create_movie_availabilities(movie_id, availability_ids)
+end
+
+sample_release_formats = {
+  1 => [1],
+  2 => [1, 2],
+  3 => [2, 3],
+  4 => [2],
+  5 => [3],
+  6 => [1, 4],
+  7 => [1, 2, 4],
+  8 => [1],
+  9 => [2],
+  10 => [3],
+  11 => [4],
+  12 => [1, 3],
+  13 => [2, 4],
+}
+
+# Helper method to create movie release formats
+def create_movie_release_formats(movie_id, release_formats)
+  release_formats.each do |release_format_id|
+    MovieReleaseFormat.create!(
+      movie_id: movie_id,
+      release_format_id: release_format_id
+    )
+  end
+end
+
+sample_release_formats.each do |movie_id, release_formats_ids|
+  create_movie_release_formats(movie_id, release_formats_ids)
+end
+
+(1..10).each do |user_id|
+  (1..13).each do |movie_id|
+    Rating.create(user_id: user_id, movie_id: movie_id, score: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100].sample)
+  end
+end
