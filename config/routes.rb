@@ -39,4 +39,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "movies#home"
+
+  resources :keywords, only: [] do
+    collection do
+      get :search
+    end
+  end
 end
