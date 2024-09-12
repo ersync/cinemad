@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  mode: 'jit',
   darkMode: 'class',
   content: [
     './app/helpers/**/*.rb',
@@ -56,10 +57,10 @@ module.exports = {
   },
   plugins: [
     function ({addVariant}) {
-      addVariant('child', '& > *');
-      addVariant('child-hover', '& > *:hover');
-      addVariant('last-child-p', '& > p:last-of-type');
-    }
+      addVariant('child', '& > *')
+      addVariant('child-hover', '& > *:hover')
+      addVariant('last-child-p', '& > p:last-of-type')
+    },
   ],
 }
 
