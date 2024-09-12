@@ -1,0 +1,9 @@
+<%= filter_box(title: 'Filters') do %>
+  <%= render 'movies/filters/show_me', f: f %>
+  <%= render 'movies/filters/availabilities', f: f %>
+  <%= render 'movies/filters/release', f: f %>
+  <%= render 'movies/filters/genres', f: f %>
+  <%= render 'movies/filters/certifications', f: f %>
+  <%= render 'movies/filters/language', f: f %>
+  <%= render 'movies/filters/keywords', f: f %>
+<% end %>

@@ -21,6 +21,12 @@ class Movie < ApplicationRecord
   has_many :ratings
   has_many :users, through: :ratings
 
+  has_many :movie_availabilities
+  has_many :availabilities, through: :movie_availabilities
+
+  has_many :movie_release_formats
+  has_many :release_formats, through: :movie_release_formats
+
   belongs_to :collection, optional: true
 
   has_many :watchlist_movies
@@ -31,8 +37,44 @@ class Movie < ApplicationRecord
 
   has_many :videos
 
+  scope :seen, ->(user_id) { joins(:ratings).where(ratings: { user_id: user_id }) }
+  scope :unseen, ->(user_id) {
+    where.not(id: Rating.where(user_id: user_id).select(:movie_id))
+  }
   scope :random, ->(limit = 12) { offset(rand(count - limit)).limit(limit) }
   scope :random_recommendations, ->(limit = 7) { where(id: [4, 10, 11, 12, 13]).order(Arel.sql('RANDOM()')).limit(limit) }
+
+  scope :by_genres, ->(genres) {
+    joins(:categories).where(categories: { name: genres }) if genres.present?
+  }
+
+  scope :by_language, ->(language) {
+    where(language: language) if language.present?
+  }
+
+  scope :sort_by_field, ->(sort_by) {
+    case sort_by
+    when 'popularity_desc'
+      order(revenue: :desc)
+    when 'popularity_asc'
+      order(revenue: :asc)
+    when 'rating_desc', 'rating_asc'
+      select('movies.*, COALESCE(AVG(ratings.score), 0) as avg_rating')
+        .left_joins(:ratings)
+        .group('movies.id')
+        .order("avg_rating #{sort_by.ends_with?('desc') ? 'DESC' : 'ASC'}")
+    when 'release_date_desc'
+      order(release_date: :desc)
+    when 'release_date_asc'
+      order(release_date: :asc)
+    when 'title_desc'
+      order(title: :desc)
+    when 'title_asc'
+      order(title: :asc)
+    else
+      order(:id)
+    end
+  }
 
   def crew_members
     people.includes(movie_people: :role).where.not(movie_people: { movie_people: { role_id: 1 } })
@@ -47,4 +89,9 @@ class Movie < ApplicationRecord
   def average_rating
     ratings.average(:score).to_i || 0
   end
+
+  # def self.filter_and_sort(sort_by)
+  #   MovieSorter.new(sort_by).call
+  # end
+
 end

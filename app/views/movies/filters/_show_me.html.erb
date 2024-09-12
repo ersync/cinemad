@@ -1,0 +1,18 @@
+<div class="filter-section">
+  <h2 class="font-SourceProLight">Show Me</h2>
+
+  <label class="flex items-center">
+    <%= f.radio_button :watch_status, 'all', checked: true, class: "form-radio text-base" %>
+    <span class="ml-2">Everything</span>
+  </label>
+
+  <label class="flex items-center">
+    <%= f.radio_button :watch_status, 'unwatched', class: "form-radio text-base" %>
+    <span class="ml-2">Movies I Haven't Seen</span>
+  </label>
+
+  <label class="flex items-center">
+    <%= f.radio_button :watch_status, 'watched', class: "form-radio text-base" %>
+    <span class="ml-2">Movies I Have Seen</span>
+  </label>
+</div>

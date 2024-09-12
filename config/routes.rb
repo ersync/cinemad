@@ -3,6 +3,11 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :movies do
+
+    collection do
+      match '/', to: 'movies#index', via: [:get, :post]
+    end
+
     member do
       post 'rate', to: 'movies#set_rate'
       delete 'rate', to: 'movies#unrate'

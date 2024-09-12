@@ -1,0 +1,15 @@
+<%= form_with url: movies_path, method: :post, local: true, class: "w-1/5 min-w-[260px] flex flex-col justify-start items-center child:w-full", data: { controller: "search-form" } do |f| %>
+  <%= render 'movies/filters/sort', f: f %>
+  <%= render 'movies/filters/where_to_watch', f: f %>
+  <%= render 'movies/filters/filters', f: f %>
+
+  <!-- Main search button -->
+  <div id="main-search-btn" class="w-full mt-2">
+    <%= f.submit "Search", id: "main-btn", class: "btn-primary" %>
+  </div>
+
+  <!-- Sticky search button (hidden by default) -->
+  <div id="sticky-search-btn" class="hidden fixed bottom-0 left-0 w-full bg-tmdbLighterBlue p-4 shadow-lg">
+    <%= f.submit "Search", class: "btn-primary" %>
+  </div>
+<% end %>

@@ -27,10 +27,10 @@ development:
   # To create additional roles in PostgreSQL see `$ createuser --help`.
   # When left blank, PostgreSQL will use the default role. This is
   # the same name as the operating system user running Rails.
-  username: <%= ENV.fetch("TMDB_CLONE_DATABASE_USERNAME") %>
+  username: <%= ENV.fetch("PGUSER") %>
 
   # The password associated with the PostgreSQL role (username).
-  password: <%= ENV.fetch("TMDB_CLONE_DATABASE_PASSWORD") %>
+  password: <%= ENV.fetch("PGPASSWORD") %>
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
@@ -57,9 +57,9 @@ test:
   <<: *default
   database: tmdb_clone_test
 
-  username: <%= ENV.fetch("TMDB_CLONE_DATABASE_USERNAME") %>
+  username: <%= ENV.fetch("PGUSER") %>
 
-  password: <%= ENV.fetch("TMDB_CLONE_DATABASE_PASSWORD") %>
+  password: <%= ENV.fetch("PGPASSWORD") %>
   host: localhost
   port: 5432
 # As with config/credentials.yml, you never want to store sensitive information,

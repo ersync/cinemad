@@ -1,0 +1,21 @@
+<div class="relative w-[180px] overflow-hidden rounded-lg shadow-medium flex flex-col justify-between items-start">
+  <div class="relative">
+    <div class="absolute right-1.5 top-1.5 opacity-50 hover:filter-blue-invert transition-all">
+      <svg class="w-[26px] h-[26px] cursor-pointer">
+        <use xlink:href="#circle-more"></use>
+      </svg>
+    </div>
+    <div class="min-h-[270px]">
+      <%= link_to image_tag(movie.cover), movie, class: "h-[225px]", loading: 'lazy', alt: movie.title %>
+    </div>
+    <%= render partial: 'movies/rating_chart', locals: { chart_size: 'small-chart', movie: movie } %>
+  </div>
+  <div class="h-[40px] mt-6 mb-1 px-2.5">
+    <h2 class="font-SourceProBold line-clamp-2 text-base leading-5 mb-0.5"><%= movie.title %></h2>
+  </div>
+  <div class="pb-2 px-2.5">
+    <p class="text-black/60 text-[14px]"><%= movie.release_date.strftime("%b %d, %Y") %></p>
+  </div>
+  <span class="inline-block absolute bottom-[9px] right-[6px] text-gray-600 border border-gray-300 rounded text-[0.7rem] px-1"><%= movie.age_rating %>
+  </span>
+</div>

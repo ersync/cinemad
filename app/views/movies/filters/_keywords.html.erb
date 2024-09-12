@@ -1,0 +1,75 @@
+<div x-data="keywordFilter()" class="filter-section relative">
+  <h2 class="font-SourceProLight mb-2.5">Keywords</h2>
+
+  <!-- Input for searching keywords -->
+  <input @input.debounce.300ms="searchKeywords"
+         x-model="query" autocomplete="off" placeholder="Filter by keywords..."
+         class=" block w-full py-1.5 px-2 text-[0.9rem] text-gray-500 rounded border border-gray-300 border-2 focus:border-tmdbLighterBlue focus:ring-tmdbLighterBlue outline-none" id="keywords-input"/>
+
+  <!-- List of selected keywords -->
+  <div class="mt-2">
+    <template x-for="keyword in selectedKeywords" :key="keyword">
+      <span class="inline-flex items-center px-2 py-1 bg-gray-200 text-gray-800 rounded-full text-sm mr-2 mb-2">
+        <span x-text="keyword"></span>
+        <button @click="removeKeyword(keyword)" class="ml-2 text-gray-500 hover:text-gray-700">&times;</button>
+      </span>
+    </template>
+  </div>
+
+  <!-- Hidden field to store selected keywords -->
+  <input type="hidden" name="selected_keywords" :value="selectedKeywords.join(',')"/>
+
+  <!-- Dropdown for keyword suggestions -->
+  <ul x-show="keywords.length" @click.outside="keywords = []" class="absolute top-[84px] border-t-0 z-10 bg-white border border-gray-300 w-full px-2 py-2 mt-1 text-[0.8rem] text-black/80" x-cloak>
+    <template x-for="keyword in keywords" :key="keyword">
+      <li @click="selectKeyword(keyword)"
+          class="px-2 py-1 hover:bg-gray-100 cursor-pointer"
+          :class="{ 'bg-gray-100': selectedKeywords.includes(keyword) }"
+          x-text="keyword"></li>
+    </template>
+  </ul>
+</div>
+
+<script>
+  function keywordFilter() {
+    return {
+      query: '',
+      keywords: [],
+      selectedKeywords: [],
+
+      searchKeywords() {
+        if (this.query.length > 2) {
+          fetch(`/keywords/search?q=${encodeURIComponent(this.query)}`, {
+            headers: {'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content}
+          })
+            .then(response => response.json())
+            .then(data => this.keywords = data)
+            .catch(() => this.keywords = [])
+        } else {
+          this.keywords = []
+        }
+      },
+
+      selectKeyword(keyword) {
+        if (!this.selectedKeywords.includes(keyword)) {
+          this.selectedKeywords.push(keyword)
+        }
+        this.query = '' // Clear input after selection
+        this.keywords = [] // Hide dropdown after selection
+        this.updateHiddenField()
+      },
+
+      removeKeyword(keyword) {
+        this.selectedKeywords = this.selectedKeywords.filter(k => k !== keyword)
+        this.updateHiddenField()
+      },
+
+      updateHiddenField() {
+        const hiddenField = document.querySelector('input[name="selected_keywords"]')
+        if (hiddenField) {
+          hiddenField.value = this.selectedKeywords.join(',')
+        }
+      }
+    }
+  }
+</script>

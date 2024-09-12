@@ -16,6 +16,46 @@ module MoviesHelper
     }
   end
 
+  def render_list(items, partial:, item_name:, item_class: '', list_class: '')
+    content_tag :div, class: list_class do
+      items.map { |item| render partial, item_name => item, class: item_class }.join.html_safe
+    end
+  end
+
+  def filter_box(title:, &block)
+    content_tag :div, class: 'filter-box' do
+      concat(content_tag(:div, class: 'filter-header') do
+        concat content_tag(:div, title, class: 'filter-title')
+        # Use raw HTML for SVG to avoid issues with content_tag
+        concat raw <<-HTML
+        <svg class="chevron-icon block w-4 h-4 transition-all duration-200">
+          <use xlink:href="#chevron-right-thick"></use>
+        </svg>
+        HTML
+      end)
+      concat(content_tag(:div, capture(&block), class: 'filter-content overflow-hidden opacity-0 invisible max-h-0'))
+    end
+  end
+
+  def checkbox_group(form, name, options, all_option: true)
+    content_tag(:div) do
+      # Render the "all" option checkbox if all_option is true
+      if all_option
+        concat form.check_box("all_#{name}", class: "peer form-checkbox mb-1", checked: true, include_hidden: true)
+        concat form.label("all_#{name}", "All #{name.to_s.titleize}?", class: "inline-block cursor-pointer ml-1.5 mb-1")
+      end
+
+      concat(content_tag(:div, class: all_option ? "block peer-checked:hidden" : "") do
+        options.each do |option|
+          concat(content_tag(:label, class: "cursor-pointer flex items-center mb-1") do
+            concat form.check_box(option, class: "form-checkbox", include_hidden: true)
+            concat content_tag(:span, option.to_s.titleize, class: "ml-1.5")
+          end)
+        end
+      end)
+    end
+  end
+
   private
 
   def display_crew_roles(crew)

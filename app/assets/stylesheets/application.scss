@@ -32,6 +32,13 @@
 
 }
 
+@layer utilities {
+  .filter-blue-invert {
+    filter: brightness(0) saturate(100%) invert(53%) sepia(33%) saturate(3054%) hue-rotate(156deg) brightness(98%) contrast(99%);
+    opacity: 1;
+  }
+}
+
 @layer base {
 
   @font-face {
@@ -237,7 +244,7 @@
     @apply max-h-min mb-7 mt-2.5;
   }
 
-  .tag {
+  .menu-tag {
     @apply text-[12.96px] leading-4 rounded-md bg-black/10 inline-block rounded-[4px] px-2.5 py-1 border border-tmdbLightGray;
   }
 
@@ -264,13 +271,54 @@
   .time-period {
     @apply block py-0.5 px-5 rounded-full overflow-hidden transition-all duration-200
   }
-}
 
-.media_active_tab {
-  border-color: black !important;
-}
+  .media_active_tab {
+    border-color: black !important;
+  }
 
-.section-tab {
-  @apply border-b-4 border-white pt-2 pb-1 rounded-b-sm transition-all duration-300
-}
+  .section-tab {
+    @apply border-b-4 border-white pt-2 pb-1 rounded-b-sm transition-all duration-300
+  }
 
+  .btn {
+    @apply flex justify-center items-center font-SourceProNormal font-semibold text-xl rounded-full py-2 w-full cursor-pointer;
+  }
+
+  .btn-primary {
+    @apply btn text-white bg-tmdbLighterBlue;
+  }
+
+  .btn-secondary {
+    @apply btn text-gray-500 bg-gray-200/70;
+  }
+
+  .filter-box {
+    @apply select-none bg-white rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.1)] border border-[#e3e3e3] mb-3;
+  }
+
+  .filter-header {
+    @apply flex justify-between items-center py-3.5 px-4 cursor-pointer;
+  }
+
+  .filter-title {
+    @apply font-SourceProSemiBold font-semibold text-[1.1rem];
+  }
+
+  .filter-section {
+    @apply border-b border-b-black/5 py-3.5 font-SourceProNormal text-base text-black/90;
+  }
+
+  .filter-content {
+    @apply transition-all duration-200 border-t border-t-black/5 px-4;
+  }
+
+  .filter-tag {
+    @apply border border-[#9e9e9e] text-[0.9rem] px-3 py-0.5 rounded-full cursor-pointer
+    transition-all;
+  }
+
+  .form-select {
+    @apply block w-full bg-gray-200 border border-gray-200
+    text-gray-700 py-1.5 px-2 rounded focus:outline-none focus:border-gray-500
+  }
+}

@@ -19,16 +19,7 @@
               </svg>
             </div>
             <div class="overflow-hidden rounded-lg"><%= link_to image_tag(movie.cover), movie, class: "h-[225px]" %></div>
-            <div class="absolute left-3 -bottom-4 flex justify-center items-center">
-              <a href="#" class="flex justify-center items-center hover:scale-110 cursor-pointer transition-all">
-                <div class="consensus">
-                  <div class="outer_ring small-chart">
-                    <div class="user_score_chart movie-score flex justify-center items-center icon-r<%= movie.avg_rate %> pl-0.5 pt-1.5 text-[9px]" data-percent="<%= movie.avg_rate %>">
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
+            <%= render partial: 'movies/rating_chart', locals: { chart_size: 'small-chart', movie: movie } %>
           </div>
           <div class="pl-2.5 mt-6">
             <h3 class="font-SourceProBold leading-4 line-clamp-2"><%= link_to movie.title, movie %></h3>
