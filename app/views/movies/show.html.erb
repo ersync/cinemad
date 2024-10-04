@@ -9,7 +9,7 @@
       <!--social-->
       <%= render partial: "/movies/social" %>
       <!--media-->
-      <%= render partial: "/movies/media" %>
+      <div id="media-widget" data-movie-id="<%= @movie.id %>"></div>
       <!--collection-->
       <%= render partial: "/movies/collection" if @movie.collection %>
       <!--recommendation-->

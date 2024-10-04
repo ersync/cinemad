@@ -7,6 +7,7 @@ module.exports = {
     './app/assets/stylesheets/**/*.css',
     './app/views/**/*.{html,html.erb,erb}',
     './app/frontend/**/*.js',
+    './app/frontend/**/*.vue',
   ],
   theme: {
     extend: {

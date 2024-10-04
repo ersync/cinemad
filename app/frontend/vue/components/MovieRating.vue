@@ -1,0 +1,176 @@
+<template>
+  <!-- Rating star button -->
+  <li class="group flex justify-center items-center relative w-9 h-9 md:w-[46px] md:h-[46px] bg-white/10 border border-white/5 rounded-full cursor-pointer">
+    <svg class="h-4 w-4" :class="{'text-yellow-500': userRate}">
+      <use xlink:href="#star"></use>
+    </svg>
+    <!-- Rating popup -->
+    <div v-cloak
+         @mousemove="setHoveredRateWidth"
+         @mouseleave="resetHoveredRateWidth"
+         class="invisible opacity-0 group-hover:opacity-100 group-hover:visible transition-all duration-200 delay-75 flex justify-center items-center gap-2 rating-container absolute w-[210px] h-[65px] rounded-md bg-tmdbDarkBlue top-14 text-white cursor-pointer">
+      <!-- Unrate button -->
+      <button @click.prevent="unsetRate" :disabled="!userRate" class="cursor-pointer">
+        <svg class="left-2 bottom-0 top-0 my-auto w-5 h-5">
+          <use xlink:href="#circle-minus"></use>
+        </svg>
+      </button>
+      <!-- Star rating display -->
+      <span class="relative inline-block flex justify-center items-center h-full mb-1">
+        <a :style="{width: hoveredRateWidth}" @click.prevent="setRate"
+           class="filled-stars transition-all duration-100 absolute left-0 inline-block whitespace-nowrap my-auto child:inline-block overflow-hidden cursor-pointer text-yellow-400 mt-1.5">
+          <span v-for="_ in 5" :key="_">
+            <svg class="h-8 w-8">
+              <use xlink:href="#star"></use>
+            </svg>
+          </span>
+        </a>
+        <span v-for="_ in 5" :key="_">
+          <svg class="h-8 w-8">
+            <use xlink:href="#star-empty"></use>
+          </svg>
+        </span>
+      </span>
+    </div>
+  </li>
+
+  <!-- Play Trailer button -->
+  <li class="flex justify-center items-center font-SourceProSemiBold leading-[40px]">
+    <svg class="inline-block mx-[5px] w-[22px] h-[22px]">
+      <use xlink:href="#play"></use>
+    </svg>
+    <span class="hidden lg:block">Play Trailer</span>
+  </li>
+</template>
+
+<script>
+import {ref, computed, watch, onMounted} from 'vue'
+import {useMovieStore} from "@/vue/stores/movieStore"
+import {useToast} from 'vue-toastification'
+
+export default {
+  props: {
+    movieId: {
+      type: String,
+      required: true
+    }
+  },
+  setup(props) {
+    // Constants and store initialization
+    const ratingSteps = [
+      {startPercentage: 21, endPercentage: 26.5, rate: 10, width: '10%'},
+      {startPercentage: 26.5, endPercentage: 34.85, rate: 20, width: '20%'},
+      {startPercentage: 34.85, endPercentage: 42, rate: 30, width: '30%'},
+      {startPercentage: 42, endPercentage: 51, rate: 40, width: '40%'},
+      {startPercentage: 51, endPercentage: 57, rate: 50, width: '50%'},
+      {startPercentage: 57, endPercentage: 66, rate: 60, width: '60%'},
+      {startPercentage: 66, endPercentage: 72, rate: 70, width: '70%'},
+      {startPercentage: 72, endPercentage: 81, rate: 80, width: '80%'},
+      {startPercentage: 81, endPercentage: 87, rate: 90, width: '90%'},
+      {startPercentage: 87, endPercentage: 93, rate: 100, width: '100%'}
+    ]
+
+    const store = useMovieStore()
+    const toast = useToast()
+
+    // Computed properties and reactive references
+    const {userRate, avgRate, error, isLoading} = store.movieComputed(props.movieId)
+    const rateWidth = computed(() => ratingSteps.find(step => step.rate === userRate.value)?.width || 0)
+    const hoveredRateWidth = ref(rateWidth.value)
+
+    // Core rating functions
+    const setRate = async (event) => {
+      try {
+        const cursorPosition = calculateCursorPosition(event)
+        const newRate = ratingSteps.find(ratingStep =>
+            cursorPosition > ratingStep.startPercentage && cursorPosition < ratingStep.endPercentage
+        )?.rate || 0
+        await store.setRate(props.movieId, parseInt(newRate))
+        resetHoveredRateWidth()
+      } catch (err) {
+        console.error('Unexpected error in setRate:', err)
+        toast.error('Failed to set rating. Please try again.')
+      }
+    }
+
+    const unsetRate = async () => {
+      try {
+        await store.unsetRate(props.movieId)
+      } catch (err) {
+        console.error('Unexpected error in unsetRate:', err)
+        toast.error('Failed to unset rating. Please try again.')
+      }
+    }
+
+    // Helper functions for UI interactions
+    const setHoveredRateWidth = (event) => {
+      const cursorPosition = calculateCursorPosition(event)
+      hoveredRateWidth.value = ratingSteps.find(step =>
+          cursorPosition > step.startPercentage && cursorPosition < step.endPercentage
+      )?.width || '0'
+    }
+
+    const resetHoveredRateWidth = () => {
+      hoveredRateWidth.value = rateWidth.value
+    }
+
+    const calculateCursorPosition = (event) => {
+      const ratingContainer = document.querySelector(".rating-container")
+      const ratingContainerWidth = ratingContainer.offsetWidth
+      const mouseX = event.clientX - ratingContainer.getBoundingClientRect().left
+      return (mouseX / ratingContainerWidth) * 100
+    }
+
+    // Error handling
+    const handleError = (error) => {
+      const errorMessages = {
+        fetch: {type: 'warning', message: error.message},
+        update: {type: 'error', message: error.message},
+        unknown: {type: 'error', message: error.message},
+        critical: {type: 'error', message: error.message, timeout: 0},
+      }
+
+      const {type, message, timeout} = errorMessages[error.type] ||
+      {type: 'error', message: 'An unexpected error occurred. Please refresh the page.', timeout: 3000}
+
+      toast[type](message, {timeout})
+    }
+
+    // Lifecycle hooks and watchers
+    onMounted(async () => {
+      try {
+        await store.fetchMovieDetails(props.movieId, {favorite: false, watchlist: false, avgRate: false})
+        hoveredRateWidth.value = rateWidth.value
+      } catch (err) {
+        console.error('Unexpected error in fetchMovieActions:', err)
+        toast.error('Failed to load movie data. Please refresh the page.')
+      }
+    })
+
+    watch(userRate, async (newVal, oldVal) => {
+      if (newVal !== oldVal) {
+        await store.fetchMovieDetails(props.movieId, {favorite: false, watchlist: false, rate: false})
+      }
+    })
+
+    watch(() => store.error, (newError) => {
+      if (newError) {
+        handleError(newError)
+        store.resetError()
+      }
+    })
+
+    return {
+      userRate,
+      setRate,
+      unsetRate,
+      setHoveredRateWidth,
+      resetHoveredRateWidth,
+      hoveredRateWidth,
+    }
+  }
+}
+</script>
+
+<style>
+</style>

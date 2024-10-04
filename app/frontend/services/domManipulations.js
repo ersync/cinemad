@@ -1,35 +1,10 @@
+import ScrollBooster from 'scrollbooster'
+
 export function initializeDOM() {
   const elements = {
-    mobileNavBtn: document.querySelector(".mobile-nav-btn"),
-    mobileMenuCloseBtn: document.querySelector(".mobile-close-btn"),
-    overlay: document.querySelector(".overlay"),
-    mobileMenu: document.querySelector(".mobile-menu"),
-    categoryMovies: document.querySelector('.category-movies'),
-    categoryTvShows: document.querySelector('.category-tv-shows'),
-    categoryPeople: document.querySelector('.category-people'),
-    moviesSubmenu: document.querySelector(".movies-submenu"),
-    tvShowsSubmenu: document.querySelector(".tv-shows-submenu"),
-    peopleSubmenu: document.querySelector(".people-submenu"),
     scrollableWrappers: document.querySelectorAll(".scrollable-wrapper"),
     scrollableContents: document.querySelectorAll(".scrollable-content"),
   }
-
-  function toggleMenu() {
-    elements.overlay.classList.toggle("overlay--visible")
-    elements.mobileMenu.classList.toggle("-left-[80%]")
-    elements.mobileMenu.classList.toggle("left-0")
-  }
-
-  function toggleSubmenu(submenu) {
-    submenu.classList.toggle("submenu--open")
-  }
-
-  elements.mobileNavBtn.addEventListener("click", toggleMenu)
-  elements.overlay.addEventListener("click", toggleMenu)
-
-  elements.categoryMovies.addEventListener("click", () => toggleSubmenu(elements.moviesSubmenu))
-  elements.categoryTvShows.addEventListener("click", () => toggleSubmenu(elements.tvShowsSubmenu))
-  elements.categoryPeople.addEventListener("click", () => toggleSubmenu(elements.peopleSubmenu))
 
   function handleFading(wrapper) {
     const leftHorizontalOffset = wrapper.scrollLeft
@@ -42,14 +17,28 @@ export function initializeDOM() {
     }
   }
 
+  function isTouchDevice() {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0
+  }
+
   elements.scrollableWrappers.forEach(wrapper => {
     wrapper.addEventListener('scroll', () => handleFading(wrapper))
-    new ScrollBooster({
-      viewport: wrapper,
-      content: wrapper.querySelector('.scrollable-content'),
-      scrollMode: 'native',
-      direction: 'horizontal'
-    })
+
+    const content = wrapper.querySelector('.scrollable-content')
+
+    if (!isTouchDevice()) {
+      // Only initialize ScrollBooster for non-touch devices
+      new ScrollBooster({
+        viewport: wrapper,
+        content: content,
+        scrollMode: 'native',
+        direction: 'horizontal',
+      })
+    } else {
+      // For touch devices, ensure horizontal scrolling is possible
+      wrapper.style.overflowX = 'auto'
+      wrapper.style.WebkitOverflowScrolling = 'touch' // for smoother scrolling on iOS
+    }
   })
 
   // Prevent space input in the username field
@@ -61,4 +50,6 @@ export function initializeDOM() {
       }
     })
   }
+
+
 }

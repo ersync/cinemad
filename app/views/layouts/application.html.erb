@@ -6,18 +6,12 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/easy-pie-chart/2.1.6/jquery.easypiechart.min.js" integrity="sha512-DHNepbIus9t4e6YoMBSJLwl+nnm0tIwMBonsQQ+W9NKN6gVVVbomJs9Ii3mQ+HzGZiU5FyJLdnAz9a63ZgZvTQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
-  <script src="https://unpkg.com/scrollbooster@2/dist/scrollbooster.min.js"></script>
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
   <%= vite_client_tag %>
-  <%= vite_stylesheet_tag 'application', data: { "turbo-track": "reload" } %>
-  <%= vite_javascript_tag 'application' %>
+  <%= vite_javascript_tag 'application', data: { "turbo-track": "reload" } %>
   <!--
     If using a TypeScript entrypoint file:
       vite_typescript_tag 'application'

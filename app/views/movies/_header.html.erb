@@ -50,120 +50,9 @@
                 <span><%= "%dh %02dm" % [@movie.duration / 60, @movie.duration % 60] %> </span>
               </div>
             </div>
-            <!-- Actions Section -->
-            <div id="movie-rating-container" data-movie-id="<%= @movie.id %>" class="flex justify-center items-center gap-2 lg:gap-x-5 md:h-[68px] my-4 md:my-6">
-              <!-- Rating -->
-              <div class="flex justify-center items-center">
-                <a href="#" class="flex justify-center items-center hover:scale-110 cursor-pointer transition-all">
-                  <div class="consensus">
-                    <div class="outer_ring big-chart">
-                      <div class="font-ConcenBold text-white -tracking-[7px] pr-1 pt-2 movie_avg_rate flex justify-center items-center pl-0.5" :data-percent="avgRate">
-                        <span v-cloak>{{avgRate}}</span><span v-cloak class="mb-5">%</span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <span class="font-SourceProBold ml-1.5 leading-5">User<br/>Score</span>
-              </div>
-              <!-- Actions -->
-              <div>
-                <ul class="flex items-center justify-start gap-1.5 lg:gap-x-5 flex-wrap">
-                  <li class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-white/10 border border-white/5 rounded-full">
-                    <svg class="h-4 w-4">
-                      <use xlink:href="#list"></use>
-                    </svg>
-                  </li>
-                  <a href="" @click.prevent="toggleFavorite">
-                    <li class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-white/10 border border-white/5 rounded-full">
-                      <svg class="h-4 w-4" :class="{'text-pink-500': isFavorite}">
-                        <use xlink:href="#heart"></use>
-                      </svg>
-                    </li>
-                  </a>
-                  <a href="" @click.prevent="toggleWatchlist">
-                    <li class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-white/10 border border-white/5 rounded-full">
-                      <svg class="h-4 w-4" :class="{'text-red-500': isInWatchlist}">
-                        <use xlink:href="#bookmark"></use>
-                      </svg>
-                    </li>
-                  </a>
-                  <li class="group flex justify-center items-center relative w-9 h-9 md:w-[46px] md:h-[46px] bg-white/10 border border-white/5 rounded-full cursor-pointer">
-                    <svg class="h-4 w-4" :class="{'text-yellow-500': rate}">
-                      <use xlink:href="#star"></use>
-                    </svg>
-                    <div v-cloak @mousemove="setHoveredRateWidth($event)" @mouseleave="resetHoveredRateWidth($event)" class="invisible opacity-0 group-hover:opacity-100 group-hover:visible transition-all duration-200 delay-75 flex justify-center items-center gap-2 rating-container absolute w-[210px] h-[65px] rounded-md bg-tmdbDarkBlue top-14 text-white cursor-pointer">
-                      <button @click.prevent="unsetRate($event)" :disabled="!rate" class="cursor-pointer">
-                        <svg class="left-2 bottom-0 top-0 my-auto w-5 h-5">
-                          <use xlink:href="#circle-minus"></use>
-                        </svg>
-                      </button>
-                      <span class="relative inline-block flex justify-center items-center h-full mb-1">
-                      <a :style="{width: hoveredRateWidth}" @click.prevent="setRate($event)" class="filled-stars transition-all duration-100 absolute left-0 inline-block whitespace-nowrap my-auto child:inline-block overflow-hidden cursor-pointer text-yellow-400 mt-1.5">
-                        <span href="">
-                          <svg class="h-8 w-8">
-                            <use xlink:href="#star"></use>
-                          </svg>
-                        </span>
-                        <span href="">
-                          <svg class="h-8 w-8">
-                            <use xlink:href="#star"></use>
-                          </svg>
-                        </span>
-                        <span href="">
-                          <svg class="h-8 w-8">
-                            <use xlink:href="#star"></use>
-                          </svg>
-                        </span>
-                        <span href="">
-                          <svg class="h-8 w-8">
-                            <use xlink:href="#star"></use>
-                          </svg>
-                        </span>
-                        <span href="">
-                          <svg class="h-8 w-8">
-                            <use xlink:href="#star"></use>
-                          </svg>
-                        </span>
-                      </a>
-                        <span href="">
-                          <svg class="h-8 w-8">
-                            <use xlink:href="#star-empty"></use>
-                          </svg>
-                        </span>
-                        <span href="">
-                          <svg class="h-8 w-8">
-                            <use xlink:href="#star-empty"></use>
-                          </svg>
-                        </span>
-                        <span href="">
-                          <svg class="h-8 w-8">
-                            <use xlink:href="#star-empty"></use>
-                          </svg>
-                        </span>
-                        <span href="">
-                          <svg class="h-8 w-8">
-                            <use xlink:href="#star-empty"></use>
-                          </svg>
-                        </span>
-                        <span href="">
-                          <svg class="h-8 w-8">
-                            <use xlink:href="#star-empty"></use>
-                          </svg>
-                        </span>
-                      </span>
-                    </div>
-                  </li>
-
-                  <li class="flex justify-center items-center font-SourceProSemiBold leading-[40px]">
-                    <svg class="inline-block mx-[5px] w-[22px] h-[22px]">
-                      <use xlink:href="#play"></use>
-                    </svg>
-                    <span class="hidden lg:block">Play Trailer</span>
-                  </li>
-                </ul>
-
-              </div>
-            </div>
+            <!-- Actions Panel Component -->
+            <div id="actions-panel" class="flex justify-center items-center gap-2
+            lg:gap-x-5 md:h-[68px] my-4 md:my-6" data-movie-id="<%= @movie.id %>"></div>
             <!-- Movie Overview Section -->
             <div>
               <p class="text-[1.1rem] italic text-white/70 leading-4 mt-3 md:mt-0"><%= @movie.tagline %></p>
@@ -199,71 +88,32 @@
       <!-- Mobile Movie Title Section -->
       <h2 class="text-center text-[calc(.6em_+_3vw)] font-SourceProSemiBold py-4 px-5 leading-[34px]">
         <span><%= @movie.title %></span>
-        <span class="font-SourceProNormal text-white/80 text-[0.8em]">(2001)</span></h2>
-      <!-- Mobile Rating Icons Section -->
-      <div class="flex justify-center items-center">
-        <!-- User Score Chart -->
-        <div class="basis-1/2 flex justify-center items-center h-11">
-          <a href="#" class="flex justify-center items-center">
-            <div class='consensus'>
-              <div class='outer_ring small-chart'>
-                <div class="movie_avg_rate flex justify-center items-center text-xs icon-r84 pl-0.5" data-percent="84">
-                </div>
-              </div>
-            </div>
-          </a>
-          <span class="font-SourceProBold ml-1.5 leading-5">User <br class="hidden sm:block"/>Score</span>
-        </div>
-        <!-- divider -->
-        <div class="bg-white/30 h-6 w-px rounded-lg"></div>
-        <div class="basis-1/2 flex justify-center items-center">
-          <svg class="inline-block mx-[5px] w-4 h-4">
-            <use xlink:href="#play"></use>
-          </svg>
-          <a href="" class="hover:text-white/70"> Play Trailer</a>
-        </div>
-      </div>
+        <span class="font-SourceProNormal text-white/80 text-[0.8em]">(<%= @movie.release_date.year %>)</span></h2>
+      <!-- Mobile Rating Widget Component -->
+      <div id="rating-widget" data-movie-id="<%= @movie.id %>"></div>
     </div>
     <!-- Mobile facts Section -->
     <div class="flex sm:hidden flex-col justify-center items-center bg-tmdbDarkerBlue p-2.5 border-y border-y-black/20">
       <div>
         <span class="text-white/60 border border-white/60 inline-flex justify-center items-center py-0.5 px-1 mr-[7px] rounded-sm leading-4">12A</span>
-        <span>15/12/2021 (GB)</span>
+        <span><%= @movie.release_date.strftime("%m/%d/%Y") %> (GB)</span>
         <span class="disc relative ml-5"></span>
-        <span>2h 28m</span>
+        <span><%= "%dh %02dm" % [@movie.duration / 60, @movie.duration % 60] %></span>
       </div>
       <div>
-        <span>Action, Adventure, Science Fiction</span>
+        <span><%= @movie.categories.map(&:name).join(", ") %></span>
       </div>
     </div>
     <!-- Mobile Details Section -->
     <div class="sm:hidden p-5">
-      <p class="text-[1.1rem] italic text-white/70 leading-4">The Multiverse unleashed.</p>
+      <p class="text-[1.1rem] italic text-white/70 leading-4"><%= @movie.tagline %></p>
       <div>
         <h3 class="text-[1.3rem] font-SourceProSemiBold mt-2.5 mb-2">Overview</h3>
-        <p class="leading-5">Peter Parker is unmasked and no longer able to separate his
-          normal life from the
-          high-stakes of being a
-          super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous,
-          forcing him
-          to discover what it truly means to be Spider-Man.
-        </p>
+        <p class="leading-5"><%= @movie.overview %></p>
         <ul class="flex flex-wrap justify-start gap-y-5 font-SourceProBold mt-5">
-          <li class="basis-1/2">Stan Lee
-            <h4 class="font-SourceProNormal text-[0.9rem] leading-3">Characters</h4>
-          </li>
-          <li class="basis-1/2">Steve Ditko
-            <h4 class="font-SourceProNormal text-[0.9rem] leading-3">Characters</h4>
-          </li>
-          <li class="basis-1/2">Jon Watts
-            <h4 class="font-SourceProNormal text-[0.9rem] leading-3">Director</h4>
-          </li>
-          <li class="basis-1/2">Erik Jon
-            <h4 class="font-SourceProNormal text-[0.9rem] leading-3">Writer</h4>
-          </li>
-          <li class="basis-1/2">Jon Watts
-            <h4 class="font-SourceProNormal text-[0.9rem] leading-3">Writer</h4>
-          </li>
+          <% @crew.uniq.each do |crew| %>
+            <%= display_crew_information(crew) %>
+          <% end %>
         </ul>
       </div>
     </div>
