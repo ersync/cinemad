@@ -1,5 +1,6 @@
 import {createVueApp} from '@/vue/services/vueAppFactory'
 import MediaWidget from '@/vue/components/MovieMedia.vue'
+import MobileMovieRatingPanel from '@/vue/components/MobileMovieRatingPanel.vue'
 import MobileMenu from '@/vue/components/MobileMenu.vue'
 import UserMenu from '@/vue/components/UserMenu.vue'
 import MovieActionsPanel from '@/vue/components/MovieActionsPanel.vue'
@@ -21,12 +22,20 @@ export function mountComponents() {
     createVueApp(UserMenu).mount('#user-menu')
   }
 
-  const ratingWidgetEl = document.getElementById('rating-widget')
+  const ratingWidgetEl = document.getElementById('actions-panel')
   if (ratingWidgetEl) {
     const movieId = ratingWidgetEl.dataset.movieId
     const app = createVueApp(MovieActionsPanel, {movieId}, {
       globalDirectives: [{name: 'easy-pie-chart', directive: vEasyPieChart}]
     })
     app.mount('#actions-panel')
+  }
+  const mobileScoreEl = document.getElementById('mobile-movie-rating-panel')
+  if (mobileScoreEl) {
+    const movieId = ratingWidgetEl.dataset.movieId
+    const app = createVueApp(MobileMovieRatingPanel, {movieId}, {
+      globalDirectives: [{name: 'easy-pie-chart', directive: vEasyPieChart}]
+    })
+    app.mount('#mobile-movie-rating-panel')
   }
 }

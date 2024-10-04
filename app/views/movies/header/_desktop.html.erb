@@ -1,0 +1,10 @@
+<div class="hidden sm:block min-h-[570px] bg-cover bg-no-repeat header-bg-position text-white" style="background-image: url(<%= rails_blob_url(movie.background) %>);">
+  <div class="h-full" style="background-image: <%= dynamic_gradient_style(movie)[:desktop] %>;">
+    <div class="container h-full min-h-[570px]">
+      <div class="flex justify-start items-center gap-6 lg:gap-10 h-full py-4 px-2 md:py-[30px] md:px-0">
+        <%= render 'movies/header/cover_section', movie: movie %>
+        <%= render 'movies/header/details_section', movie: movie, crew: crew %>
+      </div>
+    </div>
+  </div>
+</div>

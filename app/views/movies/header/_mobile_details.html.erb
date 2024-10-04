@@ -1,0 +1,23 @@
+<div class="flex flex-col justify-center items-center bg-tmdbDarkerBlue p-2.5 border-y border-y-black/20">
+  <div>
+    <span class="text-white/60 border border-white/60 inline-flex justify-center items-center py-0.5 px-1 mr-[7px] rounded-sm leading-4">12A</span>
+    <span><%= movie.release_date.strftime("%m/%d/%Y") %> (GB)</span>
+    <span class="disc relative ml-5"></span>
+    <span><%= "%dh %02dm" % [movie.duration / 60, movie.duration % 60] %></span>
+  </div>
+  <div>
+    <span><%= movie.categories.map(&:name).join(", ") %></span>
+  </div>
+</div>
+<div class="p-5">
+  <p class="text-[1.1rem] italic text-white/70 leading-4"><%= movie.tagline %></p>
+  <div>
+    <h3 class="text-[1.3rem] font-SourceProSemiBold mt-2.5 mb-2">Overview</h3>
+    <p class="leading-5"><%= movie.overview %></p>
+    <ul class="flex flex-wrap justify-start gap-y-5 font-SourceProBold mt-5">
+      <% crew.uniq.each do |crew_member| %>
+        <%= display_crew_information(crew_member) %>
+      <% end %>
+    </ul>
+  </div>
+</div>

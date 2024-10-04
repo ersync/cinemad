@@ -1,45 +1,50 @@
 <template>
   <!-- Rating star button -->
-  <li class="group flex justify-center items-center relative w-9 h-9 md:w-[46px] md:h-[46px] bg-white/10 border border-white/5 rounded-full cursor-pointer">
-    <svg class="h-4 w-4" :class="{'text-yellow-500': userRate}">
-      <use xlink:href="#star"></use>
-    </svg>
-    <!-- Rating popup -->
-    <div v-cloak
-         @mousemove="setHoveredRateWidth"
-         @mouseleave="resetHoveredRateWidth"
-         class="invisible opacity-0 group-hover:opacity-100 group-hover:visible transition-all duration-200 delay-75 flex justify-center items-center gap-2 rating-container absolute w-[210px] h-[65px] rounded-md bg-tmdbDarkBlue top-14 text-white cursor-pointer">
-      <!-- Unrate button -->
-      <button @click.prevent="unsetRate" :disabled="!userRate" class="cursor-pointer">
-        <svg class="left-2 bottom-0 top-0 my-auto w-5 h-5">
-          <use xlink:href="#circle-minus"></use>
-        </svg>
-      </button>
-      <!-- Star rating display -->
-      <span class="relative inline-block flex justify-center items-center h-full mb-1">
-        <a :style="{width: hoveredRateWidth}" @click.prevent="setRate"
-           class="filled-stars transition-all duration-100 absolute left-0 inline-block whitespace-nowrap my-auto child:inline-block overflow-hidden cursor-pointer text-yellow-400 mt-1.5">
+  <li class="h-full py-3 relative group cursor-pointer">
+    <div
+        class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-white/10 border border-white/5 rounded-full">
+      <svg class="h-4 w-4" :class="{'text-yellow-500': userRate}">
+        <use xlink:href="#star"></use>
+      </svg>
+      <!-- Rating popup -->
+      <div v-cloak
+           class="rating-popup invisible opacity-0 group-hover:opacity-100 group-hover:visible transition-all duration-200 delay-75 flex justify-center items-center gap-2 absolute top-full w-[210px] h-[65px] rounded-md bg-tmdbDarkBlue text-white cursor-pointer">
+        <!-- Unrate button -->
+        <button @click.prevent="unsetRate" :disabled="!userRate">
+          <svg class="w-5 h-5 left-2 bottom-0 top-0 my-auto">
+            <use xlink:href="#circle-minus"></use>
+          </svg>
+        </button>
+        <!-- Star rating display -->
+        <span @mousemove="setHoveredRateWidth"
+              @mouseleave="resetHoveredRateWidth" class="relative inline-block flex justify-center items-center mb-1">
+          <!-- Hovered stars (preview) -->
+          <a :style="{width: hoveredRateWidth}" @click.prevent="setRate"
+             class="transition-all duration-100 absolute left-0 inline-block whitespace-nowrap my-auto child:inline-block overflow-hidden text-yellow-200 mt-1.5">
+            <span v-for="_ in 5" :key="_">
+              <svg class="h-8 w-8">
+                <use xlink:href="#star"></use>
+              </svg>
+            </span>
+          </a>
+          <!-- Actual rated stars -->
+          <a :style="{width: rateWidth}"
+             class="transition-all duration-100 absolute left-0 inline-block whitespace-nowrap my-auto child:inline-block overflow-hidden text-yellow-400 mt-1.5 pointer-events-none">
+            <span v-for="_ in 5" :key="_">
+              <svg class="h-8 w-8">
+                <use xlink:href="#star"></use>
+              </svg>
+            </span>
+          </a>
+          <!-- Empty stars -->
           <span v-for="_ in 5" :key="_">
             <svg class="h-8 w-8">
-              <use xlink:href="#star"></use>
+              <use xlink:href="#star-empty"></use>
             </svg>
           </span>
-        </a>
-        <span v-for="_ in 5" :key="_">
-          <svg class="h-8 w-8">
-            <use xlink:href="#star-empty"></use>
-          </svg>
         </span>
-      </span>
+      </div>
     </div>
-  </li>
-
-  <!-- Play Trailer button -->
-  <li class="flex justify-center items-center font-SourceProSemiBold leading-[40px]">
-    <svg class="inline-block mx-[5px] w-[22px] h-[22px]">
-      <use xlink:href="#play"></use>
-    </svg>
-    <span class="hidden lg:block">Play Trailer</span>
   </li>
 </template>
 
@@ -96,6 +101,7 @@ export default {
     const unsetRate = async () => {
       try {
         await store.unsetRate(props.movieId)
+        resetHoveredRateWidth()
       } catch (err) {
         console.error('Unexpected error in unsetRate:', err)
         toast.error('Failed to unset rating. Please try again.')
@@ -115,7 +121,7 @@ export default {
     }
 
     const calculateCursorPosition = (event) => {
-      const ratingContainer = document.querySelector(".rating-container")
+      const ratingContainer = document.querySelector(".rating-popup")
       const ratingContainerWidth = ratingContainer.offsetWidth
       const mouseX = event.clientX - ratingContainer.getBoundingClientRect().left
       return (mouseX / ratingContainerWidth) * 100
@@ -167,6 +173,7 @@ export default {
       setHoveredRateWidth,
       resetHoveredRateWidth,
       hoveredRateWidth,
+      rateWidth,
     }
   }
 }
