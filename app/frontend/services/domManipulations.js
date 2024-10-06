@@ -35,9 +35,8 @@ export function initializeDOM() {
         direction: 'horizontal',
       })
     } else {
-      // For touch devices, ensure horizontal scrolling is possible
       wrapper.style.overflowX = 'auto'
-      wrapper.style.WebkitOverflowScrolling = 'touch' // for smoother scrolling on iOS
+      wrapper.style.WebkitOverflowScrolling = 'touch'
     }
   })
 

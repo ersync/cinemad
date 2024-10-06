@@ -1,25 +1,30 @@
 <div class="mb-[30px] pb-[30px] border-b border-[#d7d7d7] antialiased">
   <h3 class="font-SourceProSemiBold text-[1.2rem] sm:text-[1.4rem] mb-5">Top Billed Cast</h3>
   <div class="relative">
+    <div class="font-SourceProNormal scrollbar overflow-scroll mb-5 fading">
+      <ul id="cast-skeleton-loader" class="flex gap-3.5 mb-2.5">
+        <!-- Skeleton items will be here -->
+      </ul>
+    </div>
     <div class="scrollable-wrapper font-SourceProNormal scrollbar overflow-scroll mb-5 fading">
-      <ul class="scrollable-content flex gap-3.5 mb-2.5">
+
+      <ul id="actual-cast-content" class="scrollable-content items-stretch flex gap-3.5 mb-5 " style="display: none;">
         <% @movie.cast_members.each do |person| %>
-          <li>
-            <div class="w-[122px] sm:w-[140px] h-[255px] overflow-hidden rounded-lg border border-tmdbLightGray mb-2.5 pb-2.5 shadow-light">
+          <li class="min-h-full">
+            <div class="h-full w-[122px] sm:w-[140px] overflow-hidden rounded-lg border border-tmdbLightGray pb-2.5 shadow-light">
               <div class="h-[175px] overflow-hidden">
-                <%= link_to (image_tag person.image), user_profile_path(current_user) %>
+                <%= link_to user_profile_path(current_user) do %>
+                  <%= image_tag person.image, class: "cast-image", alt: "#{person.name}" %>
+                <% end %>
               </div>
               <div class="mt-2.5 mx-2.5 text-left">
-                <a href="#" class="block font-SourceProBold leading-5 mb-1"><%= person.name %></a>
-                <h5 class="text-[0.9rem] pr-2.5 leading-4"><%= person.movie_people.first.character_name %></h5>
+                <a href="#" class="text-[0.95rem] block font-SourceProBold leading-5 mb-1"><%= person.name %></a>
+                <h5 class="text-[0.85rem] leading-4"><%= person.movie_people.first.character_name %></h5>
               </div>
             </div>
           </li>
         <% end %>
-
-
       </ul>
-
     </div>
   </div>
   <a href="#" class="block text-[1.1rem] font-SourceProSemiBold mt-5">Full Cast & Crew</a>
