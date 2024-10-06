@@ -43,6 +43,8 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+gem 'color'
+
 group :development, :test do
   gem 'rspec-rails', '~> 6.1.0'
   gem 'factory_bot_rails'
@@ -63,5 +65,5 @@ group :development do
 end
 group :test do
   gem 'shoulda-matchers'
-
 end
+

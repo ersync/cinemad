@@ -5,7 +5,8 @@
       <span class="text-white/80 font-SourceProNormal">(<%= movie.release_date.year %>)</span>
     </h2>
     <div>
-      <span class="text-white/60 border border-white/60 inline-flex justify-center items-center py-0.5 px-1 mr-[7px] rounded-sm leading-4">12A</span>
+      <span class="text-white/60 border border-white/60 inline-flex justify-center items-center
+                   py-0.5 px-1 mr-[7px] rounded-sm leading-4"><% movie.age_rating %></span>
       <span><%= movie.release_date.strftime("%m/%d/%Y") %> (GB)</span>
       <span class="disc relative ml-5"></span>
       <span><%= movie.categories.map(&:name).join(", ") %></span>

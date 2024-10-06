@@ -11,8 +11,7 @@
       <span><%= movie.title %></span>
       <span class="font-SourceProNormal text-white/80 text-[0.8em]">(<%= movie.release_date.year %>)</span>
     </h2>
-    <div id="mobile-movie-rating-panel"></div>
-    <div id="rating-widget" data-movie-id="<%= movie.id %>"></div>
+    <div id="mobile-actions-panel" data-movie-id="<%= movie.id %>"></div>
   </div>
   <%= render 'movies/header/mobile_details', movie: movie, crew: crew %>
 </div>

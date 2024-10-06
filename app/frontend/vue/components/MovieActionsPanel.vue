@@ -4,7 +4,7 @@
   </div>
 
   <div class="flex items-center h-full">
-    <ul class="flex items-center justify-start gap-1.5 lg:gap-x-5 flex-wrap select-none">
+    <div class="flex items-center justify-start gap-1.5 lg:gap-x-5 flex-wrap select-none">
       <MovieAction
           v-for="action in actions"
           :key="action.key"
@@ -14,13 +14,13 @@
           :on-click="action.onClick"
       />
       <MovieRating :movie-id="movieId"/>
-      <li class="flex justify-center items-center font-SourceProSemiBold leading-[40px]">
+      <div class="flex justify-center items-center font-SourceProSemiBold leading-[40px]">
         <svg class="inline-block w-[22px] h-[22px] mx-[5px]">
           <use xlink:href="#play"></use>
         </svg>
         <span class="hidden lg:block">Play Trailer</span>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </template>
 

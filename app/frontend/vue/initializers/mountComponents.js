@@ -1,15 +1,21 @@
+import {sharedPinia} from '@/vue/stores/sharedPinia'
+import {useMovieStore} from '@/vue/stores/movieStore'
 import {createVueApp} from '@/vue/services/vueAppFactory'
-import MediaWidget from '@/vue/components/MovieMedia.vue'
-import MobileMovieRatingPanel from '@/vue/components/MobileMovieRatingPanel.vue'
+import MovieMedia from '@/vue/components/MovieMedia.vue'
 import MobileMenu from '@/vue/components/MobileMenu.vue'
 import UserMenu from '@/vue/components/UserMenu.vue'
 import MovieActionsPanel from '@/vue/components/MovieActionsPanel.vue'
+import MobileActionsPanel from '@/vue/components/MovieMobileActionsPanel.vue'
 import vEasyPieChart from '@/vue/directives/v-easy-pie-chart.js'
 
 export function mountComponents() {
-  const mediaWidgetEl = document.getElementById('media-widget')
+
+  const movieStore = useMovieStore(sharedPinia)
+
+
+  const mediaWidgetEl = document.getElementById('movie-media')
   if (mediaWidgetEl) {
-    createVueApp(MediaWidget).mount('#media-widget')
+    createVueApp(MovieMedia).mount('#media-media')
   }
 
   const mobileMenuEl = document.getElementById('mobile-menu-container')
@@ -22,20 +28,20 @@ export function mountComponents() {
     createVueApp(UserMenu).mount('#user-menu')
   }
 
-  const ratingWidgetEl = document.getElementById('actions-panel')
-  if (ratingWidgetEl) {
-    const movieId = ratingWidgetEl.dataset.movieId
+  const actionsPanelEl = document.getElementById('actions-panel')
+  if (actionsPanelEl) {
+    const movieId = actionsPanelEl.dataset.movieId
     const app = createVueApp(MovieActionsPanel, {movieId}, {
       globalDirectives: [{name: 'easy-pie-chart', directive: vEasyPieChart}]
     })
     app.mount('#actions-panel')
   }
-  const mobileScoreEl = document.getElementById('mobile-movie-rating-panel')
-  if (mobileScoreEl) {
-    const movieId = ratingWidgetEl.dataset.movieId
-    const app = createVueApp(MobileMovieRatingPanel, {movieId}, {
+  const mobileActionsPanelEl = document.getElementById('mobile-actions-panel')
+  if (mobileActionsPanelEl) {
+    const movieId = mobileActionsPanelEl.dataset.movieId
+    const app = createVueApp(MobileActionsPanel, {movieId}, {
       globalDirectives: [{name: 'easy-pie-chart', directive: vEasyPieChart}]
     })
-    app.mount('#mobile-movie-rating-panel')
+    app.mount('#mobile-actions-panel')
   }
 }

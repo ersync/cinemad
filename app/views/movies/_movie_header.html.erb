@@ -1,7 +1,7 @@
 <div class="font-SourceProNormal antialiased">
-  <!--  <div class="sm:hidden">-->
-  <%#= render 'movies/header/mobile', movie: @movie, crew: @crew %>
-  <!--  </div>-->
+  <div class="sm:hidden">
+    <%= render 'movies/header/mobile', movie: @movie, crew: @crew %>
+  </div>
   <div class="hidden sm:block">
     <%= render 'movies/header/desktop', movie: @movie, crew: @crew %>
   </div>

@@ -1,6 +1,6 @@
 <template>
   <!-- Rating star button -->
-  <li class="h-full py-3 relative group cursor-pointer">
+  <div class="relative group cursor-pointer h-full py-3">
     <div
         class="flex justify-center items-center w-9 h-9 md:w-[46px] md:h-[46px] bg-white/10 border border-white/5 rounded-full">
       <svg class="h-4 w-4" :class="{'text-yellow-500': userRate}">
@@ -8,7 +8,9 @@
       </svg>
       <!-- Rating popup -->
       <div v-cloak
-           class="rating-popup invisible opacity-0 group-hover:opacity-100 group-hover:visible transition-all duration-200 delay-75 flex justify-center items-center gap-2 absolute top-full w-[210px] h-[65px] rounded-md bg-tmdbDarkBlue text-white cursor-pointer">
+           ref="ratingContainerRef"
+           class="flex justify-center items-center absolute top-full z-40 w-[210px] h-[65px] invisible opacity-0 group-hover:opacity-100 group-hover:visible transition-all
+                  duration-200 delay-75 gap-2 rounded-md bg-tmdbDarkBlue text-white cursor-pointer">
         <!-- Unrate button -->
         <button @click.prevent="unsetRate" :disabled="!userRate">
           <svg class="w-5 h-5 left-2 bottom-0 top-0 my-auto">
@@ -45,11 +47,11 @@
         </span>
       </div>
     </div>
-  </li>
+  </div>
 </template>
 
 <script>
-import {ref, computed, watch, onMounted} from 'vue'
+import {ref, computed, watch, onMounted, nextTick} from 'vue'
 import {useMovieStore} from "@/vue/stores/movieStore"
 import {useToast} from 'vue-toastification'
 
@@ -58,10 +60,13 @@ export default {
     movieId: {
       type: String,
       required: true
+    },
+    className: {
+      type: String,
+      required: true
     }
   },
   setup(props) {
-    // Constants and store initialization
     const ratingSteps = [
       {startPercentage: 21, endPercentage: 26.5, rate: 10, width: '10%'},
       {startPercentage: 26.5, endPercentage: 34.85, rate: 20, width: '20%'},
@@ -78,14 +83,20 @@ export default {
     const store = useMovieStore()
     const toast = useToast()
 
-    // Computed properties and reactive references
     const {userRate, avgRate, error, isLoading} = store.movieComputed(props.movieId)
     const rateWidth = computed(() => ratingSteps.find(step => step.rate === userRate.value)?.width || 0)
-    const hoveredRateWidth = ref(rateWidth.value)
+    const hoveredRateWidth = ref(0)
+    const ratingContainerRef = ref(null)
 
-    // Core rating functions
+    const calculateCursorPosition = (event) => {
+      const ratingContainerWidth = ratingContainerRef.value.offsetWidth
+      const mouseX = event.clientX - ratingContainerRef.value.getBoundingClientRect().left
+      return (mouseX / ratingContainerWidth) * 100
+    }
+
     const setRate = async (event) => {
       try {
+        await nextTick() // Ensure DOM is updated
         const cursorPosition = calculateCursorPosition(event)
         const newRate = ratingSteps.find(ratingStep =>
             cursorPosition > ratingStep.startPercentage && cursorPosition < ratingStep.endPercentage
@@ -108,7 +119,6 @@ export default {
       }
     }
 
-    // Helper functions for UI interactions
     const setHoveredRateWidth = (event) => {
       const cursorPosition = calculateCursorPosition(event)
       hoveredRateWidth.value = ratingSteps.find(step =>
@@ -117,17 +127,9 @@ export default {
     }
 
     const resetHoveredRateWidth = () => {
-      hoveredRateWidth.value = rateWidth.value
+      hoveredRateWidth.value = 0
     }
 
-    const calculateCursorPosition = (event) => {
-      const ratingContainer = document.querySelector(".rating-popup")
-      const ratingContainerWidth = ratingContainer.offsetWidth
-      const mouseX = event.clientX - ratingContainer.getBoundingClientRect().left
-      return (mouseX / ratingContainerWidth) * 100
-    }
-
-    // Error handling
     const handleError = (error) => {
       const errorMessages = {
         fetch: {type: 'warning', message: error.message},
@@ -142,11 +144,10 @@ export default {
       toast[type](message, {timeout})
     }
 
-    // Lifecycle hooks and watchers
     onMounted(async () => {
       try {
         await store.fetchMovieDetails(props.movieId, {favorite: false, watchlist: false, avgRate: false})
-        hoveredRateWidth.value = rateWidth.value
+        await nextTick()
       } catch (err) {
         console.error('Unexpected error in fetchMovieActions:', err)
         toast.error('Failed to load movie data. Please refresh the page.')
@@ -174,10 +175,8 @@ export default {
       resetHoveredRateWidth,
       hoveredRateWidth,
       rateWidth,
+      ratingContainerRef
     }
   }
 }
 </script>
-
-<style>
-</style>

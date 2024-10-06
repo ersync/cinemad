@@ -1,12 +1,11 @@
 import {createApp} from 'vue'
-import {createPinia} from 'pinia'
+import {sharedPinia} from '@/vue/stores/sharedPinia'
 import {addToast} from '@/vue/services/toast'
 import vEasyPieChart from '@/vue/directives/v-easy-pie-chart'
 
 export function createVueApp(component, props = {}, options = {}) {
   const app = createApp(component, props)
-  const pinia = createPinia()
-  app.use(pinia)
+  app.use(sharedPinia)
   addToast(app)
 
   if (options.globalDirectives) {
