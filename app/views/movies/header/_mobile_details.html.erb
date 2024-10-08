@@ -17,11 +17,14 @@
   <p class="text-[1.1rem] italic text-white/70 leading-4 mb-3"><%= movie.tagline %></p>
   <div>
     <h3 class="text-[1.3rem] font-SourceProSemiBold mt-2.5 mb-2">Overview</h3>
-    <p class="leading-6"><%= movie.overview %></p>
-    <ul class="flex flex-wrap justify-start gap-y-5 font-SourceProBold mt-5">
+    <p class="leading-6 font-SourceProNormal opacity-90"><%= movie.overview %></p>
+    <ul class="grid grid-cols-2 gap-y-5 font-SourceProBold mt-5">
       <% crew.uniq.each do |crew_member| %>
-        <%= display_crew_information(crew_member) %>
+        <li class="flex [&:nth-child(even)]:justify-center">
+          <%= display_crew_information(crew_member) %>
+        </li>
       <% end %>
     </ul>
   </div>
 </div>
+

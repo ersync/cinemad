@@ -1,6 +1,6 @@
 module MoviesHelper
   def display_crew_information(crew)
-    content_tag(:li, class: 'basis-1/2') do
+    content_tag(:div) do
       content_tag(:span, crew.name) +
         display_crew_roles(crew)
     end
@@ -59,7 +59,7 @@ module MoviesHelper
   def display_crew_roles(crew)
     if crew.movie_people.present?
       roles = crew.movie_people.map { |movie_person| movie_person.role.name }
-      content_tag(:h4, roles.join(', '), class: 'font-SourceProNormal text-[0.9rem] leading-3 opacity-90')
+      content_tag(:h4, roles.join(', '), class: 'font-SourceProNormal text-[0.9rem] leading-3 opacity-70')
     else
       content_tag(:h4, 'Role not specified', class: 'font-SourceProNormal text-[0.9rem] leading-3')
     end

@@ -369,3 +369,11 @@
     transform: translateX(-150%);
   }
 }
+
+.crew-member {
+  @apply lg:[&:nth-child(3n)]:justify-end
+  lg:[&:nth-child(3n-1)]:justify-center
+  lg:[&:nth-child(3n-2)]:justify-start
+  max-lg:[&:nth-child(even)]:justify-end
+  max-lg:[&:nth-child(odd)]:justify-start
+}
