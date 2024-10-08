@@ -74,12 +74,5 @@ export function initializeSkeletons() {
     itemTemplate: castTemplate,
     itemCount: 10,
   })
-  const actionsPanelLoader = new SkeletonLoader({
-    skeletonId: 'skeleton-actions-panel-loader',
-    actualContentId: 'actions-panel',
-    itemTemplate: actionsPanelTemplate,
-    itemCount: 1,
-  })
   castLoader.init()
-  actionsPanelLoader.init()
 }

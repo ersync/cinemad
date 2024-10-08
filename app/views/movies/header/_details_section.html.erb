@@ -14,7 +14,54 @@
       <span><%= "%dh %02dm" % [movie.duration / 60, movie.duration % 60] %></span>
     </div>
   </div>
-  <div id="skeleton-actions-panel-loader" class="w-[410px] h-[68px] my-6"></div>
+  <div id="skeleton-actions-panel-loader" class="w-[410px] h-[68px] my-6">
+    <div class="flex justify-between items-center space-x-2 p-2 shimmer-slow">
+      <!-- Circle 1 -->
+      <div class="w-16 h-16 bg-gray-200/20 rounded-full relative overflow-hidden">
+        <div class="shimmer-wrapper">
+          <div class="shimmer"></div>
+        </div>
+      </div>
+      <!-- Rectangle 1 -->
+      <div>
+        <div class="w-5 h-2 mb-2 bg-gray-200/20 rounded relative overflow-hidden">
+          <div class="shimmer-wrapper">
+            <div class="shimmer"></div>
+          </div>
+        </div>
+        <!-- Rectangle 2 -->
+        <div class="w-7 h-2 bg-gray-200/20 rounded relative overflow-hidden">
+          <div class="shimmer-wrapper">
+            <div class="shimmer"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Circle 2 -->
+      <div class="w-10 h-10 bg-gray-200/20 rounded-full relative overflow-hidden">
+        <div class="shimmer-wrapper">
+          <div class="shimmer"></div>
+        </div>
+      </div>
+      <!-- Circle 3 -->
+      <div class="w-10 h-10 bg-gray-200/20 rounded-full relative overflow-hidden">
+        <div class="shimmer-wrapper">
+          <div class="shimmer"></div>
+        </div>
+      </div>
+      <!-- Circle 4 -->
+      <div class="w-10 h-10 bg-gray-200/20 rounded-full relative overflow-hidden">
+        <div class="shimmer-wrapper">
+          <div class="shimmer"></div>
+        </div>
+      </div>
+      <!-- Rectangle 3 -->
+      <div class="w-24 h-8 bg-gray-200/20 rounded relative overflow-hidden">
+        <div class="shimmer-wrapper">
+          <div class="shimmer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div id="actions-panel" data-movie-id="<%= movie.id %>" style="display: none" class="flex justify-center items-center gap-2 lg:gap-x-5 md:h-[68px] my-4 md:my-6"></div>
   <div>
     <p class="text-[1.1rem] italic text-white/70 leading-4 mt-2.5 md:mt-0"><%= movie.tagline %></p>

@@ -4,7 +4,7 @@
       <div class="consensus">
         <div :class="['outer_ring', props.chartSize]">
           <div
-              v-easy-pie-chart="{ percent: avgRate, lineWidth: props.lineWidth, duration: 2000, size: props.size }"
+              v-easy-pie-chart="{ percent: avgRate, lineWidth: props.lineWidth, duration: 4000, size: props.size }"
               class="font-ConcenBold text-white -tracking-[6px] pr-1 sm:pr-0 pt-2 movie_avg_rate flex justify-center items-center pl-0.5"
           >
             <span v-cloak>{{ displayedRate }}</span><span v-cloak class="mb-5">%</span>
@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import {computed, watch} from "vue"
+import {computed, watch, ref} from "vue"
 import {storeToRefs} from 'pinia'
 import {useRateAnimation} from '@/vue/composables/useRateAnimation'
 import {useMovieStore} from "@/vue/stores/movieStore"
@@ -38,6 +38,10 @@ const props = defineProps({
   chartSize: {
     type: String,
     default: 'big-chart'
+  },
+  triggerAnimation: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -47,9 +51,13 @@ const {avgRate} = storeToRefs(store.movieComputed(props.movieId))
 const {displayedRate, animateRate} = useRateAnimation()
 
 watch(avgRate, (newValue) => {
-  animateRate(displayedRate.value, newValue)
+  props.triggerAnimation ? animateRate(displayedRate.value, newValue) : null
 })
+console.log(2, props.triggerAnimation)
+watch(() => props.triggerAnimation, (newValue) => {
+  console.log("1", props.triggerAnimation)
+  if (newValue) {
+    animateRate(0, avgRate.value)
+  }
+}, {immediate: false})
 </script>
-
-<style scoped>
-</style>

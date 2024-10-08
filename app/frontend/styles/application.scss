@@ -359,15 +359,11 @@
   width: 100%;
   height: 100%;
   z-index: 1;
-  animation: shimmer-loading 1.8s infinite;
 }
 
 .shimmer {
   filter: blur(6px);
-  width: 35%;
   height: 100%;
-  background-color: hsla(0, 0%, 100%, 0.3);
-  transform: skewX(-20deg);
 }
 
 @keyframes shimmer-loading {
@@ -377,9 +373,29 @@
   50% {
     transform: translateX(50%);
   }
-  to {
+  100% {
     transform: translateX(-150%);
   }
+}
+
+.shimmer-fast .shimmer-wrapper {
+  animation: shimmer-loading 1.8s infinite;
+}
+
+.shimmer-fast .shimmer {
+  width: 35%;
+  background-color: hsla(0, 0%, 100%, 0.3);
+  transform: skewX(-20deg);
+}
+
+.shimmer-slow .shimmer {
+  width: 32%;
+  background-color: hsla(0, 0%, 100%, 0.05);
+  transform: skewX(-10deg);
+}
+
+.shimmer-slow .shimmer-wrapper {
+  animation: shimmer-loading 2.7s infinite;
 }
 
 .crew-member {

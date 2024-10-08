@@ -2,7 +2,7 @@
   <!-- Rating star button -->
   <div class="relative group cursor-pointer h-full py-3">
     <div
-        class="flex justify-center items-center w-11 h-11 md:w-[46px] md:h-[46px] bg-white/10 border border-white/5 rounded-full">
+        class="flex justify-center items-center w-11 h-11 md:w-[46px] md:h-[46px] bg-tmdbDarkBlue border border-white/5 rounded-full">
       <svg class="h-4 w-4" :class="{'text-yellow-500': userRate}">
         <use xlink:href="#star"></use>
       </svg>

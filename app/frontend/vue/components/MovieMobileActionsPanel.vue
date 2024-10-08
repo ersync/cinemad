@@ -1,7 +1,7 @@
 <template>
   <div id="mobile-actions-panel" class="flex justify-around items-center select-none mb-1 relative">
     <div class="flex justify-center items-center w-1/2">
-      <MovieScore :movie-id="movieId" :line-width="3" :size="44" chart-size="base-chart"/>
+      <MovieScore :movie-id="movieId" :line-width="3" :size="44" chart-size="base-chart" :trigger-animation="true"/>
     </div>
     <div class="flex justify-center items-center w-1/2">
       <MovieRating :movie-id="movieId"/>

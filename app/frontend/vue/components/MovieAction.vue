@@ -1,7 +1,7 @@
 <template>
   <div class="h-full py-3 relative">
     <div @click.prevent="handleClick"
-         class="peer flex justify-center items-center w-11 h-11 md:w-[46px] md:h-[46px] bg-white/10 border border-white/5 rounded-full cursor-pointer">
+         class="peer flex justify-center items-center w-11 h-11 md:w-[46px] md:h-[46px] bg-tmdbDarkBlue border border-white/5 rounded-full cursor-pointer">
       <svg class="h-4 w-4" :class="{ [activeClass]: isActive }">
         <use :xlink:href="iconHref"></use>
       </svg>

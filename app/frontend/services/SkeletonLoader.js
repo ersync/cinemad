@@ -39,7 +39,6 @@ export class SkeletonLoader {
     window.addEventListener('load', () => {
       const skeletonLoader = document.getElementById(this.config.skeletonId)
       const actualContent = document.getElementById(this.config.actualContentId)
-      console.log(skeletonLoader, actualContent)
       if (skeletonLoader && actualContent) {
         skeletonLoader.style.display = 'none'
         actualContent.style.display = 'flex'
