@@ -28,11 +28,11 @@ const props = defineProps({
     required: true
   },
   lineWidth: {
-    type: String,
+    type: Number,
     required: true
   },
   size: {
-    type: String,
+    type: Number,
     required: true
   },
   chartSize: {

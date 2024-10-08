@@ -61,10 +61,6 @@ export default {
       type: String,
       required: true
     },
-    className: {
-      type: String,
-      required: true
-    }
   },
   setup(props) {
     const ratingSteps = [

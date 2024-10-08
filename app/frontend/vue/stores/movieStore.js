@@ -61,7 +61,6 @@ export const useMovieStore = defineStore('movieStore', () => {
       if (options.rate !== false) {
         promises.push(movieApiService.getRate(movieId).then(rate => {
           state.userRate = rate.score
-          console.log("s", rate)
         }))
       }
 
