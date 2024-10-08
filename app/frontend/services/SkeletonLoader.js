@@ -21,9 +21,9 @@ export class SkeletonLoader {
   }
 
   createSkeletonItem() {
-    const li = document.createElement('li')
-    li.innerHTML = this.config.itemTemplate()
-    return li
+    const div = document.createElement('div')
+    div.innerHTML = this.config.itemTemplate()
+    return div
   }
 
   createSkeletonItems() {
@@ -39,6 +39,7 @@ export class SkeletonLoader {
     window.addEventListener('load', () => {
       const skeletonLoader = document.getElementById(this.config.skeletonId)
       const actualContent = document.getElementById(this.config.actualContentId)
+      console.log(skeletonLoader, actualContent)
       if (skeletonLoader && actualContent) {
         skeletonLoader.style.display = 'none'
         actualContent.style.display = 'flex'

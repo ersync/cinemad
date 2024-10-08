@@ -25,6 +25,48 @@ const castTemplate = () => `
       </div>
 `
 
+const actionsPanelTemplate = () => `
+  <div class="flex justify-between items-center opacity-20 space-x-2 p-2">
+    <div class="w-16 h-16 bg-gray-200 rounded-full relative overflow-hidden">
+      <div class="shimmer-wrapper">
+        <div class="shimmer"></div>
+      </div>
+    </div>
+    <div>
+    <div class="w-5 h-2 mb-2 bg-gray-200 rounded relative overflow-hidden">
+      <div class="shimmer-wrapper">
+        <div class="shimmer"></div>
+      </div>
+    </div>
+    <div class="w-7 h-2 bg-gray-200 rounded relative overflow-hidden">
+      <div class="shimmer-wrapper">
+        <div class="shimmer"></div>
+      </div>
+    </div>
+</div>
+    <div class="w-10 h-10 bg-gray-200 rounded-full relative overflow-hidden">
+      <div class="shimmer-wrapper">
+        <div class="shimmer"></div>
+      </div>
+    </div>
+    <div class="w-10 h-10 bg-gray-200 rounded-full relative overflow-hidden">
+      <div class="shimmer-wrapper">
+        <div class="shimmer"></div>
+      </div>
+    </div>
+    <div class="w-10 h-10 bg-gray-200 rounded-full relative overflow-hidden">
+      <div class="shimmer-wrapper">
+        <div class="shimmer"></div>
+      </div>
+    </div>
+    <div class="w-24 h-8 bg-gray-200 rounded relative overflow-hidden">
+      <div class="shimmer-wrapper">
+        <div class="shimmer"></div>
+      </div>
+    </div>
+  </div>
+`
+
 export function initializeSkeletons() {
   const castLoader = new SkeletonLoader({
     skeletonId: 'skeleton-cast-loader',
@@ -32,5 +74,12 @@ export function initializeSkeletons() {
     itemTemplate: castTemplate,
     itemCount: 10,
   })
+  const actionsPanelLoader = new SkeletonLoader({
+    skeletonId: 'skeleton-actions-panel-loader',
+    actualContentId: 'actions-panel',
+    itemTemplate: actionsPanelTemplate,
+    itemCount: 1,
+  })
   castLoader.init()
+  actionsPanelLoader.init()
 }
