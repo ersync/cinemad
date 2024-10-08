@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col relative my-7.5">
-    <div class="flex gap-5 items-center mb-5 font-SourceProSemiBold antialiased">
+    <div class="flex gap-5 justify-between sm:justify-start items-center mb-5 font-SourceProSemiBold antialiased">
       <h2 class="font-SourceProSemiBold text-[1.5rem]">Media</h2>
       <PeriodSelector
           :periods="periods"
@@ -65,7 +65,7 @@ watch(movieId, async (newMovieId) => {
 }, {immediate: true})
 
 onMounted(() => {
-  const element = document.getElementById('media-widget')
+  const element = document.getElementById('movie-media')
   if (element) {
     movieId.value = element.dataset.movieId
   }

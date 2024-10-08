@@ -1,14 +1,13 @@
 <div class="mb-[30px] pb-[30px] border-b border-[#d7d7d7] antialiased">
-  <h3 class="font-SourceProSemiBold text-[1.2rem] sm:text-[1.4rem] mb-5">Top Billed Cast</h3>
+  <h3 class="font-SourceProSemiBold text-[1.2rem] sm:text-[1.4rem] mb-3">Top Billed Cast</h3>
   <div class="relative">
-    <div class="font-SourceProNormal scrollbar overflow-scroll mb-5">
+    <div class="font-SourceProNormal scrollbar overflow-scroll">
       <ul id="skeleton-cast-loader" class="flex gap-3.5 mb-2.5">
         <!-- Skeleton items will be here -->
       </ul>
     </div>
     <div class="scrollable-wrapper font-SourceProNormal scrollbar overflow-scroll mb-5 fading">
-
-      <ul id="actual-cast-content" class="scrollable-content items-stretch flex gap-3.5 mb-5 " style="display: none;">
+      <ul id="actual-cast-content" class="scrollable-content items-stretch flex gap-3.5 mb-5" style="display: none;">
         <% @movie.cast_members.each do |person| %>
           <li class="min-h-full">
             <div class="h-full w-[122px] sm:w-[140px] overflow-hidden rounded-lg border border-tmdbLightGray pb-2.5 shadow-light">

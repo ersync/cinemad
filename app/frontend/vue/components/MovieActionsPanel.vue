@@ -1,25 +1,23 @@
 <template>
-  <div class="flex justify-center items-center select-none">
+  <div class="flex justify-center items-center select-none max-lg:mr-4 max-md:mr-2">
     <MovieScore :movie-id="movieId" :line-width="5" :size="68" chart-size="big-chart"/>
   </div>
-
-  <div class="flex items-center h-full">
-    <div class="flex items-center justify-start gap-1.5 lg:gap-x-5 flex-wrap select-none">
-      <MovieAction
-          v-for="action in actions"
-          :key="action.key"
-          :is-active="action.isActive"
-          :icon-href="action.iconHref"
-          :active-class="action.activeClass"
-          :on-click="action.onClick"
-      />
-      <MovieRating :movie-id="movieId"/>
-      <div class="flex justify-center items-center font-SourceProSemiBold leading-[40px]">
-        <svg class="inline-block w-[22px] h-[22px] mx-[5px]">
-          <use xlink:href="#play"></use>
-        </svg>
-        <span class="hidden lg:block">Play Trailer</span>
-      </div>
+  <div class="flex items-center justify-start gap-3 md:gap-5 lg:gap-x-5 flex-wrap select-none">
+    <MovieAction
+        v-for="action in actions"
+        :key="action.key"
+        :label="action.key"
+        :is-active="action.isActive"
+        :icon-href="action.iconHref"
+        :active-class="action.activeClass"
+        :on-click="action.onClick"
+    />
+    <MovieRating :movie-id="movieId"/>
+    <div class="flex justify-center items-center font-SourceProSemiBold leading-[40px]">
+      <svg class="inline-block w-[22px] h-[22px] mx-[5px]">
+        <use xlink:href="#play"></use>
+      </svg>
+      <span class="hidden lg:block">Play Trailer</span>
     </div>
   </div>
 </template>
@@ -62,18 +60,18 @@ const handleAction = async (action, errorMessage) => {
 // Computed property for actions
 const actions = computed(() => [
   {
-    key: 'watchlist',
-    isActive: isInWatchlist.value,
-    iconHref: '#bookmark',
-    activeClass: 'text-red-500',
-    onClick: toggleWatchlist
-  },
-  {
     key: 'favorite',
     isActive: isFavorite.value,
     iconHref: '#heart',
     activeClass: 'text-pink-500',
     onClick: toggleFavorite
+  },
+  {
+    key: 'watchlist',
+    isActive: isInWatchlist.value,
+    iconHref: '#bookmark',
+    activeClass: 'text-red-500',
+    onClick: toggleWatchlist
   }
 ])
 

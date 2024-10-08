@@ -13,9 +13,9 @@ export function mountComponents() {
   const movieStore = useMovieStore(sharedPinia)
 
 
-  const mediaWidgetEl = document.getElementById('movie-media')
-  if (mediaWidgetEl) {
-    createVueApp(MovieMedia).mount('#media-media')
+  const movieMediaEl = document.getElementById('movie-media')
+  if (movieMediaEl) {
+    createVueApp(MovieMedia).mount('#movie-media')
   }
 
   const mobileMenuEl = document.getElementById('mobile-menu-container')
