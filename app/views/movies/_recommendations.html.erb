@@ -1,0 +1,31 @@
+<section class="relative" aria-labelledby="recommendations-heading">
+  <h3 id="recommendations-heading" class="text-[1.4em] font-SourceProSemiBold mb-5">Recommendations</h3>
+  <div class="scrollable-wrapper fading scrollbar overflow-x-auto">
+    <ul class="scrollable-content flex gap-4 pb-2.5 snap-x snap-mandatory">
+      <% Movie.random_recommendations.each do |movie| %>
+        <%= link_to movie_path(movie), class: "shrink-0 snap-start", aria: { label: "View details for #{movie.title}" } do %>
+
+          <li class="shrink-0 snap-start">
+            <div class="w-[250px] h-[141px] overflow-hidden rounded-lg">
+              <div class="block w-full h-full">
+                <%= image_tag movie.background,
+                              class: "h-full object-cover",
+                              alt: "",
+                              loading: "lazy",
+                              decoding: "async" %>
+              </div>
+            </div>
+            <div class="flex justify-between items-center mt-1">
+              <span class="inline-block text-black/80"><%= movie.title %></span>
+              <span
+                class="inline-block <%= score_color_class(movie.average_rating) %>"
+                aria-label="Match score">
+                <%= movie.average_rating %>%
+              </span>
+            </div>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+</section>

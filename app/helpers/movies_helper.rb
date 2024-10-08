@@ -64,4 +64,15 @@ module MoviesHelper
       content_tag(:h4, 'Role not specified', class: 'font-SourceProNormal text-[0.9rem] leading-3')
     end
   end
+
+  def score_color_class(score)
+    case score
+    when 0..50
+      "text-red-500/80"
+    when 51..70
+      "text-amber-500"
+    else
+      "text-green-500"
+    end
+  end
 end
