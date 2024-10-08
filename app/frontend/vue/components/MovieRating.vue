@@ -9,7 +9,7 @@
       <!-- Rating popup -->
       <div v-cloak
            ref="ratingContainerRef"
-           class="flex justify-center items-center absolute top-full z-40 w-[210px] h-[65px] invisible opacity-0 group-hover:opacity-100 group-hover:visible transition-all
+           class="flex justify-center items-center absolute top-full -right-[140%] z-40 w-[210px] h-[65px] invisible opacity-0 group-hover:opacity-100 group-hover:visible transition-all
                   duration-200 delay-75 gap-2 rounded-md bg-tmdbDarkBlue text-white cursor-pointer">
         <!-- Unrate button -->
         <button @click.prevent="unsetRate" :disabled="!userRate">

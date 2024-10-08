@@ -7,7 +7,7 @@
       </svg>
     </div>
     <div
-        class="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 rounded bg-tmdbDarkBlue text-white text-base
+        class="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 rounded-md bg-tmdbDarkBlue text-white text-base
             opacity-0 invisible peer-hover:opacity-100 peer-hover:visible transition-all duration-100 delay-150 whitespace-nowrap">
       {{ label === 'watchlist' ? 'Add to your watchlist' : label === 'favorite' ? 'Mark as favorite' : '' }}
     </div>

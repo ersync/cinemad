@@ -1,6 +1,7 @@
 <template>
-  <div class="flex flex-col relative my-7.5">
-    <div class="flex gap-5 justify-between sm:justify-start items-center mb-5 font-SourceProSemiBold antialiased">
+  <div class="flex flex-col relative mb-[30px] pb-[30px] border-b border-[#d7d7d7]">
+    <div
+        class="flex [@media(max-width:359px)]:flex-col gap-2 sm:gap-5 justify-between sm:justify-start items-center mb-5 font-SourceProSemiBold antialiased">
       <h2 class="font-SourceProSemiBold text-[1.5rem]">Media</h2>
       <PeriodSelector
           :periods="periods"
@@ -8,7 +9,7 @@
           @period-selected="handlePeriodSelected"
       />
     </div>
-    <div class="scrollable-wrapper scrollbar cursor-grab active:cursor-grabbing min-h-[300px]">
+    <div class="scrollable-wrapper scrollbar cursor-grab active:cursor-grabbing min-h-[300px] rounded-t-md">
       <div v-cloak class="scrollable-content transition-all duration-500 flex pb-0.5 rounded-lg child:shrink-0">
         <MediaItem
             v-for="(media, index) in mediaUrls"
