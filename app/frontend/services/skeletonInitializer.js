@@ -27,8 +27,8 @@ const castTemplate = () => `
 
 export function initializeSkeletons() {
   const castLoader = new SkeletonLoader({
-    containerId: 'cast-skeleton-loader',
-    contentId: 'actual-cast-content',
+    skeletonId: 'skeleton-cast-loader',
+    actualContentId: 'actual-cast-content',
     itemTemplate: castTemplate,
     itemCount: 10,
   })

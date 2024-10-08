@@ -1,8 +1,8 @@
 export class SkeletonLoader {
   constructor(config) {
     this.config = {
-      containerId: 'skeletonLoader',
-      contentId: 'actualContent',
+      skeletonId: 'skeletonLoader',
+      actualContentId: 'actualContent',
       itemCount: 10,
       itemTemplate: this.defaultItemTemplate,
       ...config
@@ -27,7 +27,7 @@ export class SkeletonLoader {
   }
 
   createSkeletonItems() {
-    const skeletonLoader = document.getElementById(this.config.containerId)
+    const skeletonLoader = document.getElementById(this.config.skeletonId)
     if (skeletonLoader) {
       for (let i = 0; i < this.config.itemCount; i++) {
         skeletonLoader.appendChild(this.createSkeletonItem())
@@ -37,8 +37,8 @@ export class SkeletonLoader {
 
   handleContentLoading() {
     window.addEventListener('load', () => {
-      const skeletonLoader = document.getElementById(this.config.containerId)
-      const actualContent = document.getElementById(this.config.contentId)
+      const skeletonLoader = document.getElementById(this.config.skeletonId)
+      const actualContent = document.getElementById(this.config.actualContentId)
       if (skeletonLoader && actualContent) {
         skeletonLoader.style.display = 'none'
         actualContent.style.display = 'flex'
