@@ -96,7 +96,7 @@ onMounted(async () => {
     actualContent.style.display = 'flex'
     setTimeout(() => {
       triggerAnimation.value = true
-    }, 300)
+    }, 700)
   } catch (err) {
     handleError(err, 'Failed to load movie data. Please refresh the page.')
   }

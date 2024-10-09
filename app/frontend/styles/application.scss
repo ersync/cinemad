@@ -96,7 +96,7 @@
     font-weight: 700;
     font-style: normal;
   }
-  
+
   // Disc style
   .disc::before {
     content: "";
@@ -269,6 +269,10 @@
     @apply text-[12.96px] leading-4 rounded-md bg-black/10 inline-block rounded-[4px] px-2.5 py-1 border border-tmdbLightGray;
   }
 
+  .tag {
+    @apply text-[12.96px] leading-4 rounded-md bg-black/10 inline-block rounded-[4px] px-2.5 py-1 border border-tmdbLightGray;
+  }
+
   // Custom input
   .custom-input {
     @apply w-full h-9.5 mt-0.5 px-4 py-1.5 bg-white rounded-md border border-tmdbLightGray outline-none;
@@ -295,6 +299,7 @@
   .active_tab {
     --tw-bg-opacity: 1;
     background-color: rgb(3 37 65 / var(--tw-bg-opacity));
+    transition: all;
 
     a {
       background: linear-gradient(to right, #c0fecf 0, #1ed5a9 100%);

@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center gap-x-1">
-    <a href="#" class="flex justify-center items-center hover:scale-110 cursor-pointer transition-all mr-1 sm:mr-0">
+    <div href="#" class="flex justify-center items-center hover:scale-110 cursor-pointer transition-all mr-1 sm:mr-0">
       <div class="consensus">
         <div :class="['outer_ring', props.chartSize]">
           <div
@@ -11,7 +11,7 @@
           </div>
         </div>
       </div>
-    </a>
+    </div>
     <span class="block font-SourceProBold leading-[10px]">User <span class="hidden sm:block"><br></span> Score</span>
   </div>
 </template>

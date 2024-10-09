@@ -10,7 +10,7 @@
         @click="$emit('periodSelected', formatPeriod(period))"
     >
       <a class="block w-full min-w-max relative z-10">{{ period.replace(/ .*/, '') }}</a>
-      <span class="absolute inset-0 bg-tmdbDarkBlue opacity-0 transition-all duration-500"></span>
+      <span class="absolute inset-0 bg-tmdbDarkBlue opacity-0 transition-all duration-300"></span>
     </span>
   </div>
 </template>

@@ -1,7 +1,7 @@
 module MoviesHelper
   def display_crew_information(crew)
     content_tag(:div) do
-      content_tag(:span, crew.name) +
+      content_tag(:a, crew.name, class: "cursor-pointer hover:text-white/70") +
         display_crew_roles(crew)
     end
   end
@@ -74,5 +74,10 @@ module MoviesHelper
     else
       "text-green-500"
     end
+  end
+
+  def full_language_name(code)
+    language_hash = language_options.to_h
+    language_hash.key(code) || code
   end
 end

@@ -1,59 +1,78 @@
-<div class="flex justify-between items-start grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-[30px] font-SourceProNormal antialiased">
-  <!-- Social media & Facts -->
-  <div>
-    <!-- Social media and external links section -->
-    <div class="flex gap-2.5 mb-[30px]">
-      <svg class="w-[30px] h-[30px]">
-        <use href="#facebook"><a href=""></a></use>
-      </svg>
-      <svg class="w-[30px] h-[30px]">
-        <use href="#twitter"><a href=""></a></use>
-      </svg>
-      <svg class="w-[30px] h-[30px]">
-        <use href="#instagram"><a href=""></a></use>
-      </svg>
-      <div class="flex justify-center items-center pl-2.5 border-l border-tmdbLightGray">
-        <img class="w-[21px] h-[21px]" src="https://www.themoviedb.org/assets/2/v4/logos/justwatch-small-grey-b589701cfd61de942e17ae33c34a7c939a1218595df3d8744c16a5612f0fd6f7.svg" alt="">
+<div class="grid max-xs:grid-colo-1 xs:grid-cols-2 lg:grid-cols-1 gap-7 font-SourceProNormal antialiased">
+  <!-- Social media and external links section -->
+  <div class="space-y-7">
+    <div class="flex flex-wrap justify-start max-sm:pt-1 gap-4 sm:gap-2.5 mt-1">
+      <a href="">
+        <svg class="w-6 h-6 sm:w-7 sm:h-7">
+          <use href="#facebook"></use>
+        </svg>
+      </a>
+      <a href="">
+        <svg class="w-6 h-6 sm:w-7 sm:h-7">
+          <use href="#twitter"><a href=""></a></use>
+        </svg>
+      </a>
+      <a href="">
+        <svg class="w-6 h-6 sm:w-7 sm:h-7">
+          <use href="#instagram"><a href=""></a></use>
+        </svg>
+      </a>
+      <div class="flex gap-2.5">
+        <div>
+          <a href="">
+            <svg class="w-6 h-6 sm:w-7 sm:h-7">
+              <use xlink:href="#justwatch"><a href=""></a></use>
+            </svg>
+          </a>
+        </div>
+        <div class="sm:pl-2.5 sm:border-l border-tmdbLightGray">
+          <a href="">
+            <svg class="w-7 h-7 sm:w-8 sm:h-8">
+              <use href="#link"><a href=""></a></use>
+            </svg>
+          </a>
+        </div>
       </div>
-      <svg class=" w-[40px] h-[30px] pl-2.5 border-l border-tmdbLightGray">
-        <use href="#link"><a href=""></a></use>
-      </svg>
     </div>
     <!-- Movie facts section -->
     <div>
       <ul class="space-y-5">
         <li>
-          <strong class="font-SourceProSemiBold block leading-4 antialiased">Status:</strong><span>Released</span>
+          <strong class="font-SourceProSemiBold block">Status:</strong><span class="text-black/80">Released</span>
         </li>
         <li>
-          <strong class="font-SourceProSemiBold block leading-4 antialiased">Original
-            Language:</strong><span><%= @movie.language %></span>
+          <strong class="font-SourceProSemiBold block">Original
+            Language:</strong><span class="text-black/80"><%= full_language_name(@movie.language) %></span>
         </li>
         <li>
-          <strong class="font-SourceProSemiBold block leading-4 antialiased">Budget:</strong><span>$<%= @movie.budget %></span>
+          <strong class="font-SourceProSemiBold block">Budget:</strong><span class="text-black/80"><%= number_to_currency @movie.budget %></span>
         </li>
         <li>
-          <strong class="font-SourceProSemiBold block leading-4 antialiased">Revenue:</strong><span>$<%= @movie.revenue %></span>
+          <strong class="font-SourceProSemiBold block">Revenue:</strong><span class="text-black/80"><%= number_to_currency @movie.revenue %></span>
         </li>
       </ul>
     </div>
-  </div>
-  <!-- Keywords section -->
-  <div>
-    <h4 class="text-[1.1rem] font-SourceProSemiBold mb-2.5">Keywords</h4>
-    <ul class="flex gap-x-[5px] gap-y-2.5 flex-wrap child:tag pb-[30px] border-b border-[#d7d7d7]">
-      <% @movie.keywords.each do |keyword| %>
-        <li><%= keyword.name %></li>
-      <% end %>
-    </ul>
+    <!-- Keywords section -->
+    <div>
+      <h4 class="text-[1.1rem] font-SourceProSemiBold mb-2.5 mt-5">Keywords</h4>
+      <ul class="flex gap-x-1 gap-y-2.5 flex-wrap child:tag pb-[30px] lg:border-b lg:border-[#d7d7d7]">
+        <% if @movie.keywords.any? %>
+          <% @movie.keywords.each do |keyword| %>
+            <li class="text-[0.9rem] cursor-pointer"><%= keyword.name %></li>
+          <% end %>
+        <% else %>
+          <li class="text-[0.9rem] text-gray-500">No keywords available</li>
+        <% end %>
+      </ul>
+    </div>
   </div>
   <!-- Content Score section -->
   <div>
     <div class="mb-[30px]">
       <h4 class="text-[1.1rem] font-SourceProSemiBold mb-1">Content Score</h4>
       <div class="rounded-lg overflow-hidden">
-        <p class="bg-black text-white font-SourceProBold leading-9 px-3">100</p>
-        <p class="pt-0.5 pb-1 px-3 bg-black/15 text-[0.9rem]">Yes! Looking good!</p>
+        <p class="bg-black text-white font-SourceProBold leading-8 sm:leading-9 px-3">100</p>
+        <p class="pt-0.5 pb-1 px-3 bg-black/15 text-[0.85rem] sm:text-[0.9rem]">Yes! Looking good!</p>
       </div>
     </div>
     <div class="mb-[30px]">
@@ -96,11 +115,10 @@
           </div>
         </li>
       </ul>
-      <a href="#">View Edit History</a>
     </div>
   </div>
   <!-- Additional Actions Column -->
-  <div class="text-center">
+  <div class="text-center max-xs:col-span-1 col-span-2 lg:col-span-1">
     <!-- Login button section -->
     <div class="inline-flex justify-center items-center gap-1.5 mb-[30px] bg-black py-1.5 px-5 rounded-full text-white text-center">
       <svg class="w-[15.84px] h-[15.84px]">

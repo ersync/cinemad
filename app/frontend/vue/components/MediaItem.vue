@@ -13,7 +13,7 @@
         <img
             :src="`https://i.ytimg.com/vi/${media.url}/hqdefault.jpg`"
             alt="Thumbnail"
-            class="w-[533px] h-[240px] md:h-[300px] object-cover"
+            class="w-[533px] h-[300px] object-cover"
         >
       </template>
       <iframe
