@@ -1,30 +1,48 @@
 module Mediaable
   extend ActiveSupport::Concern
 
-  included do
-    before_action :set_media_service, only: [:get_posters, :get_backdrops, :get_videos, :popular_media]
-  end
-
   def get_posters
-    render_media_response(@media_service.posters, 'No posters found for the movie')
+    render_media_response(posters, 'No posters found for the movie')
   end
 
   def get_backdrops
-    render_media_response(@media_service.backdrops, 'No backdrops found for the movie')
+    render_media_response(backdrops, 'No backdrops found for the movie')
   end
 
   def get_videos
-    render_media_response(@media_service.videos, 'No videos found for the movie')
+    render_media_response(videos, 'No videos found for the movie')
   end
 
   def popular_media
-    render json: { urls: @media_service.popular_media }, status: :ok
+    render json: { success: true, urls: popular_media_urls }, status: :ok
   end
 
   private
 
-  def set_media_service
-    @media_service = MovieMediaService.new(@movie)
+  def posters
+    @movie.posters.map do |poster|
+      Rails.application.routes.url_helpers.rails_blob_path(poster, only_path: true)
+    end
+  end
+
+  def backdrops
+    @movie.backdrops.map do |backdrop|
+      Rails.application.routes.url_helpers.rails_blob_path(backdrop, only_path: true)
+    end
+  end
+
+  def videos
+    @movie.videos.map do |video|
+      "https://www.youtube.com/watch?v=#{video.url}"
+    end
+  end
+
+  def popular_media_urls
+    [
+      *posters.first(2),
+      *backdrops.first(2),
+      *videos.first(2)
+    ].compact
   end
 
   def render_media_response(media, error_message)
@@ -34,5 +52,4 @@ module Mediaable
       render json: { success: false, error: error_message }, status: :unprocessable_entity
     end
   end
-
 end

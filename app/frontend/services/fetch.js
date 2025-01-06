@@ -45,34 +45,38 @@ export default class Fetch {
       },
       error => {
         NProgress.done()
-        this.handleError(error)
+        return Promise.reject(this.handleError(error)) // Return the rejected promise
       }
     )
   }
 
   handleError(error) {
     if (error.response) {
-      throw new ApiError(
+      return new ApiError(
         `Request failed with status ${error.response.status}`,
         error.response.status,
         error.response.data,
         error.config
       )
     } else if (error.request) {
-      throw new ApiError('No response received from the server', null, null, error.config)
+      return new ApiError('No response received from the server', null, null, error.config)
     } else {
-      throw new ApiError('Error setting up the request', null, null, error.config)
+      return new ApiError('Error setting up the request', null, null, error.config)
     }
   }
 
   async makeRequest(method, url, data = null, headers = {}) {
     try {
-      const config = {method, url, headers}
-      if (data) config.data = data
+      const config = {
+        method,
+        url,
+        headers,
+        data: data || undefined // Only include data if it exists
+      }
       const response = await this.axiosInstance(config)
       return response.data
     } catch (error) {
-      this.handleError(error)
+      throw this.handleError(error) // Throw the error instead of just handling it
     }
   }
 }
