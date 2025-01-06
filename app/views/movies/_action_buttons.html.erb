@@ -1,0 +1,31 @@
+<div class="mt-3 md:mt-4 w-full">
+  <ul class="flex justify-around md:justify-start md:gap-5 flex-wrap">
+    <li class="text-zinc-400 group cursor-pointer">
+      <%= button_to favorite_movie_path(movie),
+        method: :post,
+        class: "flex gap-2.5 favorite-btn",
+        form_class: "favorite-form",
+        data: { movie_id: movie.id } do %>
+        <span class="w-6 h-6 md:w-7 md:h-7 rounded-full border border-zinc-400 flex justify-center items-center transition-all delay-75 group-hover:bg-red-500 group-hover:text-white group-hover:border-none duration-500 favorite-icon">
+          <svg class="w-4 h-4 md:w-4 md:h-4">
+            <use xlink:href="#heart"></use>
+          </svg>
+        </span>
+        <span class="hidden md:inline">Favorite</span>
+      <% end %>
+    </li>
+    <li class="text-zinc-400 group cursor-pointer">
+      <%= button_to watchlist_movie_path(movie),
+        method: :delete,
+        class: "flex gap-2.5 remove-watchlist-btn",
+        form_class: "remove-watchlist-form" do %>
+        <span class="w-6 h-6 md:w-7 md:h-7 rounded-full border border-zinc-400 flex justify-center items-center transition-all group-hover:bg-zinc-400 group-hover:text-white group-hover:border-none duration-500">
+          <svg class="w-4 h-4 md:w-4 md:h-4">
+            <use xlink:href="#menu-close"></use>
+          </svg>
+        </span>
+        <span class="hidden md:inline">Remove</span>
+      <% end %>
+    </li>
+  </ul>
+</div>

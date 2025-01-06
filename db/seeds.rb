@@ -1,5 +1,6 @@
 # users
 
+User.create!(username: "FilmFanatic", email: "johndoe@example.com", password: "johndoe@example.com", password_confirmation: "johndoe@example.com")
 User.create!(username: "user1", email: "user1@example.com", password: "user1@example.com", password_confirmation: "user1@example.com")
 User.create!(username: "user2", email: "user2@example.com", password: "user2@example.com", password_confirmation: "user2@example.com")
 User.create!(username: "user3", email: "user3@example.com", password: "user3@example.com", password_confirmation: "user3@example.com")

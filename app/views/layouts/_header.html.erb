@@ -11,7 +11,7 @@
             <li class="relative group cursor-pointer">
               <%= link_to "Movies", root_path %>
               <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-75 delay-75 duration-200 absolute py-2 w-44 bg-white text-black rounded font-SourceProNormal top-full child-hover:bg-tmdbHoverGray child:block child:pl-6">
-                <%= link_to "Popular", movies_url %>
+                <%#= link_to "Popular", movies_url %>
                 <a href="#">Now Playing</a>
                 <a href="#">Upcoming</a>
                 <a href="#">Top Rated</a>
@@ -63,22 +63,22 @@
                   </span>
                 </a>
                 <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 delay-75 leading-normal absolute font-SourceProSemiBold text-black top-full w-[178px] overflow-hidden rounded-[3px] shadow-light bg-white child:px-5 child:py-1.5 child:leading-6 child-hover:bg-[#f4f4f4] child:transition-all child:text-black/60 child:text-[0.9rem] child:block">
-                  <%= link_to user_profile_path(current_user), class: "!py-3 border-b border-tmdbLightGray hover:!bg-white" do %>
-                    <p class="text-black leading-5 text-base font-SourceProSemiBold"><%= current_user.username %> </p>
-                    <span class="!text-black/50 text-[0.8rem]">View profile</span>
-                  <% end %>
-                  <%= link_to "Discussions", new_user_session_path %>
-                  <%= link_to "Lists", new_user_session_path %>
-                  <%= link_to "Ratings", ratings_user_path(current_user) %>
-                  <%= link_to "Watchlist", watchlist_user_path(current_user), class: "border-b !pb-2 border-tmdbLightGray" %>
-                  <%= link_to "Edit Profile", edit_user_path(current_user) %>
-                  <a class="border-b border-tmdbLightGray" href="">Settings</a>
-                  <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "leading-7 w-full h-full text-left" %>
+                  <%#= link_to user_profile_path(current_user), class: "!py-3 border-b border-tmdbLightGray hover:!bg-white" do %>
+<!--                    <p class="text-black leading-5 text-base font-SourceProSemiBold"><%#= current_user.username %> </p>-->
+<!--                    <span class="!text-black/50 text-[0.8rem]">View profile</span>-->
+                  <%# end %>
+                  <%#= link_to "Discussions", new_user_session_path %>
+                  <%#= link_to "Lists", new_user_session_path %>
+                  <%#= link_to "Ratings", ratings_user_path(current_user) %>
+                  <%#= link_to "Watchlist", watchlist_user_path(current_user), class: "border-b !pb-2 border-tmdbLightGray" %>
+                  <%#= link_to "Edit Profile", edit_user_path(current_user) %>
+<!--                  <a class="border-b border-tmdbLightGray" href="">Settings</a>-->
+                  <%#= button_to "Logout", destroy_user_session_path, method: :delete, class: "leading-7 w-full h-full text-left" %>
                 </div>
               </li>
             <% else %>
-              <li><%= link_to "Login", new_user_session_path %></li>
-              <li><%= link_to "Join <span class='hidden lg:inline-block'>TMDB</span>".html_safe, new_user_registration_path %></li>
+<!--              <li><%#= link_to "Login", new_user_session_path %></li>-->
+<!--              <li><%#= link_to "Join <span class='hidden lg:inline-block'>TMDB</span>".html_safe, new_user_registration_path %></li>-->
 
             <% end %>
             <li class="flex justify-center items-center cursor-pointer">

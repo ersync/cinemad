@@ -1,122 +1,16 @@
 <div class="mb-32 font-SourceProNormal antialiased">
   <%= render partial: "users/shared/user_profile_layout", locals: { user: current_user } %>
   <div class="container">
-    <!-- Section heading and filter options -->
-    <div class="flex flex-col sm:flex-row justify-start sm:justify-between items-start sm:items-center gap-y-2 my-5">
-      <div class="flex items-center">
-        <h3 class="font-SourceProBold text-[1.5rem] mr-1.5">My Ratings</h3>
-        <!-- Import list -->
-        <div class="bg-zinc-300 rounded-full h-6 w-6 flex justify-center items-center mr-5">
-          <svg class="h-5 w-5 text-black">
-            <use xlink:href="#dots"></use>
-          </svg>
-        </div>
-        <!-- Filter options: Movies and TV -->
-        <div class="flex gap-4">
-          <h4 class="border-b-4 border-tmdbLighterBlue">
-            <a href="">Movies</a><span class="text-[0.9rem] text-tmdbLighterBlue/80 ml-2">2</span></h4>
-          <h4><a href="">TV</a><span class="text-[0.9rem] text-tmdbLighterBlue/80 ml-2">2</span></h4>
-        </div>
-      </div>
-      <!-- Sorting and ordering options -->
-      <div class="flex gap-3 items-center self-end">
-        <span class="font-SourceProLight text-[1.1rem] hidden sm:inline">Filter by:</span>
-        <!-- Dropdown for filtering options -->
-        <div>
-          <select name="x" id="" class="font-SourceProSemiBold text-tmdbLighterBlue text-[0.9rem] sm:text-base border-b border-tmdbLighterBlue pb-1 outline-none ">
-            <option value="Date Rated">Date Rated</option>
-            <option value="My Rating">My Rating</option>
-            <option value="Popularity">Popularity</option>
-            <option value="Release Date">Release Date</option>
-          </select>
-        </div>
-        <div>
-          <span class="font-SourceProLight sm:text-[1.1rem] mr-1 hidden sm:inline">Order:</span>
-          <a href="" class="font-semibold text-tmdbDarkBlue text-[1.1rem] sm:text-[1.4rem] hover:text-tmdbLighterBlue">↓</a>
-        </div>
-      </div>
-    </div>
-    <!-- Loop through user's rated movies -->
+    <%= render "users/shared/list_header",
+      title: "My Ratings",
+      show_import_button: true,
+      filter_options: ["Date Rated", "My Rating", "Popularity", "Release Date"] %>
+
     <% if @current_user_ratings.empty? %>
       <p>You haven't rated any movies.</p>
     <% else %>
       <% @current_user_ratings.each do |movie| %>
-        <div class="h-[202px] shadow-medium gap-3.5 border border-tmdbLightGray rounded-lg overflow-hidden flex justify-start items-start mb-5">
-          <div class="w-[133px] h-full shrink-0">
-            <%= link_to image_tag(movie.cover), movie %>
-          </div>
-          <!-- Movie details and actions -->
-          <div class="flex flex-col justify-around h-full items-start py-2.5 pr-3.5">
-            <!-- Movie Score -->
-            <div class="flex justify-center items-center gap-2.5">
-              <div class="flex justify-center items-center">
-                <a href="#" class="flex justify-center items-center hover:scale-110 cursor-pointer transition-all">
-                  <div class="consensus">
-                    <div class="outer_ring small-chart">
-                      <div class="user_score_chart movie-score flex justify-center items-center text-[10px] icon-r<%= movie.avg_rate %>  %> pl-0.5" data-percent="<%= movie.avg_rate %>">
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div>
-                <h3 class="font-SourceProBold text-[1.2rem] hover:text-tmdbLighterBlue transition-colors leading-5 md:leading-6 line-clamp-1">
-                  <%= link_to movie.title, movie %>
-                </h3>
-                <span class="text-black/35 text-[0.9rem] md:text-base line-clamp-1"><%= movie.release_date.strftime("%B %e, %Y") %></span>
-              </div>
-            </div>
-            <!-- Movie overview -->
-            <div class="mt-3 md:mt-4 leading-5">
-              <p class="text-[0.9em] md:text-[1rem] leading-5 line-clamp-3 md:line-clamp-3"><%= movie.overview %></p>
-            </div>
-            <!-- Movie actions -->
-            <div class="mt-3 md:mt-4 w-full">
-              <ul class="flex justify-around md:justify-start md:gap-5 flex-wrap ">
-                <li class="text-zinc-400 group cursor-pointer">
-                  <a href="#" class="flex gap-2.5">
-                  <span class="w-6 h-6 md:w-7 md:h-7 rounded-full border border-zinc-400 flex justify-center items-center transition-all group-hover:bg-zinc-400 group-hover:text-white group-hover:border-none duration-500">
-                    <svg class=" w-4 h-4 md:w-4 md:h-4">
-                      <use xlink:href="#star"></use>
-                    </svg>
-                  </span>
-                    <span class="hidden md:inline">Your rating</span>
-                  </a>
-                </li>
-                <li class="text-zinc-400 group cursor-pointer">
-                  <a href="#" class="flex gap-2.5">
-                  <span class="w-6 h-6 md:w-7 md:h-7 rounded-full border border-zinc-400 flex justify-center items-center transition-all delay-75 group-hover:bg-red-500 group-hover:text-white group-hover:border-none duration-500">
-                    <svg class=" w-4 h-4 md:w-4 md:h-4">
-                      <use xlink:href="#heart"></use>
-                    </svg>
-                  </span>
-                    <span class="hidden md:inline">Favorite</span>
-                  </a>
-                </li>
-                <li class="text-zinc-400 group cursor-pointer">
-                  <a href="#" class="flex gap-2.5">
-                  <span class="w-6 h-6 md:w-7 md:h-7 rounded-full border border-zinc-400 flex justify-center items-center transition-all group-hover:bg-zinc-400 group-hover:text-white group-hover:border-none duration-500">
-                    <svg class=" w-4 h-4 md:w-4 md:h-4">
-                      <use xlink:href="#list"></use>
-                    </svg>
-                  </span>
-                    <span class="hidden md:inline"><span class="hidden md:inline">Add to </span>list</span>
-                  </a>
-                </li>
-                <li class="text-zinc-400 group cursor-pointer">
-                  <a href="#" class="flex gap-2.5">
-                  <span class="w-6 h-6 md:w-7 md:h-7 rounded-full border border-zinc-400 flex justify-center items-center transition-all group-hover:bg-zinc-400 group-hover:text-white group-hover:border-none duration-500">
-                    <svg class=" w-4 h-4 md:w-4 md:h-4">
-                        <use xlink:href="#menu-close"></use>
-                      </svg>
-                    </span>
-                    <span class="hidden md:inline">Remove</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        <%= render "movies/movie_card", movie: movie %>
       <% end %>
     <% end %>
   </div>

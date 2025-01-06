@@ -1,0 +1,14 @@
+<div class="flex gap-3 items-center self-end">
+  <span class="font-SourceProLight text-[1.1rem] hidden sm:inline">Filter by:</span>
+  <div>
+    <select name="x" class="font-SourceProSemiBold text-tmdbLighterBlue text-[0.9rem] sm:text-base border-b border-tmdbLighterBlue pb-1 outline-none">
+      <% filter_options.each do |option| %>
+        <option value="<%= option %>"><%= option %></option>
+      <% end %>
+    </select>
+  </div>
+  <div>
+    <span class="font-SourceProLight sm:text-[1.1rem] mr-1 hidden sm:inline">Order:</span>
+    <a href="" class="font-semibold text-tmdbDarkBlue text-[1.1rem] sm:text-[1.4rem] hover:text-tmdbLighterBlue">↓</a>
+  </div>
+</div>

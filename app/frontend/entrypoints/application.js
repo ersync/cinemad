@@ -1,13 +1,22 @@
-import {mountComponents} from '@/vue/initializers/mountComponents'
-import {initializeSkeletons} from '@/services/skeletonInitializer'
-import {initializeScrollBooster} from '@/modules/scrollBooster'
+// app/frontend/entrypoints/application.js
+import { initializeVueApps } from '@/vue/initializers/vueAppInitializer'
+// import { initializeSkeletons } from '@/services/skeletonInitializer'
+// import { initializeScrollBooster } from '@/modules/scrollBooster'
+// import { initializeCharts } from '@/services/chartInitializer'
+// import { initializeForms } from '@/services/formInitializer'
 
+// Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-  mountComponents()
-  initializeSkeletons()
+  // Initialize Vue apps first
+  initializeVueApps()
+  //
+  // // Initialize other services
+  // initializeSkeletons()
+  // initializeCharts()
+  // initializeForms()
 })
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    initializeScrollBooster()
-  }, 500)
-})
+//
+// // Initialize scroll booster after all content is loaded
+// window.addEventListener('load', () => {
+//   setTimeout(initializeScrollBooster, 500)
+// })

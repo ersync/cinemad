@@ -14,7 +14,12 @@ class MoviesController < ApplicationController
   end
 
   def home
-    @random_movies = Movie.all
+    render json: {
+      trending: Movie.all.sample(20),  # or however you want to get trending movies
+      popular: Movie.all.sample(20),   # or your logic for popular movies
+      free: Movie.all.sample(20)       # or your logic for free movies
+    },
+      methods: [:cover_url, :average_rating]  # Include any computed properties
   end
 
   def index

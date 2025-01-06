@@ -1,21 +1,24 @@
-import {defineStore} from 'pinia'
-import {ref, computed} from 'vue'
-import {movieApiService} from '@/services/movieApiService'
+import { defineStore } from 'pinia'
+import { ref, computed , toRaw} from 'vue'
+import { movieApiService } from '@/services/movieApiService'
 
 export const useMovieStore = defineStore('movieStore', () => {
   const movieStates = ref(new Map())
   const errors = ref(new Map())
   const loading = ref(new Map())
 
-  // Helper functions
   const getOrCreateMovieState = (movieId) => {
     if (!movieStates.value.has(movieId)) {
       movieStates.value.set(movieId, {
         isFavorite: false,
         isInWatchlist: false,
-        userRate: 0,
-        avgRate: 0,
-        media: {},
+        userRate: null,
+        avgRate: null,
+        media: {
+          posters: [],
+          backdrops: [],
+          videos: []
+        },
       })
     }
     return movieStates.value.get(movieId)
@@ -24,98 +27,179 @@ export const useMovieStore = defineStore('movieStore', () => {
   const setError = (movieId, error) => errors.value.set(movieId, error)
   const setLoading = (movieId, isLoading) => loading.value.set(movieId, isLoading)
 
-  // Action executor
-  const executeAction = async (movieId, action, errorMessage) => {
-    setLoading(movieId, true)
+
+
+
+
+
+  const executeApiRequest = async (movieId, action, errorMessage) => {
+    setLoading(movieId, true);
+
     try {
-      const result = await action()
-      setError(movieId, null)
-      return result
+      const result = await action();
+      setError(movieId, null);
+      return result;
     } catch (error) {
-      console.error(`Error: ${errorMessage}`, error)
-      setError(movieId, {message: errorMessage, details: error})
-      throw error
+      const errorDetails = {
+        message: errorMessage,
+        details: error.data?.message || error.message
+      };
+      setError(movieId, errorDetails);
+      throw error;
     } finally {
-      setLoading(movieId, false)
+      setLoading(movieId, false);
     }
-  }
+  };
 
-  // API actions
   const fetchMovieDetails = async (movieId, options = {}) => {
-    return executeAction(movieId, async () => {
-      const state = getOrCreateMovieState(movieId)
-      const promises = []
+    const defaultOptions = {
+      favorite: true,
+      watchlist: true,
+      rate: true,
+      avgRate: true
+    };
 
-      if (options.favorite !== false) {
-        promises.push(movieApiService.getFavoriteStatus(movieId).then(favorite => {
-          state.isFavorite = favorite.isFavorite
-        }))
+    const finalOptions = { ...defaultOptions, ...options };
+
+    return executeApiRequest(movieId, async () => {
+      const movieState = getOrCreateMovieState(movieId);
+      const apiRequests = [];
+
+      if (finalOptions.favorite) {
+        apiRequests.push(
+          fetchFavoriteStatus(movieId, movieState)
+        );
       }
 
-      if (options.watchlist !== false) {
-        promises.push(movieApiService.getWatchlistStatus(movieId).then(watchlist => {
-          state.isInWatchlist = watchlist.isInWatchlist
-        }))
+      if (finalOptions.watchlist) {
+        apiRequests.push(
+          fetchWatchlistStatus(movieId, movieState)
+        );
       }
 
-      if (options.rate !== false) {
-        promises.push(movieApiService.getRate(movieId).then(rate => {
-          state.userRate = rate.score
-        }))
+      if (finalOptions.rate) {
+        apiRequests.push(
+          fetchUserRating(movieId, movieState)
+        );
       }
 
-      if (options.avgRate !== false) {
-        promises.push(movieApiService.getAverageRate(movieId).then(avgRate => {
-          state.avgRate = avgRate.avg_rate
-        }))
+      if (finalOptions.avgRate) {
+        apiRequests.push(
+          fetchAverageRating(movieId, movieState)
+        );
       }
 
-      await Promise.all(promises)
-    }, 'Failed to fetch movie details')
-  }
+      await Promise.all(apiRequests);
+      return movieState;
+    }, 'Failed to fetch movie initial state');
+  };
 
+  const fetchFavoriteStatus = async (movieId, movieState) => {
+    const response = await movieApiService.getFavoriteStatus(movieId);
+    movieState.isFavorite = response.isFavorite;
+    return response;
+  };
+
+  const fetchWatchlistStatus = async (movieId, movieState) => {
+    const response = await movieApiService.getWatchlistStatus(movieId);
+    movieState.isInWatchlist = response.isInWatchlist;
+    return response;
+  };
+
+  const fetchUserRating = async (movieId, movieState) => {
+    const response = await movieApiService.getRate(movieId);
+    movieState.userRate = response.success && response.isRated ? response.score : null;
+    return response;
+  };
+
+  const fetchAverageRating = async (movieId, movieState) => {
+    const response = await movieApiService.getAverageRate(movieId);
+    movieState.avgRate = response.average_rating;
+    return response;
+  };
+
+
+
+  // Updated to use new API methods
   const toggleFavorite = async (movieId) => {
-    return executeAction(movieId, async () => {
-      const state = getOrCreateMovieState(movieId)
-      const action = state.isFavorite ? 'delete' : 'post'
-      await movieApiService.toggleFavorite(movieId, action)
-      state.isFavorite = !state.isFavorite
+    return executeApiRequest(movieId, async () => {
+      const movieState = getOrCreateMovieState(movieId)
+      const response = movieState.isFavorite
+        ? await movieApiService.removeFromFavorites(movieId)
+        : await movieApiService.addToFavorites(movieId)
+
+      if (response.success) {
+        movieState.isFavorite = !movieState.isFavorite
+      }
+      return response
     }, 'Failed to toggle favorite status')
   }
 
   const toggleWatchlist = async (movieId) => {
-    return executeAction(movieId, async () => {
-      const state = getOrCreateMovieState(movieId)
-      const action = state.isInWatchlist ? 'delete' : 'post'
-      await movieApiService.toggleWatchlist(movieId, action)
-      state.isInWatchlist = !state.isInWatchlist
+    return executeApiRequest(movieId, async () => {
+      const movieState = getOrCreateMovieState(movieId)
+      const response = movieState.isInWatchlist
+        ? await movieApiService.removeFromWatchlist(movieId)
+        : await movieApiService.addToWatchlist(movieId)
+
+      if (response.success) {
+        movieState.isInWatchlist = !movieState.isInWatchlist
+      }
+      return response
     }, 'Failed to toggle watchlist status')
   }
 
   const setRate = async (movieId, rate) => {
-    return executeAction(movieId, async () => {
-      await movieApiService.setRate(movieId, rate)
-      getOrCreateMovieState(movieId).userRate = rate
+    return executeApiRequest(movieId, async () => {
+      const response = await movieApiService.setRate(movieId, rate)
+      if (response.success) {
+        getOrCreateMovieState(movieId).userRate = rate
+      }
+      return response
     }, 'Failed to set rate')
   }
 
   const unsetRate = async (movieId) => {
-    return executeAction(movieId, async () => {
-      await movieApiService.unsetRate(movieId)
-      getOrCreateMovieState(movieId).userRate = null
+    return executeApiRequest(movieId, async () => {
+      const response = await movieApiService.unsetRate(movieId)
+      if (response.success) {
+        getOrCreateMovieState(movieId).userRate = null
+      }
+      return response
     }, 'Failed to unset rate')
   }
 
+  // Updated media methods to match new API
   const fetchMedia = async (movieId, mediaType) => {
-    return executeAction(movieId, async () => {
-      const media = await movieApiService.getMedia(movieId, mediaType)
-      getOrCreateMovieState(movieId).media[mediaType] = media.urls
-      return media.urls
-    }, `Failed to fetch ${mediaType}`)
+    return executeApiRequest(movieId, async () => {
+      let response
+      switch (mediaType) {
+        case 'popular_media':
+          response = await movieApiService.getPopularMedia(movieId)
+          break
+        case 'posters':
+          response = await movieApiService.getPosters(movieId)
+          break
+        case 'backdrops':
+          response = await movieApiService.getBackdrops(movieId)
+          break
+        case 'videos':
+          response = await movieApiService.getVideos(movieId)
+          break
+        default:
+          throw new Error(`Unknown media type: ${mediaType}`)
+      }
+
+      if (response.success) {
+        return response.urls
+      }
+      throw new Error(response.error)
+    })
   }
 
-  // Computed properties
-  const movieComputed = (movieId) => ({
+  // Computed properties remain the same
+  const movieComputed = (movieId) => {
+    return {
     isFavorite: computed(() => getOrCreateMovieState(movieId).isFavorite),
     isInWatchlist: computed(() => getOrCreateMovieState(movieId).isInWatchlist),
     userRate: computed(() => getOrCreateMovieState(movieId).userRate),
@@ -123,7 +207,8 @@ export const useMovieStore = defineStore('movieStore', () => {
     media: computed(() => getOrCreateMovieState(movieId).media),
     error: computed(() => errors.value.get(movieId)),
     isLoading: computed(() => loading.value.get(movieId)),
-  })
+    }
+  }
 
   return {
     getOrCreateMovieState,
@@ -137,9 +222,3 @@ export const useMovieStore = defineStore('movieStore', () => {
     resetError: (movieId) => setError(movieId, null),
   }
 })
-
-
-
-
-
-

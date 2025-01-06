@@ -94,4 +94,20 @@ class Movie < ApplicationRecord
   #   MovieSorter.new(sort_by).call
   # end
 
+
+  def cover_url
+    return nil unless cover.attached?
+
+    Rails.application.routes.url_helpers.rails_blob_path(cover, only_path: true)
+  end
+
+  # You might also want background_url
+  def background_url
+    if background.attached?
+      Rails.application.routes.url_helpers.rails_blob_path(background, only_path: true)
+    else
+      nil
+    end
+  end
+
 end

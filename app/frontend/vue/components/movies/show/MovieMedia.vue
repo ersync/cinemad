@@ -1,0 +1,67 @@
+<template>
+  <div class="flex flex-col relative mb-[30px] pb-[30px] border-b border-[#d7d7d7]">
+    <div class="flex [@media(max-width:359px)]:flex-col gap-2 sm:gap-5 justify-between sm:justify-start items-center mb-5 font-SourceProSemiBold antialiased">
+      <h2 class="font-SourceProSemiBold text-[1.5rem]">Media</h2>
+      <PeriodSelector
+          :periods="periods"
+          :selected-period="activeTab"
+          @period-selected="handlePeriodSelected"
+      />
+    </div>
+
+    <div class="scrollable-wrapper scrollbar cursor-grab active:cursor-grabbing min-h-[300px] rounded-t-md">
+      <div v-cloak class="scrollable-content transition-all duration-500 flex pb-0.5 rounded-lg child:shrink-0">
+        <MediaItem
+            v-for="(media, index) in mediaUrls"
+            :key="index"
+            :media="media"
+            :isIframe="iframeVideos.includes(index)"
+            @turn-to-iframe="turnToIframe(index)"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import {ref, onMounted, inject} from 'vue'
+import { useMovieStore } from '@/vue/stores/movieStore'
+import PeriodSelector from '@/vue/components/movies/show/PeriodSelector.vue'
+import MediaItem from '@/vue/components/movies/show/MediaItem.vue'
+
+const periods = ["Popular Media", "Videos", "Backdrops", "Posters"]
+const movieId = inject("movieId")
+const movieStore = useMovieStore()
+
+const mediaUrls = ref([])
+const iframeVideos = ref([])
+const activeTab = ref('popular_media')
+
+const loadMedia = async (mediaType) => {
+  console.log('Loading media type:', mediaType)  // Add this
+  try {
+    const urls = await movieStore.fetchMedia(movieId.value, mediaType)
+    console.log('Received urls:', urls)  // Add this
+    mediaUrls.value = urls || []
+    activeTab.value = mediaType
+    iframeVideos.value = []
+  } catch (err) {
+    console.error('Failed to load media:', err)
+  }
+}
+
+const handlePeriodSelected = (mediaType) => {
+  console.log('Selected media type:', mediaType)  // Add this
+  loadMedia(mediaType)
+}
+
+const turnToIframe = (index) => {
+  if (!iframeVideos.value.includes(index)) {
+    iframeVideos.value.push(index)
+  }
+}
+
+onMounted(() => {
+  loadMedia('popular_media')  // Just load it directly!
+})
+</script>
