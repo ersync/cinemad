@@ -24,7 +24,6 @@ export function useErrorHandler(toast) {
           toast.error(defaultMessage || 'An unexpected error occurred. Please refresh the page.', {timeout: 3000})
       }
     } else {
-      // For errors not coming from the store
       toast.error(defaultMessage || 'An unexpected error occurred. Please try again.', {timeout: 3000})
     }
 
