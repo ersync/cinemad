@@ -1,86 +1,139 @@
 module Api
-  class MoviesController < ApplicationController
-    include Favoriteable
-    include Watchlistable
-    include Rateable
-    include Mediaable
-    include MovieDataHelper
+  class MoviesController < BaseController
 
     before_action :set_movie, only: [
       :show,
-      :avg_rate,
-      # Favorite
-      :favorite_status,
-      :favorite,
-      :unfavorite,
-      # Watchlist
-      :in_watchlist_status,
-      :add_to_watchlist,
-      :remove_from_watchlist,
-      # Rating
-      :get_rate,
-      :set_rate,
-      :unrate,
-      # Media
-      :get_posters,
-      :get_backdrops,
-      :get_videos,
-      :popular_media,
-      # Cast
+      :average_rating,
       :cast,
-      # Social
-      :social,
-      # Recommendations
-      :recommendations
+      :review_section,
+      :recommendations,
     ]
 
-    skip_before_action :verify_authenticity_token
+    skip_before_action :authenticate_user!, only: [
+      :discovery,
+      :show,
+      :search,
+      :search_keywords,
+      :home_page,
+      :review_section,
+      :recommendations,
+      :cast,
+      :average_rating
+    ]
 
-    def index
-      movies = MovieListService.new(filter_params).fetch_movies
-      render json: MovieSerializer.for_list(movies)
+    # GET /api/movies
+    # Returns paginated list of movies based on filters
+    def discovery
+      movies = MovieListService.new(filter_params, current_user).fetch_movies
+
+      render_success(
+        movies: MovieSerializers::List.serialize_collection(movies),
+        meta: {
+          total_pages: (movies.length.to_f / (params[:per_page] || 20).to_i).ceil,
+          total_count: movies.length
+        }
+      )
     end
 
+    # GET /api/movies/:id
+    # Returns detailed movie information
     def show
-      render json: MovieSerializer.detailed(@movie, current_user)
+      render_success(
+        movie: MovieSerializers::Detailed.serialize(@movie)
+      )
     end
 
-    def home_data
-      render json: {
-        trending: Movie.trending.limit(20).map { |m| MovieSerializer.for_carousel(m) },
-        popular: Movie.popular.limit(20).map { |m| MovieSerializer.for_carousel(m) },
-        free: Movie.free.limit(20).map { |m| MovieSerializer.for_carousel(m) }
-      }
+    # GET /api/movies/home
+    # Returns movie collections for home page sections
+    def home_page
+      render_success(
+        sections: {
+          trending: MovieSerializers::Carousel.serialize_collection(Movie.trending.limit(15)),
+          popular: MovieSerializers::Carousel.serialize_collection(Movie.popular.limit(15)),
+          latest: MovieSerializers::Carousel.serialize_collection(Movie.latest.limit(15))
+        }
+      )
     end
 
-    def avg_rate
-      render json: {
-        average_rating: @movie.average_rating,
-        total_ratings: @movie.ratings.count
-      }
+    # GET /api/movies/:id/average_rating
+    # Returns movie's average rating and total ratings count
+    def average_rating
+      render_success(
+        rating: @movie.rating_data
+      )
     end
 
+    # GET /api/movies/:id/cast
+    # Returns movie's cast members with their roles
     def cast
-      render json: MovieSerializer.serialize_cast(@movie)
+      render_success(
+        cast: MovieSerializers::Cast.serialize(@movie)
+      )
     end
 
-    def social
-      render json: MovieSerializer.serialize_social(@movie)
+    # GET /api/movies/:id/review_section
+    # Returns movie's featured review and review statistics
+    def review_section
+      render_success(
+        review_section: MovieSerializers::ReviewSection.serialize(@movie)
+      )
     end
 
+    # GET /api/movies/recommendations
+    # Returns personalized movie recommendations
     def recommendations
       recommendations = Movie.random_recommendations
-      render json: MovieSerializer.serialize_recommendations(recommendations)
+      render_success(
+        recommendations: MovieSerializers::Recommendations.serialize_collection(recommendations)
+      )
+    end
+
+    # GET /api/movies/search
+    # Returns movies matching the search query
+    def search
+      movies = Movie.search_by_title(params[:query]).limit(10)
+      render_success(
+        results: MovieSerializers::List.serialize_collection(movies)
+      )
+    end
+
+    # GET /api/movies/search_keywords
+    # Returns keywords matching the search query
+    def search_keywords
+      keywords = Keyword.search_by_name(params[:query])
+                        .limit(10)
+                        .pluck(:name)
+
+      render_success(
+        keywords: keywords
+      )
     end
 
     private
 
     def set_movie
-      @movie = Movie.find(params[:id])
+      @movie = Movie.friendly.find(params[:id])
     end
 
     def filter_params
-      params.permit(:sort, :filter, :page, :per_page, :query)
+      params.permit(
+        :sort,
+        :page,
+        :per_page,
+        filter: [
+          :watch_status,
+          :all_availabilities,
+          :all_release_formats,
+          :date_from,
+          :date_to,
+          :language,
+          { selected_keywords: [] },
+          { certifications: [] },
+          { availabilities: {} },
+          { release_formats: [] },
+          { genres: [] }
+        ]
+      )
     end
   end
 end
