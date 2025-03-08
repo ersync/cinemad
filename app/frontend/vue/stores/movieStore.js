@@ -1,224 +1,218 @@
 import { defineStore } from 'pinia'
-import { ref, computed , toRaw} from 'vue'
+import { ref, computed } from 'vue'
 import { movieApiService } from '@/services/movieApiService'
 
 export const useMovieStore = defineStore('movieStore', () => {
-  const movieStates = ref(new Map())
-  const errors = ref(new Map())
+  const movieCache = ref(new Map())
   const loading = ref(new Map())
+  const errors = ref(new Map())
 
-  const getOrCreateMovieState = (movieId) => {
-    if (!movieStates.value.has(movieId)) {
-      movieStates.value.set(movieId, {
-        isFavorite: false,
-        isInWatchlist: false,
-        userRate: null,
-        avgRate: null,
+  const getOrCreateMovieCache = (slug) => {
+    if (!movieCache.value.has(slug)) {
+      movieCache.value.set(slug, {
+        slug,
+        complete: false,
+        id: null,
+        title: null,
+        status: null,
+        language: null,
+        budget: null,
+        revenue: null,
+        cover_url: null,
+        background_url: null,
+        average_rating: null,
+        release_date: null,
+        overview: null,
+        crew: [],
+        cast: [],
+        reviews_section: {
+          stats: {
+            total_count: 0
+          },
+          featured_review: null
+        },
+        age_rating: null,
+        tagline: null,
+        duration: null,
+        categories: [],
+        gradient_color: null,
+        user_interactions: null,
         media: {
           posters: [],
           backdrops: [],
           videos: []
         },
+        recommendations: [],
+        reviews: null
       })
     }
-    return movieStates.value.get(movieId)
+
+    return movieCache.value.get(slug)
   }
 
-  const setError = (movieId, error) => errors.value.set(movieId, error)
-  const setLoading = (movieId, isLoading) => loading.value.set(movieId, isLoading)
+  const setLoading = (slug, isLoading) => {
+    loading.value.set(slug, isLoading)
+  }
 
+  const setError = (slug, error) => {
+    if (error) {
+      errors.value.set(slug, error)
+    } else {
+      errors.value.delete(slug)
+    }
+  }
 
-
-
-
-
-  const executeApiRequest = async (movieId, action, errorMessage) => {
-    setLoading(movieId, true);
+  const fetchMovie = async (slug) => {
+    setLoading(slug, true)
+    setError(slug, null)
 
     try {
-      const result = await action();
-      setError(movieId, null);
-      return result;
+      const movieData = getOrCreateMovieCache(slug)
+
+      const response = await movieApiService.getMovie(slug)
+
+      if (response.success) {
+        if (response.movie) {
+          for (const [key, value] of Object.entries(response.movie)) {
+            movieData[key] = value
+          }
+          movieData.complete = true
+          movieData.lastFetched = Date.now()
+        } else {
+          throw new Error('Malformed API response: missing movie data')
+        }
+        return movieData
+      } else {
+        throw new Error(response.error || 'Failed to fetch movie details')
+      }
     } catch (error) {
-      const errorDetails = {
-        message: errorMessage,
-        details: error.data?.message || error.message
-      };
-      setError(movieId, errorDetails);
-      throw error;
+      const errorMessage = error.message || 'Failed to load movie'
+      setError(slug, errorMessage)
+      throw error
     } finally {
-      setLoading(movieId, false);
+      setLoading(slug, false)
     }
-  };
-
-  const fetchMovieDetails = async (movieId, options = {}) => {
-    const defaultOptions = {
-      favorite: true,
-      watchlist: true,
-      rate: true,
-      avgRate: true
-    };
-
-    const finalOptions = { ...defaultOptions, ...options };
-
-    return executeApiRequest(movieId, async () => {
-      const movieState = getOrCreateMovieState(movieId);
-      const apiRequests = [];
-
-      if (finalOptions.favorite) {
-        apiRequests.push(
-          fetchFavoriteStatus(movieId, movieState)
-        );
-      }
-
-      if (finalOptions.watchlist) {
-        apiRequests.push(
-          fetchWatchlistStatus(movieId, movieState)
-        );
-      }
-
-      if (finalOptions.rate) {
-        apiRequests.push(
-          fetchUserRating(movieId, movieState)
-        );
-      }
-
-      if (finalOptions.avgRate) {
-        apiRequests.push(
-          fetchAverageRating(movieId, movieState)
-        );
-      }
-
-      await Promise.all(apiRequests);
-      return movieState;
-    }, 'Failed to fetch movie initial state');
-  };
-
-  const fetchFavoriteStatus = async (movieId, movieState) => {
-    const response = await movieApiService.getFavoriteStatus(movieId);
-    movieState.isFavorite = response.isFavorite;
-    return response;
-  };
-
-  const fetchWatchlistStatus = async (movieId, movieState) => {
-    const response = await movieApiService.getWatchlistStatus(movieId);
-    movieState.isInWatchlist = response.isInWatchlist;
-    return response;
-  };
-
-  const fetchUserRating = async (movieId, movieState) => {
-    const response = await movieApiService.getRate(movieId);
-    movieState.userRate = response.success && response.isRated ? response.score : null;
-    return response;
-  };
-
-  const fetchAverageRating = async (movieId, movieState) => {
-    const response = await movieApiService.getAverageRate(movieId);
-    movieState.avgRate = response.average_rating;
-    return response;
-  };
-
-
-
-  // Updated to use new API methods
-  const toggleFavorite = async (movieId) => {
-    return executeApiRequest(movieId, async () => {
-      const movieState = getOrCreateMovieState(movieId)
-      const response = movieState.isFavorite
-        ? await movieApiService.removeFromFavorites(movieId)
-        : await movieApiService.addToFavorites(movieId)
-
-      if (response.success) {
-        movieState.isFavorite = !movieState.isFavorite
-      }
-      return response
-    }, 'Failed to toggle favorite status')
   }
 
-  const toggleWatchlist = async (movieId) => {
-    return executeApiRequest(movieId, async () => {
-      const movieState = getOrCreateMovieState(movieId)
-      const response = movieState.isInWatchlist
-        ? await movieApiService.removeFromWatchlist(movieId)
-        : await movieApiService.addToWatchlist(movieId)
+  const fetchMedia = async (slug, mediaType) => {
+    const loadingKey = `${slug}-${mediaType}`
+    setLoading(loadingKey, true)
+
+    try {
+      const movieData = getOrCreateMovieCache(slug)
+
+      const response = await movieApiService.fetchMedia(slug, mediaType)
 
       if (response.success) {
-        movieState.isInWatchlist = !movieState.isInWatchlist
+        if (!movieData.media) {
+          movieData.media = {}
+        }
+        movieData.media[mediaType] = response.urls || []
+        return movieData.media[mediaType]
       }
-      return response
-    }, 'Failed to toggle watchlist status')
+
+      return []
+    } catch (error) {
+      return []
+    } finally {
+      setLoading(loadingKey, false)
+    }
   }
 
-  const setRate = async (movieId, rate) => {
-    return executeApiRequest(movieId, async () => {
-      const response = await movieApiService.setRate(movieId, rate)
-      if (response.success) {
-        getOrCreateMovieState(movieId).userRate = rate
-      }
-      return response
-    }, 'Failed to set rate')
+  const refreshMovie = async (slug) => {
+    return fetchMovie(slug)
   }
 
-  const unsetRate = async (movieId) => {
-    return executeApiRequest(movieId, async () => {
-      const response = await movieApiService.unsetRate(movieId)
-      if (response.success) {
-        getOrCreateMovieState(movieId).userRate = null
-      }
-      return response
-    }, 'Failed to unset rate')
+  const clearMovie = (slug) => {
+    movieCache.value.delete(slug)
+    loading.value.delete(slug)
+    errors.value.delete(slug)
   }
 
-  // Updated media methods to match new API
-  const fetchMedia = async (movieId, mediaType) => {
-    return executeApiRequest(movieId, async () => {
-      let response
-      switch (mediaType) {
-        case 'popular_media':
-          response = await movieApiService.getPopularMedia(movieId)
-          break
-        case 'posters':
-          response = await movieApiService.getPosters(movieId)
-          break
-        case 'backdrops':
-          response = await movieApiService.getBackdrops(movieId)
-          break
-        case 'videos':
-          response = await movieApiService.getVideos(movieId)
-          break
-        default:
-          throw new Error(`Unknown media type: ${mediaType}`)
-      }
+  const clearAllMovies = () => {
+    movieCache.value.clear()
+    loading.value.clear()
+    errors.value.clear()
+  }
+
+  const fetchCast = async (slug) => {
+    try {
+      const movieData = getOrCreateMovieCache(slug)
+
+      // Always make API call, no cache check
+      const response = await movieApiService.getCast(slug)
 
       if (response.success) {
-        return response.urls
+        movieData.cast = response.cast
+        return movieData.cast
       }
-      throw new Error(response.error)
-    })
+      return []
+    } catch (error) {
+      return []
+    }
   }
 
-  // Computed properties remain the same
-  const movieComputed = (movieId) => {
+  const fetchRecommendations = async (slug) => {
+    try {
+      const movieData = getOrCreateMovieCache(slug)
+
+      const response = await movieApiService.getRecommendations(slug)
+
+      if (response.success) {
+        const recommendationsData = response.recommendations.recommendations || response.recommendations
+        movieData.recommendations = recommendationsData
+        return movieData.recommendations
+      }
+      return []
+    } catch (error) {
+      return []
+    }
+  }
+
+    const movieComputed = (slug) => {
+    const movieData = getOrCreateMovieCache(slug)
+
     return {
-    isFavorite: computed(() => getOrCreateMovieState(movieId).isFavorite),
-    isInWatchlist: computed(() => getOrCreateMovieState(movieId).isInWatchlist),
-    userRate: computed(() => getOrCreateMovieState(movieId).userRate),
-    avgRate: computed(() => getOrCreateMovieState(movieId).avgRate),
-    media: computed(() => getOrCreateMovieState(movieId).media),
-    error: computed(() => errors.value.get(movieId)),
-    isLoading: computed(() => loading.value.get(movieId)),
+      data: computed(() => movieCache.value.get(slug)),
+      cast: computed(() => movieCache.value.get(slug)?.cast || []),
+      recommendations: computed(() => movieCache.value.get(slug)?.recommendations || []),
+      review_section: computed(() => movieCache.value.get(slug)?.review_section),
+      reviews: computed(() => movieCache.value.get(slug)?.reviews),
+      isLoading: computed(() => loading.value.get(slug) || false),
+      error: computed(() => errors.value.get(slug)),
+      isComplete: computed(() => movieCache.value.get(slug)?.complete || false),
+      media: computed(() => movieCache.value.get(slug)?.media || {
+        posters: [],
+        backdrops: [],
+        videos: []
+      })
     }
   }
+
+  const isMediaLoading = (slug, mediaType) => {
+    return loading.value.get(`${slug}-${mediaType}`) || false
+  }
+
+  const updateAverageRating = (slug, newRating) => {
+    if (movieCache.value.has(slug)) {
+      const movieData = movieCache.value.get(slug)
+      movieData.average_rating = newRating
+      return true
+    }
+    return false
+  }
+
 
   return {
-    getOrCreateMovieState,
-    fetchMovieDetails,
-    toggleFavorite,
-    toggleWatchlist,
-    setRate,
-    unsetRate,
+    fetchMovie,
     fetchMedia,
+    refreshMovie,
+    clearMovie,
+    clearAllMovies,
     movieComputed,
-    resetError: (movieId) => setError(movieId, null),
+    isMediaLoading,
+    fetchCast,
+    fetchRecommendations,
+    updateAverageRating
   }
 })
