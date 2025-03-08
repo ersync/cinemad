@@ -1,0 +1,9 @@
+<div>
+  <ul class="flex items-center gap-4 md:gap-6 lg:gap-[30px] h-10">
+    <% if user_signed_in? %>
+      <%= render 'shared/user_dropdown' %>
+    <% else %>
+      <%= render 'shared/auth_links' %>
+    <% end %>
+  </ul>
+</div>

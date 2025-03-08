@@ -1,0 +1,17 @@
+<div class="bg-gradient-to-r from-blue-50 to-purple-50 border-b border-gray-100">
+  <a href="/users/<%= current_user.username %>" class="flex items-center p-4 gap-3">
+    <% if current_user.avatar_url.present? %>
+      <%= image_tag current_user.avatar_url,
+        class: "w-12 h-12 rounded-full object-cover",
+        alt: "#{current_user.username}'s avatar" %>
+    <% else %>
+      <span class="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white flex items-center justify-center font-semibold">
+        <%= current_user.username[0].capitalize %>
+      </span>
+    <% end %>
+    <div>
+      <p class="font-medium text-gray-900"><%= current_user.username %></p>
+      <p class="text-sm text-gray-500">View Profile</p>
+    </div>
+  </a>
+</div>

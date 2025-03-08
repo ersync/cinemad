@@ -1,0 +1,6 @@
+<div class="">
+  <div class="px-4 py-1.5 text-xs font-medium text-gray-500 bg-gray-50">Content</div>
+  <%= render 'shared/dropdown_link', icon: 'star', text: 'Ratings', path: "/users/#{current_user.username}/ratings" %>
+  <%= render 'shared/dropdown_link', icon: 'bookmark', text: 'Watchlist', path: "/users/#{current_user.username}/watchlist" %>
+  <%= render 'shared/dropdown_link', icon: 'heart', text: 'Favorites', path: "/users/#{current_user.username}/favorites" %>
+</div>

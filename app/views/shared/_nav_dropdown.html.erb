@@ -1,0 +1,15 @@
+<li class="relative group cursor-pointer flex items-center">
+  <div class="px-2 py-1 md:px-3 md:py-1.5 lg:px-4 lg:py-2 flex items-center text-sm lg:text-base gap-1 rounded-md transition-all hover:bg-white/10">
+    <span><%= title %></span>
+  </div>
+
+  <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 absolute left-0 top-[112%] transition-all duration-200">
+    <div class="bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden w-44">
+      <div class="py-2">
+        <% items.each do |item| %>
+          <%= link_to item[:text], item[:path], class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</li>

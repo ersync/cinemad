@@ -1,0 +1,45 @@
+<header class="hidden sm:flex items-center w-full h-16 bg-gradient-to-r from-[#032541] via-[#034275] to-[#032541] font-SourceProSemiBold text-white/90 shadow-lg border-b border-white/5">
+  <div class="container">
+    <div class="flex justify-between items-center h-full">
+      <nav class="flex items-center h-full">
+        <div class="w-[132px] mr-3 md:w-[142px] md:mr-5 lg:w-[162px] lg:mr-8">
+          <a href="/">
+            <%= render 'shared/logo' %>
+          </a>
+        </div>
+
+        <ul class="flex space-x-2 md:space-x-4 lg:space-x-8 h-full">
+          <%= render 'shared/nav_dropdown', title: 'Movies', items: [
+            { text: 'Popular', path: '/discovery' },
+            { text: 'Now Playing', path: '/discovery' },
+            { text: 'Upcoming', path: '/discovery' },
+            { text: 'Top Rated', path: '/discovery' }
+          ] %>
+
+          <%= render 'shared/nav_dropdown', title: 'TV Shows', items: [
+            { text: 'Popular', path: '/discovery' },
+            { text: 'Airing Today', path: '/discovery' },
+            { text: 'On TV', path: '/discovery' },
+            { text: 'Top Rated', path: '/discovery' }
+          ] %>
+
+          <%= render 'shared/nav_dropdown', title: 'People', items: [
+            { text: 'Popular', path: '/discovery' },
+            { text: 'Trending', path: '/discovery' },
+            { text: 'Award Winners', path: '/discovery' },
+            { text: 'Rising Stars', path: '/discovery' }
+          ] %>
+
+          <%= render 'shared/nav_dropdown', title: 'More', items: [
+            { text: 'Discussions', path: '/discovery' },
+            { text: 'Leaderboard', path: '/discovery' },
+            { text: 'Support', path: '/discovery' },
+            { text: 'API', path: '/discovery' }
+          ] %>
+        </ul>
+      </nav>
+
+      <%= render 'shared/header/desktop_header_actions' %>
+    </div>
+  </div>
+</header>
