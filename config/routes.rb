@@ -1,67 +1,76 @@
-Rails.application.routes.draw do
+  Rails.application.routes.draw do
+    namespace :api do
+      resources :movies do
+        collection do
+          get 'discovery'
+          get 'home_page'
+          get 'search'
+          get 'search_keywords'
+        end
 
-  # 1. API Routes (these must come first!)
-  namespace :api do
-    resources :movies do
-      member do
-        # Favorite endpoints
-        get 'favorite', to: 'movies#favorite_status'
-        # Returns: { isFavorite: true/false }
+        member do
+          resource :favorite, only: [:show, :create, :destroy], controller: 'movie_favorites'
+          resource :watchlist, only: [:show, :create, :destroy], controller: 'movie_watchlist'
+          resource :rating, only: [:show, :create, :destroy], controller: 'movie_ratings'
 
-        post 'favorite', to: 'movies#favorite'
-        delete 'favorite', to: 'movies#unfavorite'
-        # Both return: { success: true/false, message: "..." }
+          resources :media, only: [], controller: 'movie_media' do
+            collection do
+              get :posters
+              get :backdrops
+              get :videos
+              get :popular
+            end
+          end
 
-        # Watchlist endpoints
-        get 'watchlist', to: 'movies#in_watchlist_status'
-        # Returns: { isInWatchlist: true/false }
-
-        post 'watchlist', to: 'movies#add_to_watchlist'
-        delete 'watchlist', to: 'movies#remove_from_watchlist'
-        # Both return: { success: true/false, message: "..." }
-
-        # Rating endpoints
-        get 'rate', to: 'movies#get_rate'
-        post 'rate', to: 'movies#set_rate'
-        delete 'rate', to: 'movies#unrate'
-        # All return: { success: true/false, ... }
-
-        get 'avg_rate', to: 'movies#avg_rate'
-        # Returns: { avg_rate: number }
-
-        # Media endpoints
-        get 'posters', to: 'movies#get_posters'
-        get 'backdrops', to: 'movies#get_backdrops'
-        get 'videos', to: 'movies#get_videos'
-        # All return: { success: true, urls: [...] } or { success: false, error: "..." }
-
-        get 'popular_media', to: 'movies#popular_media'
-        # Returns: { urls: [...] }
-
-        get 'cast', to: 'movies#cast'  # Add this line
-        get 'social', to: 'movies#social'
-        get 'recommendations', to: 'movies#recommendations'
-
+          get 'average_rating'
+          get 'cast'
+          get 'review_section'
+          get 'recommendations'
+        end
       end
 
-      collection do
-        get 'home_data'  # This will be /api/movies/home_data
+      resources :users, only: [:show, :update] do
+        member do
+          # Profile related endpoints
+          get 'ratings'
+          get 'watchlist'
+          get 'favorites'
+
+          # Stats endpoints
+          get 'stats'
+
+          # Profile media endpoints
+          post 'avatar'
+          delete 'avatar', to: 'users#remove_avatar'
+          post 'background'
+          delete 'background'
+
+          # Social media endpoints
+          patch 'social'
+        end
+
+        collection do
+          get :current, to: "users#current"
+        end
+      end
+
+      resources :keywords, only: [] do
+        collection do
+          get :search
+        end
       end
     end
 
-    resources :keywords, only: [] do
-      collection do
-        get :search
-      end
-    end
+    get '/users/sign_in', to: redirect('/login')
+    get '/users/sign_up', to: redirect('/register')
+
+    devise_for :users, controllers: {
+      sessions: 'api/sessions'
+    }, defaults: { format: :json } # Add this defaults option
+
+
+    # Catch-all routes
+    root 'application#index'
+    get '*path', to: 'application#index',
+      constraints: lambda { |req| !req.path.include?('active_storage') }
   end
-
-  # 2. Auth routes (if you're using Devise)
-  devise_for :users
-
-  # 3. Catch-all routes (these must be LAST!)
-  root 'application#index'  # Handles the root URL '/'
-  get '*path', to: 'application#index',  # Handles all other URLs
-  constraints: lambda { |req| !req.path.include?('active_storage') }
-
-end
