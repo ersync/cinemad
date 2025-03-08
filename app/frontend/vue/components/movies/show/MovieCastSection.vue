@@ -1,56 +1,44 @@
-<template>
-  <div class="mb-[30px] pb-[30px] border-b border-[#d7d7d7] antialiased">
-    <h3 class="font-SourceProSemiBold text-[1.2rem] sm:text-[1.4rem] mb-3">
-      Top Billed Cast
-    </h3>
-
-    <div class="relative">
-      <CastSkeleton v-if="loading" />
-      <CastList
-          v-else
-          :cast="castMembers"
-          class="mb-5"
-      />
-    </div>
-
-    <button
-        class="block text-[1.1rem] font-SourceProSemiBold mt-5"
-        @click="$emit('showFullCast')"
-    >
-      Full Cast & Crew
-    </button>
-  </div>
-</template>
-
 <script setup>
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import { computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useMovieStore } from '@/vue/stores/movieStore'
 import CastSkeleton from './CastSkeleton.vue'
 import CastList from './CastList.vue'
+import SectionHeading from "@/vue/components/movies/show/SectionHeading.vue"
 
-const props = defineProps({
-  movieId: {
-    type: String,
-    required: true
+const route = useRoute()
+const movieStore = useMovieStore()
+const movieSlug = computed(() => route.params.slug)
+
+const { data: movieData, isLoading } = movieStore.movieComputed(movieSlug.value)
+
+const castMembers = computed(() => {
+  if (movieData.value?.cast?.cast && Array.isArray(movieData.value.cast.cast)) {
+    return movieData.value.cast.cast.map(member => ({
+      id: member.id || `temp-${Math.random()}`,
+      name: member.name || 'Unknown',
+      image_url: member.image_url || '/path/to/default/image.jpg',
+      character_names: Array.isArray(member.character_names) ? member.character_names : []
+    }))
   }
+  return []
 })
 
 defineEmits(['showFullCast'])
-
-const loading = ref(true)
-const castMembers = ref([])
-
-const fetchCast = async () => {
-  try {
-    loading.value = true
-    const response = await axios.get(`/api/movies/${props.movieId}/cast`)
-    castMembers.value = response.data
-  } catch (error) {
-    console.error('Failed to fetch cast:', error)
-  } finally {
-    loading.value = false
-  }
-}
-
-onMounted(fetchCast)
 </script>
+
+<template>
+  <div class="mb-12 antialiased min-h-[320px]">
+    <div class="relative">
+      <SectionHeading title="Featured Cast" />
+      <div class="mt-6">
+        <CastSkeleton v-if="isLoading" />
+        <CastList
+            v-else
+            :cast="castMembers"
+            class="mb-5"
+        />
+      </div>
+    </div>
+  </div>
+</template>

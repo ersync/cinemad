@@ -1,22 +1,21 @@
 <template>
-  <div class="h-full py-3 relative">
-    <div @click.prevent="handleClick"
-         class="peer flex justify-center items-center w-11 h-11 md:w-[46px] md:h-[46px] bg-tmdbDarkBlue border border-white/5 rounded-full cursor-pointer">
-      <svg class="h-4 w-4" :class="{ [activeClass]: isActive }">
+  <div class="h-full py-1 relative">
+    <div
+        @click.prevent="handleClick"
+        class="peer flex justify-center items-center w-11 h-11
+        rounded-full cursor-pointer transition-all duration-300
+        bg-black border border-white/10 shadow-sm  hover:scale-105 active:scale-95"
+        :class="[isActive ? activeClass : '']"
+    >
+      <svg class="h-4 w-4" :class="[isActive ? activeClass : '']">
         <use :xlink:href="iconHref"></use>
       </svg>
-    </div>
-    <div
-        class="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 rounded-md bg-tmdbDarkBlue text-white text-base
-            opacity-0 invisible peer-hover:opacity-100 peer-hover:visible transition-all duration-100 delay-150 whitespace-nowrap">
-      {{ label === 'watchlist' ? 'Add to your watchlist' : label === 'favorite' ? 'Mark as favorite' : '' }}
     </div>
   </div>
 </template>
 
-
 <script setup>
-import {defineProps} from 'vue'
+import { defineProps } from 'vue'
 
 const props = defineProps({
   label: {
@@ -44,5 +43,4 @@ const props = defineProps({
 const handleClick = () => {
   props.onClick()
 }
-
 </script>

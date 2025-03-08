@@ -1,73 +1,170 @@
 <script setup>
-import { provide, ref, onMounted } from 'vue'
+import { ref, watch, computed, onMounted,watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
+import { useMovieStore } from '@/vue/stores/movieStore'
+import { useUserInteractionStore } from '@/vue/stores/userInteractionStore'
+import { useAuthStore } from '@/vue/stores/authStore'
+
 import MovieHeader from '@/vue/components/movies/show/MovieHeader.vue'
 import MovieCastSection from "@/vue/components/movies/show/MovieCastSection.vue"
-import MovieSocial from "@/vue/components/movies/show/MovieSocial.vue"
+import MovieReviewSection from "@/vue/components/movies/show/MovieReviewSection.vue"
 import MovieRecommendations from "@/vue/components/movies/show/MovieRecommendations.vue"
 import MovieMedia from "@/vue/components/movies/show/MovieMedia.vue"
 import MovieAdditionalInfo from "@/vue/components/movies/show/MovieAdditionalInfo.vue"
-const route = useRoute()
-const movieId = ref(null)
-const movieData = ref(null)
-const isLoading = ref(true)
 
-const fetchMovie = async (id) => {
-  try {
-    const response = await fetch(`/api/movies/${id}`)
-    movieData.value = await response.json()
-  } catch (error) {
-    console.error('Error fetching movie:', error)
-  } finally {
-    isLoading.value = false
+const route = useRoute()
+const movieStore = useMovieStore()
+const interactionStore = useUserInteractionStore()
+const authStore = useAuthStore()
+
+const slug = computed(() => String(route.params.slug))
+const { data: movieData, isLoading, error } = movieStore.movieComputed(slug.value)
+
+watchEffect(() => {
+  if (movieData.value?.title) {
+    const year = movieData.value.release_date ? new Date(movieData.value.release_date).getFullYear() : ''
+    document.title = `${movieData.value.title}${year ? ` (${year})` : ''} - Cinemad`
+  } else if (!isLoading.value) {
+    document.title = 'Cinemad'
+  }
+})
+
+const updateInteractionStore = (movie) => {
+  if (movie && movie.average_rating) {
+    interactionStore.updateMovieAverageRating(slug.value, movie.average_rating)
   }
 }
 
-onMounted(async () => {
-  movieId.value = route.params.id
-  provide('movieId', movieId)
-  provide('movieData', movieData)
-  await fetchMovie(movieId.value)
-  console.log(movieData)
+const fetchMovieData = async (newSlug) => {
+  try {
+    const movieResponse = await movieStore.fetchMovie(newSlug)
+
+    if (movieResponse && movieResponse.average_rating) {
+      interactionStore.updateMovieAverageRating(newSlug, movieResponse.average_rating)
+    }
+
+    const [castData, recommendationsData, reviewData, mediaVideos, mediaBackdrops, mediaPosters, interactionsData] = await Promise.all([
+      movieStore.fetchCast(newSlug),
+      movieStore.fetchRecommendations(newSlug),
+      movieStore.fetchMedia(newSlug, 'videos'),
+      movieStore.fetchMedia(newSlug, 'backdrops'),
+      movieStore.fetchMedia(newSlug, 'posters'),
+      authStore.isAuthenticated ? interactionStore.fetchInteractions(newSlug) : Promise.resolve(null)
+    ])
+  } catch (err) {
+  }
+}
+
+watch(
+    () => route.params.slug,
+    async (newSlug) => {
+      if (newSlug) {
+        await fetchMovieData(String(newSlug))
+        window.scrollTo({ top: 0, behavior: 'instant' })
+      }
+    },
+    { immediate: true }
+)
+
+watch(() => movieData.value, (newMovieData) => {
+  if (newMovieData) {
+    updateInteractionStore(newMovieData)
+  }
+}, { immediate: true })
+
+onMounted(() => {
+  if (movieData.value) {
+    updateInteractionStore(movieData.value)
+  }
 })
 </script>
 
 <template>
-  <div v-if="movieData">
-    <MovieHeader :movie-id="movieId" />
-    <div class="container">
-      <div class="flex flex-col lg:flex-row gap-x-3.5 lg:gap-x-[30px] gap-y-8 my-[30px]">
-        <!-- Left Side -->
-        <div class="font-SourceProNormal overflow-hidden">
-          <!-- Cast Section -->
-          <MovieCastSection :movie-id="movieId" />
+  <div class="movie-show">
+    <!-- Loading State -->
+    <div v-if="isLoading" class="container hidden sm:block">
+      <div class="animate-pulse">
+        <!-- Hero/Header -->
+        <div class="h-[570px] w-full bg-gray-100 rounded-lg"></div>
 
-          <!-- Social Section -->
-          <MovieSocial
-              :movie-id="movieId"
-          />
+        <!-- Main Content Layout -->
+        <div class="flex gap-[10px] mt-[60px]">
+          <!-- Left Column -->
+          <div class="flex-1 gap-3">
+            <!-- Cast Section -->
+            <div class="flex gap-3 items-center h-[320px] rounded-lg mb-8">
+              <div class="bg-gray-100 w-[140px] h-[290px] rounded-lg"></div>
+              <div class="bg-gray-100 w-[140px] h-[290px] rounded-lg"></div>
+              <div class="bg-gray-100 w-[140px] h-[290px] rounded-lg"></div>
+              <div class="bg-gray-100 w-[140px] h-[290px] rounded-md"></div>
+              <div class="bg-gray-100 w-[140px] h-[290px] rounded-lg"></div>
+            </div>
 
-          <!-- Media Section -->
-          <MovieMedia></MovieMedia>
+            <!-- Reviews Section -->
+            <div class="h-[300px] bg-gray-100 rounded-lg mb-8"></div>
 
-          <!-- Collection Section -->
-<!--          <div class="bg-gray-100 p-4 mb-4">-->
-<!--            <h3>Collection Section</h3>-->
-<!--            <p>Collection info will go here (if exists)</p>-->
-<!--          </div>-->
+            <!-- Media Section -->
+            <div class="h-[380px] bg-gray-100 rounded-lg mb-8"></div>
 
-          <!-- Recommendations Section -->
-          <MovieRecommendations :movie-id="movieId" />
+            <!-- Recommendations Section -->
+            <div class="h-[286px] bg-gray-100 rounded-lg"></div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="w-[295px] h-[700px] bg-gray-100 rounded-lg"></div>
         </div>
+      </div>
+    </div>
 
-        <!-- Right Side -->
-        <div class="min-w-[260px] lg:max-w-[261px] mx-auto p-4 mt-16">
-          <MovieAdditionalInfo></MovieAdditionalInfo>
+    <!-- Error State -->
+    <div v-else-if="error" class="container py-8 text-center">
+      <p class="text-red-500">{{ error }}</p>
+    </div>
+
+    <!-- Content State -->
+    <div v-else-if="movieData" class="fade-in">
+      <MovieHeader class="min-h-[570px]" />
+
+      <div class="container">
+        <div class="flex flex-col lg:flex-row gap-x-3.5 lg:gap-x-1 gap-y-8 mt-5 sm:mt-8 mb-2">
+          <!-- Left Side -->
+          <div class="font-SourceProNormal overflow-hidden px-2">
+            <MovieCastSection />
+            <MovieReviewSection />
+            <MovieMedia />
+            <MovieRecommendations />
+          </div>
+
+          <!-- Right Side -->
+          <div class="min-w-[295px] mx-auto pt-0">
+            <MovieAdditionalInfo />
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div v-else>
-    Loading...
-  </div>
 </template>
+
+<style scoped>
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.container {
+  @apply max-w-[1300px] mx-auto px-4;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .7; }
+}
+</style>
