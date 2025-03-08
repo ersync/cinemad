@@ -3,102 +3,183 @@ import Fetch from '@/services/fetch'
 class MovieApiService {
   constructor() {
     this.fetchInstance = new Fetch()
-    this.baseUrl = '/api/movies' // Updated to use /api prefix
+    this.baseUrl = '/api/movies'
   }
 
-  buildUrl(movieId, endpoint = '') {
-    if (!movieId) {
+  buildUrl(slug, endpoint = '') {
+    if (!slug) {
       return endpoint ? `${this.baseUrl}/${endpoint}` : this.baseUrl
     }
-    return endpoint ? `${this.baseUrl}/${movieId}/${endpoint}` : `${this.baseUrl}/${movieId}`
+    return endpoint ? `${this.baseUrl}/${slug}/${endpoint}` : `${this.baseUrl}/${slug}`
   }
 
-  async request(method, movieId, endpoint, data = null) {
-    const url = this.buildUrl(movieId, endpoint)
-    return this.fetchInstance.makeRequest(method, url, data)
+  async request(method, slug, endpoint, data = null, options = {}) {
+    const url = this.buildUrl(slug, endpoint)
+    return this.fetchInstance.makeRequest(method, url, data, options)
   }
 
-  // Rating methods - matches Rateable concern
-  async getRate(movieId) {
-    return this.request('get', movieId, 'rate')
-    // Returns: { success: true/false, ... }
+  // ============================================
+  // Movie Details and Discovery
+  // ============================================
+
+  async getMovie(slug) {
+    try {
+      const response = await this.request('get', slug)
+      return response
+    } catch (error) {
+      return { success: false, error: error.message }
+    }
   }
 
-  async setRate(movieId, rate) {
-    return this.request('post', movieId, 'rate', { rate })
-    // Returns: { success: true/false, ... }
+  async getDiscoveryMovies(params = {}) {
+    try {
+      const queryParams = new URLSearchParams()
+
+      if (params.sort) queryParams.append('sort', params.sort)
+      if (params.page) queryParams.append('page', params.page)
+      if (params.per_page) queryParams.append('per_page', params.per_page)
+
+      if (params.filter) {
+        Object.entries(params.filter).forEach(([key, value]) => {
+          if (Array.isArray(value)) {
+            value.forEach(v => {
+              if (v) queryParams.append(`filter[${key}][]`, v)
+            })
+          } else if (value && typeof value === 'object') {
+            Object.entries(value).forEach(([k, v]) => {
+              if (v) queryParams.append(`filter[${key}][${k}]`, v)
+            })
+          } else if (value) {
+            queryParams.append(`filter[${key}]`, value)
+          }
+        })
+      }
+
+      const response = await this.request('get', null, `discovery?${queryParams.toString()}`)
+      return response
+    } catch (error) {
+      return error.message
+    }
   }
 
-  async unsetRate(movieId) {
-    return this.request('delete', movieId, 'rate')
-    // Returns: { success: true/false, ... }
+  // ============================================
+  // Homepage and Search
+  // ============================================
+
+  async getHomePage() {
+    try {
+      const response = await this.request('get', null, 'home_page')
+      return { success: true, data: response }
+    } catch (error) {
+      return { success: false, error: error.message }
+    }
   }
 
-  async getAverageRate(movieId) {
-    return this.request('get', movieId, 'avg_rate')
-    // Returns: { avg_rate: number }
+  async searchMovies(query) {
+    try {
+      const response = await this.request('get', null, `search?query=${encodeURIComponent(query)}`, null, { skipLoader: true })
+      return { success: true, results: response }
+    } catch (error) {
+      return { success: false, error: error.message }
+    }
   }
 
-  // Favorite methods - matches Favoriteable concern
-  async getFavoriteStatus(movieId) {
-    return this.request('get', movieId, 'favorite')
-    // Returns: { isFavorite: boolean }
+  async searchKeywords(query) {
+    try {
+      const response = await this.request('get', null, `search_keywords?query=${encodeURIComponent(query)}`, null, { skipLoader: true })
+      return { success: true, results: response }
+    } catch (error) {
+      return { success: false, error: error.message }
+    }
   }
 
-  async addToFavorites(movieId) {
-    return this.request('post', movieId, 'favorite')
-    // Returns: { success: true/false, message: string }
+  // ============================================
+  // Media Methods
+  // ============================================
+
+  async fetchMedia(slug, mediaType) {
+    try {
+      const response = await this.request('get', slug, `media/${mediaType}`)
+      return { success: true, urls: response }
+    } catch (error) {
+      return { success: false, error: error.message }
+    }
   }
 
-  async removeFromFavorites(movieId) {
-    return this.request('delete', movieId, 'favorite')
-    // Returns: { success: true/false, message: string }
+  async getMediaPosters(slug) {
+    try {
+      const response = await this.request('get', slug, 'media/posters')
+      return { success: true, urls: response }
+    } catch (error) {
+      return { success: false, error: error.message }
+    }
   }
 
-  // Watchlist methods - matches Watchlistable concern
-  async getWatchlistStatus(movieId) {
-    return this.request('get', movieId, 'watchlist')
-    // Returns: { isInWatchlist: boolean }
+  async getMediaBackdrops(slug) {
+    try {
+      const response = await this.request('get', slug, 'media/backdrops')
+      return { success: true, urls: response }
+    } catch (error) {
+      return { success: false, error: error.message }
+    }
   }
 
-  async addToWatchlist(movieId) {
-    return this.request('post', movieId, 'watchlist')
-    // Returns: { success: true/false, message: string }
+  async getMediaVideos(slug) {
+    try {
+      const response = await this.request('get', slug, 'media/videos')
+      return { success: true, urls: response }
+    } catch (error) {
+      return { success: false, error: error.message }
+    }
   }
 
-  async removeFromWatchlist(movieId) {
-    return this.request('delete', movieId, 'watchlist')
-    // Returns: { success: true/false, message: string }
+  async getPopularMedia(slug) {
+    try {
+      const response = await this.request('get', slug, 'media/popular')
+      return { success: true, media: response }
+    } catch (error) {
+      return { success: false, error: error.message }
+    }
   }
 
-  // Media methods - matches Mediaable concern
-  async getPosters(movieId) {
-    return this.request('get', movieId, 'posters')
-    // Returns: { success: true, urls: string[] } or { success: false, error: string }
+  // ============================================
+  // Movie Information
+  // ============================================
+
+  async getCast(slug) {
+    try {
+      const response = await this.request('get', slug, 'cast')
+      return { success: true, cast: response }
+    } catch (error) {
+      return { success: false, error: error.message }
+    }
   }
 
-  async getBackdrops(movieId) {
-    return this.request('get', movieId, 'backdrops')
-    // Returns: { success: true, urls: string[] } or { success: false, error: string }
+  async getRecommendations(slug) {
+    try {
+      const response = await this.request('get', slug, 'recommendations')
+      return { success: true, recommendations: response }
+    } catch (error) {
+      return { success: false, error: error.message }
+    }
   }
 
-  async getVideos(movieId) {
-    return this.request('get', movieId, 'videos')
-    // Returns: { success: true, urls: string[] } or { success: false, error: string }
+  async getReviewSection(slug) {
+    try {
+      const response = await this.request('get', slug, 'review_section')
+      return { success: true, review_section: response }
+    } catch (error) {
+      return { success: false, error: error.message }
+    }
   }
 
-  async getPopularMedia(movieId) {
-    return this.request('get', movieId, 'popular_media')
-    // Returns: { urls: string[] }
-  }
-
-  // Movie list methods
-  async getHomeData() {
-    return this.request('get', null, 'home_data')
-  }
-
-  async getMovieDetails(movieId) {
-    return this.request('get', movieId)
+  async getAverageRating(slug) {
+    try {
+      const response = await this.request('get', slug, 'average_rating', null, { skipLoader: true })
+      return { success: true, rating: response }
+    } catch (error) {
+      return { success: false, error: error.message }
+    }
   }
 }
 
