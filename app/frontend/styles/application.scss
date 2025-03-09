@@ -3,49 +3,12 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-// Import custom styles
 @import "@/styles/score_chart";
 
-// Vue cloak directive
 [v-cloak] {
   display: none;
 }
 
-// Custom color variables
-:root {
-  // Greyscale colors
-  --lightGrey: 227, 227, 227;
-  --darkerGrey: 200, 200, 200;
-
-  // Vibrant colors
-  --vibrantDarkBlue: 6, 37, 65;
-  --vibrantLightBlue: 0, 118, 241;
-
-  // TMDB colors
-  --tmdbDarkBlue: 3, 37, 65;
-  --tmdbLightBlue: 1, 180, 228;
-  --tmdbLighterGreen: 192, 254, 207;
-  --tmdbLightGreen: 30, 213, 169;
-
-  // TMDB logo colors
-  --tmdbLogoGreen: 144, 206, 161;
-  --tmdbLogoOrange: 253, 193, 112;
-  --tmdbLogoRed: 217, 59, 99;
-
-  // Account colors
-  --accountSilver: 149, 149, 149;
-  --accountPink: 234, 20, 140;
-  --accountPurple: 128, 91, 231;
-  --accountGreen: 1, 210, 119;
-  --accountTeal: 1, 198, 172;
-  --accountLightBlue: 1, 180, 228;
-  --accountBlue: 1, 119, 210;
-  --accountOrange: 210, 119, 1;
-  --accountYellow: 210, 144, 1;
-  --accountRed: 212, 2, 66;
-}
-
-// Custom utilities
 @layer utilities {
   .filter-blue-invert {
     filter: brightness(0) saturate(100%) invert(53%) sepia(33%) saturate(3054%) hue-rotate(156deg) brightness(98%) contrast(99%);
@@ -57,392 +20,43 @@
 @layer base {
   @font-face {
     font-family: "SourcePro-Light";
-    src: url("@/assets/fonts/Source-Sans-Light.woff2") format('woff2');
+    src: url("@/assets/fonts/Source-Sans-Light.woff2") format("woff2");
     font-weight: 300;
     font-style: normal;
   }
 
   @font-face {
     font-family: "SourcePro-Normal";
-    src: url("@/assets/fonts/Source-Sans-Normal.woff2") format('woff2');
+    src: url("@/assets/fonts/Source-Sans-Normal.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
   }
 
   @font-face {
     font-family: "SourcePro-Italic";
-    src: url("@/assets/fonts/Source-Sans-Italic.woff2") format('woff2');
+    src: url("@/assets/fonts/Source-Sans-Italic.woff2") format("woff2");
     font-weight: 400;
     font-style: italic;
   }
 
   @font-face {
     font-family: "SourcePro-SemiBold";
-    src: url("@/assets/fonts/Source-Sans-SemiBold.woff2") format('woff2');
+    src: url("@/assets/fonts/Source-Sans-SemiBold.woff2") format("woff2");
     font-weight: 600;
     font-style: normal;
   }
 
   @font-face {
     font-family: "SourcePro-Bold";
-    src: url("@/assets/fonts/Source-Sans-Bold.woff2") format('woff2');
+    src: url("@/assets/fonts/Source-Sans-Bold.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
   }
 
   @font-face {
     font-family: "Concen-Bold";
-    src: url("@/assets/fonts/Concen-Bold.woff2") format('woff2');
+    src: url("@/assets/fonts/Concen-Bold.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
   }
-
-  // Disc style
-  .disc::before {
-    content: "";
-    width: 4px;
-    height: 4px;
-    border-radius: 100%;
-    background-color: white;
-    opacity: 0.9;
-    position: absolute;
-    top: calc(50% - 1px);
-    left: -12px;
-  }
-
-  // Overlay styles
-  .overlay {
-    @apply invisible opacity-0 fixed inset-0 w-full h-full z-10 bg-black/40 transition-all;
-
-    &--visible {
-      @apply visible opacity-100;
-    }
-  }
-
-  // Header styles
-  .header-gradient-mobile {
-    background: linear-gradient(to right, rgba(31.5, 31.5, 52.5, 1) 20%, rgba(31.5, 31.5, 52.5, 0) 50%);
-  }
-
-  .header-bg-position {
-    @apply bg-[calc((((100vw_/_2.222222)_-_20px)_/_1.5)_/_2)_0] sm:bg-[left_calc((50vw_-_170px)_-_340px)_top];
-  }
-
-  // Collection background
-  .collection-bg {
-    background-image: linear-gradient(to right, rgba(3, 37, 65, 1) 0%, rgba(3, 37, 65, 0.6) 100%);
-    background-position: 50% 50%;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-
-  // Scrollbar styles
-  .scrollbar {
-    -webkit-overflow-scrolling: touch;
-    overflow-y: hidden !important;
-    overflow-x: scroll !important;
-
-    &::-webkit-scrollbar {
-      height: 8px;
-      width: 8px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(230, 230, 230, 0.8);
-      border-radius: 20px;
-    }
-  }
-
-  // User profile header
-  .user-profile-header {
-    background-image: radial-gradient(at 30% top, #073844 0%, rgba(3, 37, 65, 1) 70%);
-
-    > div {
-      background-image: url(https://www.themoviedb.org/assets/2/v4/account_pipes/light_blue-a230b623827400e967c6eb7241d88086f2eb9264c0789d0dab15ae6f1df1421a.svg);
-      background-position: center -250px;
-    }
-  }
-
-  // Accent color circles
-  .accent-color-circle {
-    @apply w-12.5 h-12.5 rounded-full;
-  }
-
-  // Accent colors
-  .silver {
-    background-color: rgba(1, 2, 2, 1);
-  }
-
-  .pink {
-    background-color: rgba(var(--accountPink), 1);
-  }
-
-  .purple {
-    background-color: rgba(var(--accountPurple), 1);
-  }
-
-  .green {
-    background-color: rgba(var(--accountGreen), 1);
-  }
-
-  .teal {
-    background-color: rgba(var(--accountTeal), 1);
-  }
-
-  .light-blue {
-    background-color: rgba(var(--accountLightBlue), 1);
-  }
-
-  .blue {
-    background-color: rgba(var(--accountBlue), 1);
-  }
-
-  .orange {
-    background-color: rgba(var(--accountOrange), 1);
-  }
-
-  .yellow {
-    background-color: rgba(var(--accountYellow), 1);
-  }
-
-  .red {
-    background-color: rgba(var(--accountRed), 1);
-  }
-
-  // Accent checked style
-  .accent-checked {
-    background-image: url("https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-739-check-white-a09b2a26e235b77489dfd57be3b66a17ff86efd5fb94d6db5f10cd3ced01e5a6.svg");
-    background-position: center;
-    background-size: 50%;
-    background-repeat: no-repeat;
-  }
-
-  // Fading effect
-  .fading {
-    &.fade_visible::after {
-      transition: linear .3s;
-      opacity: 1;
-    }
-
-    &.fade_invisible::after {
-      transition: linear .3s;
-      opacity: 0;
-    }
-
-    &::after {
-      content: "";
-      width: 40px;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      right: 0;
-      background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0, #fff 100%);
-      will-change: opacity;
-      pointer-events: none;
-    }
-  }
-
-  // Trailers gradient
-  .trailers-gradient {
-    background: linear-gradient(to right, rgba(var(--tmdbDarkBlue), .75) 0%, rgba(var(--tmdbDarkBlue), .75) 100%);
-    height: 100%;
-  }
-}
-
-// Components
-@layer components {
-  // Submenu styles
-  .submenu {
-    @apply max-h-0 overflow-hidden mb-2.5;
-
-    &--open {
-      @apply max-h-min mb-7 mt-2.5;
-    }
-  }
-
-  // Menu tag
-  .menu-tag {
-    @apply text-[12.96px] leading-4 rounded-md bg-black/10 inline-block rounded-[4px] px-2.5 py-1 border border-tmdbLightGray;
-  }
-
-  .tag {
-    @apply text-[12.96px] leading-4 rounded-md bg-black/10 inline-block rounded-[4px] px-2.5 py-1 border border-tmdbLightGray;
-  }
-
-  // Custom input
-  .custom-input {
-    @apply w-full h-9.5 mt-0.5 px-4 py-1.5 bg-white rounded-md border border-tmdbLightGray outline-none;
-  }
-
-  // Homepage active tab
-  .homepage_active_tab {
-    @apply bg-tmdbDarkBlue;
-    a {
-      background: linear-gradient(to right, #c0fecf 0, #1ed5a9 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-  }
-
-  // Homepage trailers active tab
-  .homepage_trailers_active_tab {
-    @apply text-tmdbDarkBlue;
-    background: linear-gradient(to right, rgb(var(--tmdbLighterGreen)) 0, rgb(var(--tmdbLightGreen)) 100%);
-  }
-
-  // Active tab
-  .active_tab {
-    --tw-bg-opacity: 1;
-    background-color: rgb(3 37 65 / var(--tw-bg-opacity));
-    transition: all;
-
-    a {
-      background: linear-gradient(to right, #c0fecf 0, #1ed5a9 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-  }
-
-  // Time period
-  .time-period {
-    @apply block py-0.5 px-5 rounded-full overflow-hidden transition-all duration-200;
-  }
-
-  // Media active tab
-  .media_active_tab {
-    border-color: black !important;
-  }
-
-  // Section tab
-  .section-tab {
-    @apply border-b-4 border-white pt-2 pb-1 rounded-b-sm transition-all duration-300;
-  }
-
-  // Button styles
-  .btn {
-    @apply flex justify-center items-center font-SourceProNormal font-semibold text-xl rounded-full py-2 w-full cursor-pointer;
-  }
-
-  .btn-primary {
-    @apply btn text-white bg-tmdbLighterBlue;
-  }
-
-  .btn-secondary {
-    @apply btn text-gray-500 bg-gray-200/70;
-  }
-
-  // Filter styles
-  .filter-box {
-    @apply select-none bg-white rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.1)] border border-[#e3e3e3] mb-3;
-  }
-
-  .filter-header {
-    @apply flex justify-between items-center py-3.5 px-4 cursor-pointer;
-  }
-
-  .filter-title {
-    @apply font-SourceProSemiBold font-semibold text-[1.1rem];
-  }
-
-  .filter-section {
-    @apply border-b border-b-black/5 py-3.5 font-SourceProNormal text-base text-black/90;
-  }
-
-  .filter-content {
-    @apply transition-all duration-200 border-t border-t-black/5 px-4;
-  }
-
-  .filter-tag {
-    @apply border border-[#9e9e9e] text-[0.9rem] px-3 py-0.5 rounded-full cursor-pointer transition-all;
-  }
-
-  // Form select
-  .form-select {
-    @apply block w-full bg-gray-200 border border-gray-200 text-gray-700 py-1.5 px-2 rounded focus:outline-none focus:border-gray-500;
-  }
-}
-
-// Custom toast style
-.custom-toast-style {
-  top: 45px;
-}
-
-// Animation keyframes
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: .5;
-  }
-}
-
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-// Shimmer effect
-.shimmer-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-.shimmer {
-  filter: blur(6px);
-  height: 100%;
-}
-
-@keyframes shimmer-loading {
-  0% {
-    transform: translateX(120%);
-  }
-  50% {
-    transform: translateX(50%);
-  }
-  100% {
-    transform: translateX(-150%);
-  }
-}
-
-.shimmer-fast {
-  .shimmer-wrapper {
-    animation: shimmer-loading 1.8s infinite;
-  }
-
-  .shimmer {
-    width: 35%;
-    background-color: hsla(0, 0%, 100%, 0.3);
-    transform: skewX(-20deg);
-  }
-}
-
-.shimmer-slow {
-  .shimmer-wrapper {
-    animation: shimmer-loading 2.7s infinite;
-  }
-
-  .shimmer {
-    width: 32%;
-    background-color: hsla(0, 0%, 100%, 0.05);
-    transform: skewX(-10deg);
-  }
-}
-
-// Crew member layout
-.crew-member {
-  @apply lg:[&:nth-child(3n)]:justify-end
-  lg:[&:nth-child(3n-1)]:justify-center
-  lg:[&:nth-child(3n-2)]:justify-start
-  max-lg:[&:nth-child(even)]:justify-end
-  max-lg:[&:nth-child(odd)]:justify-start;
 }
