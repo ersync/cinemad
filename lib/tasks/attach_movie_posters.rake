@@ -1,35 +1,91 @@
-# lib/tasks/attach_movie_posters.rake
+require 'ruby-progressbar'
+require 'pastel'
+
 namespace :movies do
   desc "Attach poster images to all Movie records from downloaded files"
   task attach_posters: :environment do
-    # Base directory where all movie posters are stored
-    BASE_DIR = "public/movie_media/posters"
+    # Suppress VIPS warnings
+    ENV['VIPS_WARNING'] = 'disable'
 
-    puts "Starting poster attachment process for all movies..."
+    # Suppress SQL debug output
+    ActiveRecord::Base.logger.level = Logger::INFO
+    pastel = Pastel.new
+
+    # Base directory where all movie posters are stored
+    BASE_DIR = "public/demo_assets/media/posters"
+
+    puts pastel.cyan("\n▶ Starting poster attachment process...")
+
+    # Check if the base directory exists
+    unless Dir.exist?(BASE_DIR)
+      puts pastel.red("\n✗ Base directory not found: #{BASE_DIR}")
+
+      # Check if demo assets exist at all
+      if !Dir.exist?("public/demo_assets")
+        puts pastel.yellow("  ! Demo assets not found. Running assets:download task first...")
+        Rake::Task["assets:download"].invoke
+
+        # Check again after download
+        unless Dir.exist?(BASE_DIR)
+          puts pastel.red("  ✗ Poster directory still not found after downloading assets")
+          exit 1
+        end
+      else
+        exit 1
+      end
+    end
 
     # Get all movie poster directories
     movie_dirs = Dir.glob("#{BASE_DIR}/*").select { |d| File.directory?(d) }
 
     if movie_dirs.empty?
-      puts "No movie poster directories found in #{BASE_DIR}"
-      exit
+      puts pastel.yellow("\n! No movie poster directories found in #{BASE_DIR}")
+      exit 0
+    end
+
+    puts pastel.cyan("  • Found #{movie_dirs.count} movie directories")
+
+    # Check database status
+    total_db_movies = Movie.count
+    puts pastel.cyan("  • Total movies in database: #{total_db_movies}")
+
+    # List movie IDs that don't have directories
+    db_movie_ids = Movie.pluck(:id)
+    dir_movie_ids = movie_dirs.map { |dir| File.basename(dir).to_i }
+    missing_dirs = db_movie_ids - dir_movie_ids
+
+    if missing_dirs.any?
+      puts pastel.yellow("  • Movies without poster directories: #{missing_dirs.count}")
+      if missing_dirs.count <= 10
+        puts pastel.yellow("    Missing IDs: #{missing_dirs.join(', ')}")
+      else
+        puts pastel.yellow("    First 10 missing IDs: #{missing_dirs.take(10).join(', ')}...")
+      end
     end
 
     total_movies = movie_dirs.count
     total_attached = 0
     total_failed = 0
+    total_skipped = 0
     total_posters = 0
 
-    movie_dirs.each_with_index do |movie_dir, index|
+    # Create progress bar
+    progress = ProgressBar.create(
+      title: "Processing Movies",
+      total: total_movies,
+      format: "%t: |%B| %c/%u %p%% %e",
+      output: $stdout
+    )
+
+    movie_dirs.each do |movie_dir|
       movie_id = File.basename(movie_dir)
-      puts "Processing movie ID #{movie_id} (#{index + 1}/#{total_movies})"
 
       # Find the movie with this ID
       movie = Movie.find_by(id: movie_id)
 
       if movie.nil?
-        puts "  ERROR: Movie not found with ID: #{movie_id}"
         total_failed += 1
+        progress.increment
         next
       end
 
@@ -37,7 +93,7 @@ namespace :movies do
       poster_files = Dir.glob("#{movie_dir}/*.jpg")
 
       if poster_files.empty?
-        puts "  WARNING: No poster files found for #{movie.title}"
+        progress.increment
         next
       end
 
@@ -48,7 +104,7 @@ namespace :movies do
           # Skip if this exact file is already attached
           filename = File.basename(poster_path)
           if movie.posters.any? { |p| p.filename.to_s == filename }
-            puts "  SKIPPED: Poster #{filename} already attached to #{movie.title}"
+            total_skipped += 1
             next
           end
 
@@ -62,23 +118,24 @@ namespace :movies do
 
         # Save the movie to ensure the attachments are saved
         if movie.save
-          puts "  SUCCESS: Attached #{poster_count} posters to #{movie.title}"
           total_attached += 1
           total_posters += poster_count
         else
-          puts "  ERROR: Failed to save movie after attaching posters: #{movie.errors.full_messages.join(', ')}"
           total_failed += 1
         end
       rescue => e
-        puts "  ERROR: Exception while attaching posters for #{movie.title || 'unknown movie'}: #{e.message}"
         total_failed += 1
       end
+
+      progress.increment
     end
 
-    puts "\nPoster attachment process completed!"
-    puts "Processed #{total_movies} movies"
-    puts "Successfully attached posters to #{total_attached} movies"
-    puts "Total posters attached: #{total_posters}"
-    puts "Failed to process #{total_failed} movies"
+    puts pastel.green("\n✓ Poster attachment process completed!")
+    puts pastel.cyan("\n▶ Results:")
+    puts pastel.cyan("  • Processed #{total_movies} movies")
+    puts pastel.green("  • Successfully attached posters to #{total_attached} movies")
+    puts pastel.green("  • Total posters attached: #{total_posters}")
+    puts pastel.cyan("  • Already attached (skipped): #{total_skipped}")
+    puts pastel.yellow("  • Failed to process: #{total_failed}")
   end
 end

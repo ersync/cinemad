@@ -1,166 +1,95 @@
+require 'ruby-progressbar'
+require 'pastel'
+
 namespace :people do
-  desc "Attach images to Person records from downloaded files"
+  desc "Attach images to Person records from demo assets"
   task attach_images: :environment do
-    BASE_DIR = "public/movie_cast_data"
+    ActiveRecord::Base.logger.level = Logger::INFO
+    pastel = Pastel.new
 
-    puts "Starting person image attachment process..."
+    # Use different constant names to avoid conflicts
+    DEMO_ASSETS_DIR = Rails.root.join('public', 'demo_assets')
+    PEOPLE_CAST_DIR = File.join(DEMO_ASSETS_DIR, 'cast')
 
-    unless Dir.exist?(BASE_DIR)
-      puts "ERROR: Base directory not found: #{BASE_DIR}"
-      exit
-    end
+    puts pastel.cyan("\n▶ Starting image attachment process...")
 
-    # Get all movie directories
-    movie_dirs = Dir.glob("#{BASE_DIR}/*").select { |d| File.directory?(d) }
+    begin
+      # Check if demo assets are already downloaded
+      if Dir.exist?(DEMO_ASSETS_DIR) && Dir.exist?(PEOPLE_CAST_DIR)
+        puts pastel.green("  ✓ Using existing demo assets")
+      else
+        puts pastel.yellow("  ! Demo assets not found, downloading them first...")
+        Rake::Task["assets:download"].invoke
 
-    puts "Found #{movie_dirs.count} movie directories:"
-    movie_dirs.each { |dir| puts "  - #{File.basename(dir)}" }
-
-    total_processed = 0
-    total_attached = 0
-    total_failed = 0
-    total_skipped = 0
-    failed_cases = []
-
-    movie_dirs.each do |movie_dir|
-      movie_name = File.basename(movie_dir)
-      images_dir = "#{movie_dir}/images"
-
-      unless Dir.exist?(images_dir)
-        puts "\nSKIPPED MOVIE: #{movie_name} - no images directory found at #{images_dir}"
-        next
-      end
-
-      puts "\nProcessing images from movie: #{movie_name}"
-      image_files = Dir.glob("#{images_dir}/*.jpg")
-
-      if image_files.empty?
-        puts "  WARNING: No jpg files found in #{images_dir}"
-        next
-      end
-
-      puts "  Found #{image_files.count} image files:"
-      image_files.each { |f| puts "    - #{File.basename(f)}" }
-
-      image_files.each do |image_path|
-        total_processed += 1
-        person_name = File.basename(image_path, '.jpg').gsub('_', ' ')
-
-        # Simple case-insensitive partial match
-        person = Person.where("LOWER(name) LIKE ?", "%#{person_name.downcase}%").first
-
-        # If no match found, try removing special characters from search
-        if person.nil?
-          clean_name = person_name.downcase.gsub(/[.,'"]/, '')
-          person = Person.all.find { |p| p.name.downcase.gsub(/[.,'"]/, '') == clean_name }
+        unless Dir.exist?(DEMO_ASSETS_DIR) && Dir.exist?(PEOPLE_CAST_DIR)
+          puts pastel.red("\n✗ Failed to download required assets")
+          exit 1
         end
+      end
 
-        if person.nil?
-          error_msg = "Person not found in database"
-          puts "    ERROR: #{error_msg}"
-          failed_cases << {
-            name: person_name,
-            movie: movie_name,
-            reason: error_msg,
-            path: image_path
-          }
-          total_failed += 1
+      movie_dirs = Dir.glob("#{PEOPLE_CAST_DIR}/*").select { |d| File.directory?(d) }
 
-          # Debug: Show similar names in database
-          similar_names = Person.where("LOWER(name) LIKE ?", "%#{person_name.downcase.split(' ').last}%")
-          if similar_names.any?
-            puts "    Similar names found in database:"
-            similar_names.each { |p| puts "      - #{p.name}" }
-          end
+      total_movies = movie_dirs.count
+      total_attached = 0
+      total_failed = 0
+      total_skipped = 0
+
+      movies_progress = ProgressBar.create(
+        title: "Processing Movies",
+        total: total_movies,
+        format: "%t: |%B| %c/%u %p%% %e",
+        output: $stdout
+      )
+
+      movie_dirs.each do |movie_dir|
+        movie_name = File.basename(movie_dir)
+        images_dir = File.join(movie_dir, "images")
+
+        unless Dir.exist?(images_dir)
+          movies_progress.increment
           next
         end
 
-        puts "    Found person in database with ID: #{person.id}"
+        images = Dir.glob("#{images_dir}/*.jpg")
 
-        if person.image.attached?
-          puts "    SKIPPED: Image already attached"
-          total_skipped += 1
-          next
-        end
+        images.each do |image_path|
+          image_filename = File.basename(image_path)
+          person = Person.find_by(image_filename: image_filename)
 
-        begin
-          unless File.exist?(image_path)
-            error_msg = "Image file not found at path"
-            puts "    ERROR: #{error_msg}"
-            failed_cases << {
-              name: person_name,
-              movie: movie_name,
-              reason: error_msg,
-              path: image_path
-            }
-            total_failed += 1
+          if person&.image&.attached?
+            total_skipped += 1
             next
           end
 
-          # Check if file is readable and not empty
-          unless File.readable?(image_path) && File.size(image_path) > 0
-            error_msg = "Image file is not readable or empty"
-            puts "    ERROR: #{error_msg}"
-            failed_cases << {
-              name: person_name,
-              movie: movie_name,
-              reason: error_msg,
-              path: image_path
-            }
-            total_failed += 1
-            next
-          end
-
-          person.image.attach(
-            io: File.open(image_path),
-            filename: "#{person_name.parameterize}.jpg",
-            content_type: 'image/jpeg'
-          )
-
-          if person.save
-            puts "    SUCCESS: Attached image"
-            total_attached += 1
-          else
-            error_msg = "Failed to save: #{person.errors.full_messages.join(', ')}"
-            puts "    ERROR: #{error_msg}"
-            failed_cases << {
-              name: person_name,
-              movie: movie_name,
-              reason: error_msg,
-              path: image_path
-            }
+          begin
+            if person
+              person.image.attach(
+                io: File.open(image_path),
+                filename: image_filename,
+                content_type: 'image/jpeg'
+              )
+              total_attached += 1
+            else
+              total_failed += 1
+            end
+          rescue => e
+            puts pastel.red("  ! Error attaching image #{image_filename}: #{e.message}")
             total_failed += 1
           end
-        rescue => e
-          error_msg = "Exception: #{e.message}\n#{e.backtrace.first(3).join("\n")}"
-          puts "    ERROR: #{error_msg}"
-          failed_cases << {
-            name: person_name,
-            movie: movie_name,
-            reason: error_msg,
-            path: image_path
-          }
-          total_failed += 1
         end
-      end
-    end
 
-    puts "\n----------------------------------------"
-    puts "Person image attachment process completed!"
-    puts "Total processed: #{total_processed}"
-    puts "Successfully attached: #{total_attached}"
-    puts "Already had images (skipped): #{total_skipped}"
-    puts "Failed to process: #{total_failed}"
-
-    if failed_cases.any?
-      puts "\nFailed cases summary:"
-      failed_cases.each do |failure|
-        puts "\n  Person: #{failure[:name]}"
-        puts "  Movie: #{failure[:movie]}"
-        puts "  Reason: #{failure[:reason]}"
-        puts "  Path: #{failure[:path]}"
-        puts "  ----------------------------------------"
+        movies_progress.increment
       end
+
+      puts pastel.green("\n✓ Task completed successfully!")
+      puts pastel.cyan("\n▶ Results:")
+      puts pastel.cyan("  • Movies Processed: #{total_movies}")
+      puts pastel.green("  • Images Attached: #{total_attached}")
+      puts pastel.yellow("  • Failed Attempts: #{total_failed}")
+      puts pastel.cyan("  • Already Attached (Skipped): #{total_skipped}")
+
+    rescue => e
+      puts pastel.red("\n✗ Error: #{e.message}")
     end
   end
 end

@@ -15,6 +15,10 @@ gem "bootsnap", require: false
 gem 'color'
 gem 'friendly_id', '~> 5.5', '>= 5.5.1'
 gem 'kaminari'
+gem 'ruby-progressbar'
+gem 'tty-spinner'
+gem 'pastel'
+gem 'tty-progressbar'
 
 group :development, :test do
   gem 'rspec-rails', '~> 6.1.0'
