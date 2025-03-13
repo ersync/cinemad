@@ -33,6 +33,8 @@ import { useMovieStore } from '@/vue/stores/movieStore'
 import { shuffle } from 'lodash'
 import SectionHeading from "@/vue/components/movies/show/SectionHeading.vue"
 
+import trendingBackground from "@/assets/images/trending_background.png"
+
 const props = defineProps({
   title: {
     type: String,
@@ -80,7 +82,7 @@ const displayedMovies = computed(() => {
 const backgroundBarStyle = computed(() => {
   if (!props.backgroundBar) return {}
   return {
-    background: "url('https://iili.io/J1lXhX9.png') -10px 130px / contain no-repeat"
+    background: `url(${trendingBackground}) -10px 130px / contain no-repeat`
   }
 })
 
@@ -127,7 +129,6 @@ onMounted(() => {
   position: absolute;
   top: 0;
   right: 0;
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0, #fff 100%);
   will-change: opacity;
   pointer-events: none;
 }

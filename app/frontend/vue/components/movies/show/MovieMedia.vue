@@ -14,15 +14,14 @@ const movieSlug = computed(() => route.params.slug)
 const { data: movieData } = movieStore.movieComputed(movieSlug.value)
 
 const periods = [
-  { value: 'popular', label: 'Popular Media' },
-  { value: 'videos', label: 'Videos' },
   { value: 'backdrops', label: 'Backdrops' },
-  { value: 'posters', label: 'Posters' }
+  { value: 'posters', label: 'Posters' },
+  { value: 'videos', label: 'Videos' },
 ]
 
 const mediaUrls = ref([])
 const iframeVideos = ref([])
-const activeTab = ref('popular')
+const activeTab = ref('backdrops')
 const isDragging = ref(false)
 const lightboxImage = ref(null)
 const viewport = ref(null)
@@ -55,20 +54,7 @@ const loadMedia = (mediaType) => {
   try {
     let media = []
 
-    if (mediaType === 'popular') {
-      // Combine different media types for popular view
-      const videos = getMediaArray('videos')
-      const backdrops = getMediaArray('backdrops')
-      const posters = getMediaArray('posters')
-
-      media = [
-        ...videos,
-        ...backdrops,
-        ...posters
-      ].slice(0, 10)
-    } else {
-      media = getMediaArray(mediaType)
-    }
+    media = getMediaArray(mediaType)
 
     mediaUrls.value = media
     activeTab.value = mediaType
@@ -213,7 +199,7 @@ watch(mediaUrls, () => {
 onMounted(() => {
   nextTick(() => {
     initScrollBooster()
-    loadMedia('popular')
+    loadMedia('backdrops')
   })
 })
 

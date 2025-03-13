@@ -119,7 +119,7 @@ const getFillPercentage = (position, rating) => {
   <div>
     <div class="flex items-center justify-end w-full">
       <div
-          class="rating-container relative h-8 touch-none select-none flex items-center"
+          class="rating-container relative h-8 select-none flex items-center"
           :class="{
           'cursor-not-allowed opacity-50': disabled || isSubmitting,
           'cursor-default': readonly
@@ -219,6 +219,8 @@ const getFillPercentage = (position, rating) => {
 
 .rating-container {
   overflow: visible;
+  touch-action: pan-y;
+
 }
 
 .popup-stars {

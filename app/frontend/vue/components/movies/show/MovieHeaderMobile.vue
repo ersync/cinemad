@@ -28,7 +28,7 @@ onMounted(() => {
 const backgroundStyle = computed(() => {
   if (!movieData.value?.background_url) return {}
 
-  const parallaxOffset = Math.min(scrollPosition.value * 0.8, 205)
+  const parallaxOffset = Math.min(scrollPosition.value * 0.5, 105)
   return {
     backgroundImage: `url(${movieData.value.background_url})`,
     transform: `translateY(${parallaxOffset}px) scale(1.1)`,

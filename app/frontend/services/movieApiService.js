@@ -133,15 +133,6 @@ class MovieApiService {
     }
   }
 
-  async getPopularMedia(slug) {
-    try {
-      const response = await this.request('get', slug, 'media/popular')
-      return { success: true, media: response }
-    } catch (error) {
-      return { success: false, error: error.message }
-    }
-  }
-
   // ============================================
   // Movie Information
   // ============================================

@@ -16,14 +16,6 @@ module MovieServices
       @movie.videos.map { |video| "https://www.youtube.com/watch?v=#{video.url}" }
     end
 
-    def popular_media
-      [
-        *posters.first(2),
-        *backdrops.first(2),
-        *videos.first(2)
-      ].compact
-    end
-
     private
 
     def generate_blob_path(attachment)

@@ -26,7 +26,7 @@ const totalReviews = computed(() => {
 </script>
 
 <template>
-  <div class="mb-10 antialiased bg-white/95 backdrop-blur-lg transition-all duration-200">
+  <div class="mb-10 antialiased transition-all duration-200">
     <SectionHeading
         title="Reviews"
         :counter="totalReviews"

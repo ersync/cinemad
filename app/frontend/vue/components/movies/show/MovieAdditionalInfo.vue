@@ -83,9 +83,9 @@ const keywords = computed(() =>
 
 <template>
   <div class="min-w-[295px] lg:max-w-[281px] mx-auto sm:p-4 pt-0">
-    <div class="bg-white rounded-2xl max-sm:p-4 max-sm:pl-2">
+    <div class="rounded-2xl max-sm:p-4 max-sm:pl-2">
       <div class="flex justify-center mb-12">
-        <div class="inline-flex items-center gap-3 px-4 py-2 bg-gray-50 rounded-full">
+        <div class="inline-flex items-center gap-3 px-4 py-2 bg-white/80 rounded-full">
           <a v-for="social in socialLinks"
              :key="social.icon"
              :href="social.url"
