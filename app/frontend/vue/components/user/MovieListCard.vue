@@ -11,6 +11,7 @@
         <AvgRateBadge
             :average-rating="movie.average_rating"
             size="small-chart"
+            :shouldAnimate="false"
         />
         <div>
           <h3 class="font-SourceProBold text-[1.2rem] hover:text-tmdbLighterBlue transition-colors leading-5 md:leading-6 line-clamp-1">
@@ -26,7 +27,7 @@
 
       <!-- Movie Overview -->
       <div class="mt-3 md:mt-4 leading-5">
-        <p class="text-[0.9em] md:text-[1rem] leading-5 line-clamp-3 md:line-clamp-3">
+        <p class="text-[0.8em] sm:text-base leading-5 line-clamp-3 md:line-clamp-3">
           {{ movie.overview }}
         </p>
       </div>
@@ -97,7 +98,7 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import AvgRateBadge from '@/vue/components/movies/shared/AvgRateBadge.vue'
 import StarRating from '@/vue/components/movies/shared/StarRating.vue'
 import { useAuthStore } from '@/vue/stores/authStore'
@@ -113,31 +114,11 @@ const props = defineProps({
 const authStore = useAuthStore()
 const interactionStore = useUserInteractionStore()
 
-const localIsFavorite = ref(props.movie.user_interactions?.is_favorite || false)
-const localInWatchlist = ref(props.movie.user_interactions?.in_watchlist || false)
-const localUserRating = ref(props.movie.user_interactions?.user_rating || 0)
+const interactions = interactionStore.movieInteractionsComputed(props.movie.slug)
 
-const movieInteractions = computed(() =>
-    interactionStore.movieInteractionsComputed(props.movie.slug).value || {}
-)
-
-const isFavorite = computed(() =>
-    movieInteractions.value?.is_favorite !== undefined
-        ? movieInteractions.value.is_favorite
-        : localIsFavorite.value
-)
-
-const inWatchlist = computed(() =>
-    movieInteractions.value?.in_watchlist !== undefined
-        ? movieInteractions.value.in_watchlist
-        : localInWatchlist.value
-)
-
-const userRating = computed(() =>
-    movieInteractions.value?.user_rating !== undefined
-        ? movieInteractions.value.user_rating
-        : localUserRating.value
-)
+const isFavorite = interactions.isFavorite
+const inWatchlist = interactions.isInWatchlist
+const userRating = interactions.userRating
 
 const formatDate = (date) => {
   return new Date(date).toLocaleDateString('en-US', {
@@ -154,12 +135,8 @@ const toggleFavorite = async () => {
   }
 
   try {
-    localIsFavorite.value = !localIsFavorite.value
-
     await interactionStore.toggleFavorite(props.movie.slug)
-
   } catch (error) {
-    localIsFavorite.value = !localIsFavorite.value
     console.error('Error toggling favorite:', error)
   }
 }
@@ -171,24 +148,10 @@ const toggleWatchlist = async () => {
   }
 
   try {
-    localInWatchlist.value = !localInWatchlist.value
-
     await interactionStore.toggleWatchlist(props.movie.slug)
-
-    await interactionStore.fetchInteractions(props.movie.slug)
+    // No need to call fetchInteractions here
   } catch (error) {
-    localInWatchlist.value = !localInWatchlist.value
     console.error('Error toggling watchlist:', error)
   }
 }
-
-onMounted(async () => {
-  if (authStore.isAuthenticated && props.movie.slug) {
-    try {
-      await interactionStore.fetchInteractions(props.movie.slug)
-    } catch (error) {
-      console.error('Error fetching movie interactions:', error)
-    }
-  }
-})
 </script>

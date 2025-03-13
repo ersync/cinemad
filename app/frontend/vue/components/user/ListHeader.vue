@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-lg shadow-sm py-2 my-8">
+  <div class="shadow-sm py-2 my-8">
     <div class="flex flex-row justify-between items-center">
       <!-- Left Section -->
       <div class="flex items-center« space-x-2 sm:space-x-6">
@@ -17,15 +17,15 @@
       <!-- Right Section - View Toggle and Sort Filter -->
       <div class="flex items-center space-x-1 sm:space-x-4 self-center">
         <div class="flex items-center">
-          <div class="flex items-center bg-gray-100 rounded-lg p-1">
-            <button class="p-1 sm:p-1.5 rounded-md hover:bg-white hover:shadow-sm transition-all duration-200"
+          <div class="flex items-center bg-gray-100 rounded-lg border border-gray-200">
+            <button class="rounded-r-none p-[9px] rounded-lg hover:bg-white hover:shadow-sm transition-all duration-200"
                     :class="{ 'bg-white shadow-sm': viewMode === 'grid' }"
                     @click="setViewMode('grid')">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
               </svg>
             </button>
-            <button class="p-1 p-1.5 rounded-md hover:bg-white hover:shadow-sm transition-all duration-200"
+            <button class="rounded-l-none p-[9px] rounded-md hover:bg-white hover:shadow-sm transition-all duration-200"
                     :class="{ 'bg-white shadow-sm': viewMode === 'list' }"
                     @click="setViewMode('list')">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

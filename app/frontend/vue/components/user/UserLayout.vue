@@ -4,8 +4,8 @@
       <p class="text-red-600">{{ error }}</p>
     </div>
 
-    <div v-else-if="isLoading" class="max-w-7xl mx-auto px-4 py-8">
-      <p>Loading...</p>
+    <div v-else-if="isLoading">
+      <UserLayoutSkeleton />
     </div>
 
     <div v-else-if="interactionStore.userProfileComputed" class="relative">
@@ -30,6 +30,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useUserInteractionStore } from '@/vue/stores/userInteractionStore'
 import ProfileHeader from './ProfileHeader.vue'
 import ShortcutBar from './ShortcutBar.vue'
+import UserLayoutSkeleton from "@/vue/components/user/UserLayoutSkeleton.vue"
 
 defineComponent({
   name: 'UserLayout'

@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-white shadow-sm sm:px-6 py-3">
+  <nav class="bg-white shadow-sm sm:px-6 py-1">
     <div class="max-w-6xl mx-auto">
       <ul class="flex items-center justify-center space-x-1 sm:space-x-4">
         <!-- Overview Section -->
@@ -27,7 +27,7 @@
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                 />
               </svg>
-              <span class="text-sm sm:text-base">Overview</span>
+              <span class="text-sm sm:text-base">Profile</span>
               <svg class="w-3 h-3 ml-1 sm:w-5 sm:h-5 sm:ml-1.5 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
@@ -44,7 +44,7 @@
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
-                    Main Profile
+                    View
                   </div>
                 </RouterLink>
 
@@ -56,7 +56,7 @@
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
-                    Edit Profile
+                    Edit
                   </div>
                 </RouterLink>
               </div>
