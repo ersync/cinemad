@@ -11,6 +11,7 @@ import MovieReviewSection from "@/vue/components/movies/show/MovieReviewSection.
 import MovieRecommendations from "@/vue/components/movies/show/MovieRecommendations.vue"
 import MovieMedia from "@/vue/components/movies/show/MovieMedia.vue"
 import MovieAdditionalInfo from "@/vue/components/movies/show/MovieAdditionalInfo.vue"
+import MovieShowSkeleton from '@/vue/components/movies/show/MovieShowSkeleton.vue'
 
 const route = useRoute()
 const movieStore = useMovieStore()
@@ -82,39 +83,7 @@ onMounted(() => {
 <template>
   <div class="movie-show">
     <!-- Loading State -->
-    <div v-if="isLoading" class="container hidden sm:block">
-      <div class="animate-pulse">
-        <!-- Hero/Header -->
-        <div class="h-[570px] w-full bg-gray-100 rounded-lg"></div>
-
-        <!-- Main Content Layout -->
-        <div class="flex gap-[10px] mt-[60px]">
-          <!-- Left Column -->
-          <div class="flex-1 gap-3">
-            <!-- Cast Section -->
-            <div class="flex gap-3 items-center h-[320px] rounded-lg mb-8">
-              <div class="bg-gray-100 w-[140px] h-[290px] rounded-lg"></div>
-              <div class="bg-gray-100 w-[140px] h-[290px] rounded-lg"></div>
-              <div class="bg-gray-100 w-[140px] h-[290px] rounded-lg"></div>
-              <div class="bg-gray-100 w-[140px] h-[290px] rounded-md"></div>
-              <div class="bg-gray-100 w-[140px] h-[290px] rounded-lg"></div>
-            </div>
-
-            <!-- Reviews Section -->
-            <div class="h-[300px] bg-gray-100 rounded-lg mb-8"></div>
-
-            <!-- Media Section -->
-            <div class="h-[380px] bg-gray-100 rounded-lg mb-8"></div>
-
-            <!-- Recommendations Section -->
-            <div class="h-[286px] bg-gray-100 rounded-lg"></div>
-          </div>
-
-          <!-- Right Column -->
-          <div class="w-[295px] h-[700px] bg-gray-100 rounded-lg"></div>
-        </div>
-      </div>
-    </div>
+    <MovieShowSkeleton v-if="isLoading" class="hidden sm:Block" />
 
     <!-- Error State -->
     <div v-else-if="error" class="container py-8 text-center">

@@ -73,9 +73,9 @@
 
               <!-- Movie Info -->
               <div class="flex-grow min-w-0">
-                <h3 class="text-white font-medium text-lg truncate">{{ movie.title }}</h3>
+                <h3 class="text-white font-medium text-base sm:text-lg truncate">{{ movie.title }}</h3>
                 <div class="flex items-center gap-3 mt-1">
-                  <span class="text-white/60 text-sm">{{ formatDate(movie.release_date) }}</span>
+                  <span class="text-white/60 text-xs sm:text-sm">{{ formatDate(movie.release_date) }}</span>
                   <span v-if="movie.average_rating"
                         class="flex items-center text-sm text-yellow-400">
                     <svg class="w-4 h-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
