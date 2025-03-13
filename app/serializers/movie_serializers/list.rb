@@ -10,7 +10,9 @@ module MovieSerializers
         average_rating: movie.average_rating,
         age_rating: movie.age_rating,
         overview: movie.overview,
-        created_at: movie.created_at
+        created_at: movie.created_at,
+        added_to_favorites_at: movie.user_favorite_movies.order(created_at: :desc).first&.created_at,
+        added_to_watchlist_at: movie.watchlist_movies.order(created_at: :desc).first&.created_at
       }
     end
   end

@@ -3,14 +3,14 @@
     <ListHeader
         title="My Favorites"
         :show-count="true"
-        :items-count="favorites.length"
-        :filter-options="[ 'Title', 'Rating' , 'Date Added', 'Release Date']"
+        :items-count="favoritesTotalCount"
+        :filter-options="['Title', 'Rating', 'Date Added', 'Release Date']"
         @filter-change="handleFilterChange"
         @order-change="handleOrderChange"
     />
 
     <div v-if="isLoading" class="mt-4">
-      <p>Loading favorites...</p>
+      <MovieListCardSkeleton v-for="n in 3" :key="n" />
     </div>
     <div v-else-if="error" class="mt-4 text-red-600">
       <p>{{ error }}</p>
@@ -20,55 +20,78 @@
     </div>
     <div v-else>
       <MovieListCard
-          v-for="movie in sortedMovies"
+          v-for="movie in favorites"
           :key="movie.id"
           :movie="movie"
       />
     </div>
+
+    <div v-if="favorites.length > 0 || favoritesTotalCount > 0" class="mt-4 flex justify-center">
+      <Pagination
+          :current-page="currentPage"
+          :total-pages="totalPages"
+          @page-change="handlePageChange"
+      />
+    </div>
+
   </div>
 </template>
 
 <script setup>
-import { computed, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, onMounted, watch, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useUserInteractionStore } from '@/vue/stores/userInteractionStore'
+import { useAuthStore } from '@/vue/stores/authStore'
 import ListHeader from '@/vue/components/user/ListHeader.vue'
 import MovieListCard from '@/vue/components/user/MovieListCard.vue'
+import Pagination from '@/vue/components/user/Pagination.vue'
 import { useSortedMovies } from '@/vue/composables/useSortedMovies'
+import MovieListCardSkeleton from "@/vue/components/user/MovieListCardSkeleton.vue"
 
 const route = useRoute()
+const router = useRouter()
 const interactionStore = useUserInteractionStore()
+const authStore = useAuthStore()
 
-// Get user profile from the store
-const userProfile = computed(() => interactionStore.userProfileComputed)
+const currentPage = computed(() => {
+  const page = parseInt(route.query.page) || 1
+  return page > 0 ? page : 1
+})
 
-// Get favorites directly from the store
+const username = computed(() => {
+  return route.params.username || authStore.user?.username
+})
+
 const favoritesData = interactionStore.listComputed('favorites')
 const favorites = favoritesData.movies
 const isLoading = favoritesData.isLoading
 const error = favoritesData.error
 
-// Use the sorting composable with the computed favorites
+const favoritesTotalCount = computed(() => {
+  console.log('Meta value:', favoritesData.meta.value);
+  return favoritesData.meta.value?.total_count || 0
+})
+
+const totalPages = computed(() => {
+  return favoritesData.meta.value?.total_pages || 1
+})
+
+// TODO: the sorting logic should be refactored. Currently it's not getting used..
 const { sortedMovies, handleFilterChange, handleOrderChange } = useSortedMovies(favorites)
 
-// Refresh favorites if needed
-const refreshFavorites = () => {
-  if (userProfile.value) {
-    interactionStore.fetchUserList('favorites', 1, userProfile.value.username)
-  }
+const handlePageChange = (page) => {
+  router.push({
+    query: { ...route.query, page }
+  })
+  interactionStore.fetchUserList('favorites', page, username.value)
+
 }
 
-// Watch for username changes in the route to refresh data if needed
-watch(() => route.params.username, (newUsername) => {
-  if (newUsername && userProfile.value && newUsername !== userProfile.value.username) {
-    refreshFavorites()
+
+watch(() => authStore.isAuthenticated, (isAuthenticated) => {
+  if (isAuthenticated && username.value) {
+    interactionStore.fetchUserList('favorites', currentPage.value, username.value)
   }
 })
 
-onMounted(() => {
-  // If the data hasn't been loaded yet, load it
-  if (favorites.value.length === 0 && !isLoading.value) {
-    refreshFavorites()
-  }
-})
 </script>

@@ -45,7 +45,11 @@ module Api
     # GET /api/users/:username/watchlist
     # Returns all movies in user's watchlist
     def watchlist
-      @movies = @user.movies_to_watch.page(params[:page]).per(10)
+      @movies = @user.movies_to_watch
+      .joins(:watchlist_movies)
+      .where(watchlist_movies: { watchlist_id: @user.watchlist.id })
+      .order('watchlist_movies.created_at DESC')
+      .page(params[:page]).per(10)
       movies_with_interactions = MovieSerializers::List.serialize_collection(@movies).map.with_index do |movie_data, i|
         movie_data.merge(
           user_interactions: UserMovieInteractionSerializer.serialize(@movies[i], current_user)
@@ -66,7 +70,11 @@ module Api
     # GET /api/users/:username/favorites
     # Returns all movies favorited by the user
     def favorites
-      @movies = @user.favorite_movies.page(params[:page]).per(10)
+      @movies = @user.favorite_movies
+      .joins(:user_favorite_movies)
+      .where(user_favorite_movies: { user_id: @user.id })
+      .order('user_favorite_movies.created_at DESC')
+      .page(params[:page]).per(10)
       movies_with_interactions = MovieSerializers::List.serialize_collection(@movies).map.with_index do |movie_data, i|
         movie_data.merge(
           user_interactions: UserMovieInteractionSerializer.serialize(@movies[i], current_user)

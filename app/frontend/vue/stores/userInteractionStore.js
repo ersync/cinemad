@@ -7,12 +7,15 @@ import { useAuthStore } from '@/vue/stores/authStore'
 export const useUserInteractionStore = defineStore('userInteractionStore', () => {
   const authStore = useAuthStore()
 
+  // User profile data
   const userProfile = ref(null)
   const profileLoading = ref(false)
   const profileError = ref(null)
 
+  // Central storage for movie interactions
   const userInteractions = ref(new Map())
 
+  // User lists for different types of interactions
   const userLists = ref({
     watchlist: {
       movies: [],
@@ -43,6 +46,7 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     }
   })
 
+  // Loading states for various operations
   const loading = ref({
     interactions: new Map(),
     lists: {
@@ -52,6 +56,7 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     }
   })
 
+  // Error states for various operations
   const errors = ref({
     interactions: new Map(),
     lists: {
@@ -61,6 +66,7 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     }
   })
 
+  // Helper function to get or create an interaction object for a movie
   const getOrCreateInteraction = (slug) => {
     if (!userInteractions.value.has(slug)) {
       userInteractions.value.set(slug, {
@@ -73,10 +79,12 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     return userInteractions.value.get(slug)
   }
 
+  // Set loading state for a specific movie interaction
   const setInteractionLoading = (slug, isLoading) => {
     loading.value.interactions.set(slug, isLoading)
   }
 
+  // Set error state for a specific movie interaction
   const setInteractionError = (slug, error) => {
     if (error) {
       errors.value.interactions.set(slug, error)
@@ -85,7 +93,7 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     }
   }
 
-  // Fetch user interactions from API
+  // Fetch user interactions for a specific movie
   const fetchInteractions = async (slug) => {
     if (!authStore.isAuthenticated) {
       return null
@@ -121,9 +129,8 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     }
   }
 
-  // Toggle favorite status
+  // Toggle favorite status for a movie
   const toggleFavorite = async (slug) => {
-
     if (!authStore.isAuthenticated) {
       throw new Error('Authentication required')
     }
@@ -135,24 +142,27 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
       const interaction = getOrCreateInteraction(slug)
       const currentStatus = interaction.is_favorite
 
+      // Make API call to toggle favorite status
       const response = currentStatus
         ? await userApiService.removeFromFavorites(slug)
         : await userApiService.addToFavorites(slug)
 
       if (response.success) {
+        // Update interaction state
         interaction.is_favorite = !currentStatus
 
+        // Determine which page to refetch
         if (userLists.value.favorites.movies.length > 0) {
+          // Check if we're currently on the favorites list
+          const isOnFavoritesList = userLists.value.favorites.movies.some(movie => movie.slug === slug)
 
-          if (!currentStatus) {
+          if (isOnFavoritesList) {
+            // Domestic toggle: refetch current page
             await fetchUserList('favorites', userLists.value.favorites.meta.currentPage)
           } else {
-
-            userLists.value.favorites.movies = userLists.value.favorites.movies
-              .filter(movie => movie.slug !== slug)
-
-            if (userLists.value.favorites.meta.totalCount > 0) {
-              userLists.value.favorites.meta.totalCount--
+            // Foreign toggle: refetch first page if adding to favorites
+            if (!currentStatus) {  // Adding to favorites
+              await fetchUserList('favorites', 1)
             }
           }
         }
@@ -171,6 +181,7 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     }
   }
 
+  // Toggle watchlist status for a movie
   const toggleWatchlist = async (slug) => {
     if (!authStore.isAuthenticated) {
       throw new Error('Authentication required')
@@ -183,22 +194,27 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
       const interaction = getOrCreateInteraction(slug)
       const currentStatus = interaction.in_watchlist
 
+      // Make API call to toggle watchlist status
       const response = currentStatus
         ? await userApiService.removeFromWatchlist(slug)
         : await userApiService.addToWatchlist(slug)
 
       if (response.success) {
+        // Update interaction state
         interaction.in_watchlist = !currentStatus
 
+        // Determine which page to refetch
         if (userLists.value.watchlist.movies.length > 0) {
-          if (!currentStatus) {
+          // Check if we're currently on the watchlist
+          const isOnWatchlist = userLists.value.watchlist.movies.some(movie => movie.slug === slug)
+
+          if (isOnWatchlist) {
+            // Domestic toggle: refetch current page
             await fetchUserList('watchlist', userLists.value.watchlist.meta.currentPage)
           } else {
-            userLists.value.watchlist.movies = userLists.value.watchlist.movies
-              .filter(movie => movie.slug !== slug)
-
-            if (userLists.value.watchlist.meta.totalCount > 0) {
-              userLists.value.watchlist.meta.totalCount--
+            // Foreign toggle: refetch first page if adding to watchlist
+            if (!currentStatus) {  // Adding to watchlist
+              await fetchUserList('watchlist', 1)
             }
           }
         }
@@ -217,6 +233,7 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     }
   }
 
+  // Set rating for a movie
   const setRate = async (slug, rate) => {
     if (!authStore.isAuthenticated) {
       throw new Error('Authentication required')
@@ -226,25 +243,43 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     setInteractionError(slug, null)
 
     try {
+      // Make API call to set rating
       const response = await userApiService.setRate(slug, rate)
 
       if (response.success) {
         const interaction = getOrCreateInteraction(slug)
 
+        // Update interaction state
         interaction.user_rating = response.rating.score
 
+        // Update average rating if available
         if (response.rating.average_rating !== undefined) {
           interaction.average_rating = response.rating.average_rating
 
+          // Update movie store with new average rating
           const movieStore = useMovieStore()
           movieStore.updateAverageRating(slug, response.rating.average_rating)
         }
 
+        // Determine which page to refetch
         if (userLists.value.ratings.movies.length > 0) {
-          await fetchUserList('ratings', userLists.value.ratings.meta.currentPage)
+          // Check if we're currently on the ratings list
+          const isOnRatingsList = userLists.value.ratings.movies.some(movie => movie.slug === slug)
+
+          if (isOnRatingsList) {
+            // Domestic toggle: refetch current page
+            await fetchUserList('ratings', userLists.value.ratings.meta.currentPage)
+          } else {
+            // Foreign toggle: refetch first page since we're adding a rating
+            await fetchUserList('ratings', 1)
+          }
         }
 
-        return { success: true, user_rating: rate, average_rating: interaction.average_rating }
+        return {
+          success: true,
+          user_rating: rate,
+          average_rating: interaction.average_rating
+        }
       } else {
         throw new Error(response.error || 'Failed to set rating')
       }
@@ -258,6 +293,7 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     }
   }
 
+  // Remove rating for a movie
   const unsetRate = async (slug) => {
     if (!authStore.isAuthenticated) {
       throw new Error('Authentication required')
@@ -267,26 +303,32 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     setInteractionError(slug, null)
 
     try {
+      // Make API call to remove rating
       const response = await userApiService.unsetRate(slug)
 
       if (response.success) {
         const interaction = getOrCreateInteraction(slug)
+
+        // Update interaction state
         interaction.user_rating = null
 
-        // Update average rating if available in the response
+        // Update average rating if available
         if (response.rating && response.rating.average_rating !== undefined) {
           interaction.average_rating = response.rating.average_rating
 
+          // Update movie store with new average rating
           const movieStore = useMovieStore()
           movieStore.updateAverageRating(slug, response.rating.average_rating)
         }
 
+        // Determine which page to refetch
         if (userLists.value.ratings.movies.length > 0) {
-          userLists.value.ratings.movies = userLists.value.ratings.movies
-            .filter(movie => movie.slug !== slug)
+          // Check if we're currently on the ratings list
+          const isOnRatingsList = userLists.value.ratings.movies.some(movie => movie.slug === slug)
 
-          if (userLists.value.ratings.meta.totalCount > 0) {
-            userLists.value.ratings.meta.totalCount--
+          if (isOnRatingsList) {
+            // Domestic toggle: refetch current page
+            await fetchUserList('ratings', userLists.value.ratings.meta.currentPage)
           }
         }
 
@@ -304,6 +346,7 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     }
   }
 
+  // Update interaction data for a movie
   const updateMovieInteractions = (slug, data) => {
     const interaction = getOrCreateInteraction(slug)
 
@@ -316,6 +359,7 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     return interaction
   }
 
+  // Fetch a user list (favorites, watchlist, or ratings)
   const fetchUserList = async (listType, page = 1, username = null) => {
     const user = username || authStore.user?.username
 
@@ -329,8 +373,13 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     try {
       const response = await userApiService.getUserList(user, listType, page)
       if (response.success) {
-        userLists.value[listType] = {movies: response.movies, meta: response.meta}
+        // Update the list with new data
+        userLists.value[listType] = {
+          movies: response.movies,
+          meta: response.meta
+        }
 
+        // Update the interactions map with data from the list
         response.movies.forEach(movie => {
           if (movie.user_interactions) {
             const interactionData = {
@@ -343,8 +392,9 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
             updateMovieInteractions(movie.slug, interactionData)
           }
         })
-      }
-      else {
+
+        return { success: true, data: response }
+      } else {
         throw new Error(response.error || `Failed to fetch ${listType}`)
       }
     } catch (error) {
@@ -357,6 +407,7 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     }
   }
 
+  // Fetch a user's profile information
   const fetchUserProfile = async (username) => {
     if (!username) {
       throw new Error('Username is required')
@@ -384,6 +435,7 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     }
   }
 
+  // Create computed properties for a movie's interactions
   const movieInteractionsComputed = (slug) => {
     getOrCreateInteraction(slug)
 
@@ -397,6 +449,7 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     }
   }
 
+// Create computed properties for a list (favorites, watchlist, or ratings)
   const listComputed = (listType) => ({
     movies: computed(() => userLists.value[listType].movies || []),
     meta: computed(() => userLists.value[listType].meta || {}),
@@ -404,10 +457,12 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     error: computed(() => errors.value.lists[listType] || null)
   })
 
+  // Computed properties for user profile
   const userProfileComputed = computed(() => userProfile.value)
   const isProfileLoading = computed(() => profileLoading.value)
   const profileErrorMessage = computed(() => profileError.value)
 
+  // Update a movie's average rating
   const updateMovieAverageRating = (slug, averageRating) => {
     if (slug && averageRating !== undefined) {
       const interaction = getOrCreateInteraction(slug)
@@ -417,6 +472,7 @@ export const useUserInteractionStore = defineStore('userInteractionStore', () =>
     return false
   }
 
+  // Return the public interface of the store
   return {
     fetchInteractions,
     toggleFavorite,

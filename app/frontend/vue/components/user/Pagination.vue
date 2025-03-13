@@ -1,58 +1,48 @@
 <template>
-  <nav v-if="totalPages > 1" class="flex justify-center items-center gap-2 mt-8" aria-label="Pagination">
+  <div class="pagination">
+    <!-- Previous button -->
     <button
-        @click="onPageChange(currentPage - 1)"
-        :disabled="currentPage === 1"
-        class="relative inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors"
-        :class="[
-        currentPage === 1
-          ? 'text-gray-400 cursor-not-allowed'
-          : 'text-gray-700 hover:bg-gray-100'
-      ]"
+      class="pagination-btn"
+      :disabled="currentPage === 1"
+      @click="changePage(currentPage - 1)"
+      aria-label="Previous page"
     >
-      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
-
-    <div class="flex items-center gap-1">
-      <template v-for="page in visiblePages" :key="page">
-        <span v-if="page === '...'" class="px-3 py-2 text-gray-500">...</span>
-
+    
+    <!-- Page numbers -->
+    <div class="page-numbers">
+      <template v-for="page in displayedPages" :key="page">
         <button
-            v-else
-            @click="onPageChange(page)"
-            class="relative inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-all duration-200"
-            :class="[
-            page === currentPage
-              ? 'bg-blue-500 text-white shadow-md transform scale-105'
-              : 'text-gray-700 hover:bg-gray-100'
-          ]"
+          v-if="page !== '...'"
+          class="page-number"
+          :class="{ active: page === currentPage }"
+          @click="changePage(page)"
         >
           {{ page }}
         </button>
+        <span v-else class="ellipsis">•••</span>
       </template>
     </div>
-
+    
+    <!-- Next button -->
     <button
-        @click="onPageChange(currentPage + 1)"
-        :disabled="currentPage === totalPages"
-        class="relative inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors"
-        :class="[
-        currentPage === totalPages
-          ? 'text-gray-400 cursor-not-allowed'
-          : 'text-gray-700 hover:bg-gray-100'
-      ]"
+      class="pagination-btn"
+      :disabled="currentPage === totalPages"
+      @click="changePage(currentPage + 1)"
+      aria-label="Next page"
     >
-      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
-  </nav>
+  </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 const props = defineProps({
   currentPage: {
@@ -63,42 +53,134 @@ const props = defineProps({
     type: Number,
     required: true
   }
-})
+});
 
-const emit = defineEmits(['page-change'])
+const emit = defineEmits(['page-change']);
 
-const visiblePages = computed(() => {
-  const pages = []
-  const totalPages = props.currentPage
-
+const displayedPages = computed(() => {
   if (props.totalPages <= 7) {
-    for (let i = 1; i <= props.totalPages; i++) {
-      pages.push(i)
-    }
-  } else {
-    pages.push(1)
-
-    if (props.currentPage > 3) {
-      pages.push('...')
-    }
-
-    for (let i = Math.max(2, props.currentPage - 1); i <= Math.min(props.totalPages - 1, props.currentPage + 1); i++) {
-      pages.push(i)
-    }
-
-    if (props.currentPage < props.totalPages - 2) {
-      pages.push('...')
-    }
-
-    pages.push(props.totalPages)
+    return Array.from({ length: props.totalPages }, (_, i) => i + 1);
   }
+  
+  if (props.currentPage <= 4) {
+    return [1, 2, 3, 4, 5, '...', props.totalPages];
+  }
+  
+  if (props.currentPage >= props.totalPages - 3) {
+    return [1, '...', props.totalPages - 4, props.totalPages - 3,
+      props.totalPages - 2, props.totalPages - 1, props.totalPages];
+  }
+  
+  return [
+    1, '...',
+    props.currentPage - 1, props.currentPage, props.currentPage + 1,
+    '...', props.totalPages
+  ];
+});
 
-  return pages
-})
+const changePage = (page) => {
+  if (page !== props.currentPage && page >= 1 && page <= props.totalPages) {
+    emit('page-change', page);
+  }
+};
+</script>
 
-const onPageChange = (page) => {
-  if (page >= 1 && page <= props.totalPages) {
-    emit('page-change', page)
+<style scoped>
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  user-select: none;
+}
+
+.pagination-btn, .page-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  background: transparent;
+  border: none;
+  color: #484848;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-btn {
+  width: 38px;
+  padding: 0;
+  color: #686868;
+}
+
+.page-number {
+  min-width: 38px;
+  margin: 0 2px;
+  border-radius: 6px;
+}
+
+.pagination-btn:hover:not(:disabled), .page-number:hover:not(.active) {
+  color: #111;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.pagination-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+.page-number.active {
+  background: rgba(66, 153, 225, 0.12);
+  color: #2b6cb0;
+  font-weight: 600;
+  border: 1px solid rgba(66, 153, 225, 0.25);
+}
+
+.page-numbers {
+  display: flex;
+  align-items: center;
+  margin: 0 8px;
+}
+
+.ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  min-width: 24px;
+  color: #a0a0a0;
+  font-size: 10px;
+  letter-spacing: 1px;
+  margin: 0 2px;
+}
+
+@media (hover: hover) {
+  .page-number.active:hover {
+    background: rgba(66, 153, 225, 0.18);
+  }
+  
+  .pagination-btn:active, .page-number:active {
+    transform: scale(0.95);
   }
 }
-</script>
+
+@media (max-width: 480px) {
+  .pagination {
+    font-size: 13px;
+  }
+  
+  .pagination-btn, .page-number {
+    height: 34px;
+  }
+  
+  .pagination-btn {
+    width: 34px;
+  }
+  
+  .page-number {
+    min-width: 34px;
+  }
+}
+</style>
