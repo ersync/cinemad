@@ -2764,17 +2764,19 @@ end
 
 # Reviews
 def create_reviews_for_movie(movie_id, long_review, short_reviews)
+  long_review_user_id = (movie_id % 10 == 0) ? 10 : movie_id % 10
 
   Review.create!(
-    user_id: rand(1..10),
+    user_id: long_review_user_id,
     movie_id: movie_id,
     content: long_review
   )
 
-  # Create 3-5 short reviews
   short_reviews.each_with_index do |review, index|
+    short_review_user_id = ((long_review_user_id + index + 1) % 10 == 0) ? 10 : (long_review_user_id + index + 1) % 10
+
     Review.create!(
-      user_id: rand(1..10),
+      user_id: short_review_user_id,
       movie_id: movie_id,
       content: review
     )
@@ -3547,8 +3549,16 @@ end
 
 
 # Ratings
-(1..10).each do |user_id|
-  (1..34).each do |movie_id|
-    Rating.create(user_id: user_id, movie_id: movie_id, score: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100].sample)
-  end
+def create_rating_for_long_reviewer(movie_id)
+  long_review_user_id = (movie_id % 10 == 0) ? 10 : movie_id % 10
+
+  Rating.create!(
+    user_id: long_review_user_id,
+    movie_id: movie_id,
+    score: [20, 30, 40, 40, 50, 60, 70, 70, 80, 90, 90].sample
+  )
+end
+
+(1..33).each do |movie_id|
+  create_rating_for_long_reviewer(movie_id)
 end
