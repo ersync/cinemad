@@ -6,7 +6,7 @@
         :class="[
           'relative py-1.5 px-2 rounded-lg text-sm font-medium tracking-[0.01em] transition-all duration-250 ease-[cubic-bezier(0.4,0,0.2,1)] overflow-hidden mx-0.5 cursor-pointer border-none bg-transparent outline-none sm:py-3 sm:px-5 sm:text-[15px]',
           isSelected(option)
-            ? 'text-[#081422] font-semibold '
+            ? 'text-[#081422] font-semibold'
             : 'text-[rgba(94,92,100,1)] hover:text-gray-500 hover:bg-[#00000008]'
         ]"
         @click="$emit('tab-selected', getOptionValue(option))"
@@ -14,7 +14,7 @@
       <span class="relative z-10">{{ getOptionLabel(option) }}</span>
       <div
           v-if="isSelected(option)"
-          class="absolute inset-0 rounded-lg bg-gradient-to-b from-white/95 to-white shadow-medium origin-center animate-[selectTab_0.3s_cubic-bezier(0.25,1,0.5,1)_forwards]"
+    class="absolute inset-0 rounded-lg bg-gradient-to-b from-blue-50/70 to-purple-50/70 shadow-[0_2px_8px_rgba(0,0,0,0.05),0_0_0_1px_rgba(255,255,255,0.5)] backdrop-filter backdrop-blur-sm origin-center animate-[selectTab_0.3s_cubic-bezier(0.25,1,0.5,1)_forwards]"
       ></div>
     </button>
   </div>

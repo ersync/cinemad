@@ -1,7 +1,7 @@
 <template>
   <div class="container antialiased mb-40">
     <h1 class="font-SourceProSemiBold text-[1.6rem] mt-7.5 mb-5">Discovery</h1>
-    <div class="flex items-center sm:items-start justify-center flex-col sm:flex-row max-sm:gap-6">
+    <div class="flex items-center sm:items-start justify-center flex-col sm:flex-row gap-6 md:gap-4">
       <FilterForm
           :initial-filters="filters"
           @search="handleSearch"

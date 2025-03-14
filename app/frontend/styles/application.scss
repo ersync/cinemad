@@ -3,60 +3,57 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+// Import custom styles
 @import "@/styles/score_chart";
 
+// Vue cloak directive
 [v-cloak] {
   display: none;
 }
 
-@layer utilities {
-  .filter-blue-invert {
-    filter: brightness(0) saturate(100%) invert(53%) sepia(33%) saturate(3054%) hue-rotate(156deg) brightness(98%) contrast(99%);
-    opacity: 1;
-  }
-}
 
 // Custom fonts
 @layer base {
   @font-face {
     font-family: "SourcePro-Light";
-    src: url("@/assets/fonts/Source-Sans-Light.woff2") format("woff2");
+    src: url("@/assets/fonts/Source-Sans-Light.woff2") format('woff2');
     font-weight: 300;
     font-style: normal;
   }
 
   @font-face {
     font-family: "SourcePro-Normal";
-    src: url("@/assets/fonts/Source-Sans-Normal.woff2") format("woff2");
+    src: url("@/assets/fonts/Source-Sans-Normal.woff2") format('woff2');
     font-weight: 400;
     font-style: normal;
   }
 
   @font-face {
     font-family: "SourcePro-Italic";
-    src: url("@/assets/fonts/Source-Sans-Italic.woff2") format("woff2");
+    src: url("@/assets/fonts/Source-Sans-Italic.woff2") format('woff2');
     font-weight: 400;
     font-style: italic;
   }
 
   @font-face {
     font-family: "SourcePro-SemiBold";
-    src: url("@/assets/fonts/Source-Sans-SemiBold.woff2") format("woff2");
+    src: url("@/assets/fonts/Source-Sans-SemiBold.woff2") format('woff2');
     font-weight: 600;
     font-style: normal;
   }
 
   @font-face {
     font-family: "SourcePro-Bold";
-    src: url("@/assets/fonts/Source-Sans-Bold.woff2") format("woff2");
+    src: url("@/assets/fonts/Source-Sans-Bold.woff2") format('woff2');
     font-weight: 700;
     font-style: normal;
   }
 
   @font-face {
     font-family: "Concen-Bold";
-    src: url("@/assets/fonts/Concen-Bold.woff2") format("woff2");
+    src: url("@/assets/fonts/Concen-Bold.woff2") format('woff2');
     font-weight: 700;
     font-style: normal;
   }
-}
+
+ }

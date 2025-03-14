@@ -1,36 +1,31 @@
 <template>
   <div class="filter-section">
-    <h2 class="font-SourceProLight">Show Me</h2>
+    <h2>Show Me</h2>
 
-    <label class="flex items-center">
-      <input
-          type="radio"
-          v-model="selected"
-          value="all"
-          class="form-radio text-base"
+    <div class="space-y-2">
+      <label 
+        v-for="option in options" 
+        :key="option.value" 
+        class="flex items-center p-2 rounded-md cursor-pointer transition-colors hover:bg-slate-50"
+        :class="{ 'bg-slate-100': selected === option.value }"
       >
-      <span class="ml-2">Everything</span>
-    </label>
-
-    <label class="flex items-center">
-      <input
-          type="radio"
-          v-model="selected"
-          value="unwatched"
-          class="form-radio text-base"
-      >
-      <span class="ml-2">Movies I Haven't Seen</span>
-    </label>
-
-    <label class="flex items-center">
-      <input
-          type="radio"
-          v-model="selected"
-          value="watched"
-          class="form-radio text-base"
-      >
-      <span class="ml-2">Movies I Have Seen</span>
-    </label>
+        <div class="relative flex items-center justify-center">
+          <input
+            type="radio"
+            v-model="selected"
+            :value="option.value"
+            class="sr-only"
+          >
+          <div class="w-5 h-5 border-2 rounded-full border-slate-300 group-hover:border-slate-400 transition-colors duration-200">
+          </div>
+          <div 
+            v-show="selected === option.value"
+            class="absolute w-3 h-3 bg-gradient-to-r from-blue-800 to-navy-900 rounded-full"
+          ></div>
+        </div>
+        <span class="ml-2 text-sm text-slate-700">{{ option.label }}</span>
+      </label>
+    </div>
   </div>
 </template>
 
@@ -41,6 +36,12 @@ const props = defineProps(['modelValue'])
 const emit = defineEmits(['update:modelValue'])
 
 const selected = ref(props.modelValue || 'all')
+
+const options = [
+  { value: 'all', label: 'Everything' },
+  { value: 'unwatched', label: 'Movies I Haven\'t Seen' },
+  { value: 'watched', label: 'Movies I Have Seen' }
+]
 
 watch(selected, (newValue) => {
   emit('update:modelValue', newValue)

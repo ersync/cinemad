@@ -1,20 +1,20 @@
 <template>
   <div class="filter-section">
-    <h2 class="font-SourceProLight mb-2.5">Genres</h2>
-    <div class="flex flex-wrap gap-2 text-black">
+    <h2>Genres</h2>
+    <div class="flex flex-wrap gap-2">
       <label
-          v-for="genre in genreOptions"
-          :key="genre"
-          class="relative inline-flex items-center cursor-pointer"
+        v-for="genre in genreOptions"
+        :key="genre"
+        class="relative inline-flex items-center cursor-pointer"
       >
         <input
-            type="checkbox"
-            :value="genre"
-            v-model="selectedGenres"
-            class="peer sr-only"
+          type="checkbox"
+          :value="genre"
+          v-model="selectedGenres"
+          class="peer sr-only"
         >
-        <span class="filter-tag peer-checked:bg-tmdbLighterBlue peer-checked:border-tmdbLighterBlue peer-checked:text-white transition-colors duration-200">
-          {{ genre }}
+        <span class="filter-tag peer-checked:bg-indigo-600 peer-checked:border-indigo-600 peer-checked:text-white">
+          {{ formatGenre(genre) }}
         </span>
       </label>
     </div>
@@ -31,6 +31,10 @@ const selectedGenres = ref(props.modelValue || [])
 
 const genreOptions = ['action', 'adventure', 'animation', 'comedy', 'crime', 'documentary', 'drama', 'family', 'fantasy',
   'history', 'horror', 'music', 'mystery', 'romance', 'science fiction', 'TV movie', 'thriller', 'war', 'western']
+
+const formatGenre = (genre) => {
+  return genre.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+}
 
 watch(selectedGenres, (newValue) => {
   emit('update:modelValue', newValue)

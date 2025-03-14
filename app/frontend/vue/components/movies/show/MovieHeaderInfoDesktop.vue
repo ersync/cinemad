@@ -46,7 +46,7 @@ const releaseYear = computed(() => {
 
 <template>
   <div class="flex flex-col justify-center items-start grow">
-    <div class="movie-header space-y-3 px-4 py-3">
+    <div class="movie-header space-y-3 py-3">
       <h2 class="flex flex-wrap items-baseline gap-x-4">
         <span class="text-3xl md:text-5xl font-SourceProBold bg-gradient-to-r from-white to-white/90 bg-clip-text text-transparent">
           {{ movieData?.title }}

@@ -1,16 +1,24 @@
 <template>
   <div class="filter-section">
-    <div class="font-SourceProLight font-light pb-2.5">Sort Results By</div>
-    <div class="relative font-SourceProNormal font-medium text-[0.9rem]">
+    <div class="relative">
       <select
-          v-model="selectedSort"
-          class="form-select"
-          @change="$emit('update:modelValue', selectedSort)"
+        v-model="selectedSort"
+        class="form-select appearance-none"
+        @change="$emit('update:modelValue', selectedSort)"
       >
-        <option v-for="option in sortOptions" :key="option.value" :value="option.value">
+        <option 
+          v-for="option in sortOptions" 
+          :key="option.value" 
+          :value="option.value"
+        >
           {{ option.label }}
         </option>
       </select>
+      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </div>
     </div>
   </div>
 </template>
