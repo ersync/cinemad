@@ -129,6 +129,7 @@ onMounted(() => {
   position: absolute;
   top: 0;
   right: 0;
+  background-image: linear-gradient(to right, rgba(246, 248, 252, 0) 0, #f6f8fc 100%);  will-change: opacity;
   will-change: opacity;
   pointer-events: none;
 }

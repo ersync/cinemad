@@ -6,7 +6,7 @@
         <div class="flex items-center space-x-2 sm:space-x-4">
           <h3 class="text-xl sm:text-2xl font-semibold text-gray-800">{{ title }}</h3>
           <div v-if="showCount"
-               class="flex items-center justify-center px-2 py-1 text-sm sm:text-base bg-blue-50 rounded-full">
+               class="flex items-center justify-center px-2.5 py-1 sm:px-2.5 sm:py-1.5 text-sm sm:text-base bg-blue-100/80 rounded-full">
   <span class="text-sm sm:text-base font-medium text-tmdbLighterBlue">
     {{itemsCount}} <span class="hidden sm:inline">{{ itemsCount === 1 ? 'Movie' : 'Movies' }}</span>
   </span>

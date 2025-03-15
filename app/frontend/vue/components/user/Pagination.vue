@@ -132,10 +132,10 @@ const changePage = (page) => {
 }
 
 .page-number.active {
-  background: rgba(66, 153, 225, 0.12);
+  background: rgba(66, 153, 225, 0.06);
   color: #2b6cb0;
   font-weight: 600;
-  border: 1px solid rgba(66, 153, 225, 0.25);
+  border: 1px solid rgba(116, 153, 225, 0.25);
 }
 
 .page-numbers {

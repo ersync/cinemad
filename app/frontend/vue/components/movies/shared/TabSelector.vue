@@ -14,7 +14,7 @@
       <span class="relative z-10">{{ getOptionLabel(option) }}</span>
       <div
           v-if="isSelected(option)"
-    class="absolute inset-0 rounded-lg bg-gradient-to-b from-blue-50/70 to-purple-50/70 shadow-[0_2px_8px_rgba(0,0,0,0.05),0_0_0_1px_rgba(255,255,255,0.5)] backdrop-filter backdrop-blur-sm origin-center animate-[selectTab_0.3s_cubic-bezier(0.25,1,0.5,1)_forwards]"
+    class="absolute inset-0 rounded-lg bg-gradient-to-b from-gray-200/50 to-slate-200/50 shadow-[0_2px_8px_rgba(0,0,0,0.05),0_0_0_1px_rgba(255,255,255,0.5)] backdrop-filter backdrop-blur-sm origin-center animate-[selectTab_0.3s_cubic-bezier(0.25,1,0.5,1)_forwards]"
       ></div>
     </button>
   </div>
