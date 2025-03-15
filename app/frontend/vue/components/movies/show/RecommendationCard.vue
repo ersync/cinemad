@@ -47,44 +47,24 @@
           <div
               v-if="movie.average_rating"
               class="relative flex items-center gap-1 px-3 py-1 rounded-full
-                    backdrop-blur-md shadow-sm transition-all duration-300
-                    group-hover:translate-y-1 group-hover:scale-110 origin-left
+                    backdrop-blur-lg bg-black/20 shadow-sm
                     bg-white/15 border border-white/20"
               :class="ratingTextClass"
+              style="transform: none; transition: none;"
           >
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor"/>
             </svg>
             <span class="text-sm font-bold">{{ movie.average_rating }}%</span>
           </div>
-
-          <div
-              v-if="movie.release_year"
-              class="px-2.5 py-1 rounded-md bg-black/30 backdrop-blur-md
-                    border border-white/10 text-xs text-gray-300 font-medium
-                    transition-all duration-300 group-hover:bg-black/50"
-          >
-            {{ movie.release_year }}
-          </div>
+        
         </div>
 
         <div
             class="transform transition-all duration-500 ease-out
                   group-hover:-translate-y-2"
         >
-          <!-- Genre tags -->
-          <div class="flex flex-wrap gap-2 mb-3" v-if="movie.genres?.length">
-              <span
-                  v-for="genre in movie.genres?.slice(0, 3)"
-                  :key="genre"
-                  class="px-2 py-0.5 text-xs rounded-md bg-white/15 backdrop-blur-sm
-                      text-gray-200 font-medium border border-white/10
-                      transition-all duration-300 group-hover:bg-white/20"
-              >
-                {{ genre }}
-              </span>
-          </div>
-
+          
           <h4
               class="text-2xl font-bold text-white mb-2
                     transition-all duration-300 group-hover:scale-105 origin-left
@@ -93,25 +73,6 @@
             {{ movie.title }}
           </h4>
 
-          <div
-              v-if="movie.runtime"
-              class="flex items-center text-gray-300 text-sm mb-4
-                    transition-all duration-300 group-hover:text-gray-100"
-          >
-            <svg class="w-4 h-4 mr-1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 8V12L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            <span>{{ formatRuntime(movie.runtime) }}</span>
-          </div>
-
-          <p
-              v-if="movie.overview"
-              class="text-sm text-gray-300 line-clamp-3
-                    transition-all duration-300 group-hover:text-gray-100"
-          >
-            {{ movie.overview }}
-          </p>
         </div>
 
         <div

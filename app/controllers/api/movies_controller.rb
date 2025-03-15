@@ -82,9 +82,12 @@ module Api
     # GET /api/movies/recommendations
     # Returns personalized movie recommendations
     def recommendations
-      recommendations = Movie.random_recommendations
+      movie = Movie.friendly.find(params[:id])
+      recommendations = Movie.recommendations_for(movie)
+      serialized = MovieSerializers::Recommendations.serialize_collection(recommendations)
+      
       render_success(
-        recommendations: MovieSerializers::Recommendations.serialize_collection(recommendations)
+        recommendations: serialized
       )
     end
 

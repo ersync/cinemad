@@ -1,3 +1,4 @@
+
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
@@ -111,17 +112,17 @@ onUnmounted(() => {
       <div v-if="hasMultipleCards && !isLoading" class="flex items-center gap-3">
         <div class="hidden sm:flex items-center gap-1.5">
           <button
-              v-for="(_, index) in recommendations"
-              :key="index"
-              @click="scrollToCard(index)"
+              v-for="index in Math.max(0, recommendations.length - 2)"
+              :key="index - 1"
+              @click="scrollToCard(index - 1)"
               class="w-2 h-2 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
               :class="[
-              currentIndex === index
+              currentIndex === (index - 1)
                 ? 'bg-indigo-500 scale-125'
                 : 'bg-gray-300 hover:bg-gray-400'
             ]"
-              :aria-label="`Go to recommendation ${index + 1}`"
-              :aria-current="currentIndex === index ? 'true' : 'false'"
+              :aria-label="`Go to position ${index}`"
+              :aria-current="currentIndex === (index - 1) ? 'true' : 'false'"
           ></button>
         </div>
 
