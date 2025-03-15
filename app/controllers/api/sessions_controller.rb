@@ -13,7 +13,11 @@ module Api
 
     def destroy
       signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
-      render_success(message: 'Logged out successfully')
+      
+      respond_to do |format|
+        format.html { redirect_to new_user_session_path, notice: "Logged out successfully" }
+        format.json { render_success(message: 'Logged out successfully') }
+      end
     end
 
     def failure
