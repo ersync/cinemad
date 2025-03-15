@@ -80,19 +80,7 @@ async function handleSubmit() {
 
 <template>
   <AuthLayout>
-    <!-- Left header section -->
-    <template #left-header>
-      <h1 class="text-5xl font-bold leading-tight animate-fade-in">
-        Join CinEmad <br/>
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-sky-200">
-          Community
-        </span>
-      </h1>
-      <p class="text-lg text-gray-200 leading-relaxed animate-fade-in-delay">
-        Create your account to unlock all features. Rate movies, create watchlists, and join discussions.
-      </p>
-    </template>
-
+    
     <form @submit.prevent="handleSubmit" class="mt-4 space-y-5 sm:mt-3 sm:space-y-5 animate-fade-in">
       <div class="text-center">
         <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Create Account</h2>

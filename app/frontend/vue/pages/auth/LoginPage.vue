@@ -1,5 +1,39 @@
 <template>
   <AuthLayout>
+    <template #left-header>
+      <!-- Logo element -->
+      <div class="mb-6 animate-fade-in">
+        <div class="inline-block px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
+          <span class="text-xl font-semibold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-violet-300">CinEmad</span>
+        </div>
+      </div>
+      
+      <h1 class="text-5xl font-bold leading-tight tracking-tight animate-fade-in">
+        Welcome <br/>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-300 to-violet-300">
+          Back
+        </span>
+      </h1>
+      
+      <p class="text-xl font-light text-gray-200 leading-relaxed animate-fade-in-delay max-w-md">
+        Sign in to continue your cinematic journey and access your personalized movie experience.
+      </p>
+      <div class="pt-4 space-y-3 animate-fade-in-delay">
+        <div class="flex items-center">
+          <div class="h-1.5 w-1.5 rounded-full bg-cyan-300 mr-3"></div>
+          <span class="text-gray-200">Continue with your watchlists and ratings</span>
+        </div>
+        <div class="flex items-center">
+          <div class="h-1.5 w-1.5 rounded-full bg-cyan-300 mr-3"></div>
+          <span class="text-gray-200">Get personalized recommendations</span>
+        </div>
+      </div>
+    </template>
+    
+    <template #testimonial>
+      <div></div>
+    </template>
+    
     <form @submit.prevent="handleSubmit" class="mt-4 space-y-5 animate-fade-in">
       <div class="text-center">
         <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Sign in</h2>
@@ -53,7 +87,6 @@
         </router-link>
       </div>
 
-      <!-- Show either form errors or auth store errors -->
       <ErrorMessage
           v-if="formData.errors || authStore.error"
           :errors="formData.errors || { auth: authStore.error }"
