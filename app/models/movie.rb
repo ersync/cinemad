@@ -86,20 +86,18 @@ class Movie < ApplicationRecord
 
   # Scopes - Random Selection
   scope :random, ->(limit = 12) { offset(rand(count - limit)).limit(limit) }
-  scope :random_recommendations, ->(limit = 7) {
-    where(id: [4, 10, 11, 12, 13]).order(Arel.sql('RANDOM()')).limit(limit)
-  }
 
   # Instance Methods - Cast & Crew
   def cast_members
     people.includes(:movie_people)
           .where(movie_people: { role_id: 1 })
-          .order('movie_people.created_at ASC')  # Changed this line
+          .order('movie_people.created_at ASC')
   end
 
   def crew_members
-    people.includes(movie_people: :role)
-          .where.not(movie_people: { movie_people: { role_id: 1 } })
+    people.includes(:movie_people)
+          .where(movie_people: { movie_id: id })
+          .where.not(movie_people: { role_id: 1 })
   end
 
   # Instance Methods - URLs
@@ -137,6 +135,34 @@ class Movie < ApplicationRecord
   def release_year
     release_date.year if release_date
   end
-
+  
+  def self.recommendations_for(movie, limit = 7)
+    movie_category_ids = movie.categories.pluck(:id)
+    
+    movie_match_counts = MovieCategory
+      .where(category_id: movie_category_ids)
+      .where.not(movie_id: movie.id)
+      .group(:movie_id)
+      .order('count_category_id DESC')
+      .limit(limit)
+      .count(:category_id)
+    
+    movie_ids = movie_match_counts.keys
+    
+    if movie_ids.length < limit
+      additional_ids = Movie
+        .where.not(id: movie_ids + [movie.id])
+        .order(Arel.sql('RANDOM()'))
+        .limit(limit - movie_ids.length)
+        .pluck(:id)
+      
+      movie_ids = movie_ids + additional_ids
+    end
+    
+    movies = Movie.where(id: movie_ids).index_by(&:id)
+    
+    movie_ids.map { |id| movies[id] }.compact
+  end
+  
 
 end

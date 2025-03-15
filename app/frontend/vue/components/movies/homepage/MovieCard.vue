@@ -13,6 +13,7 @@
       <AvgRateBadge
           :average-rating="movie.average_rating"
           class="absolute -bottom-5 left-3"
+          :should-animate="false"
       />
     </div>
     <div class="pl-2 mt-6 sm:pl-2.5">

@@ -3,7 +3,7 @@
         <div
             class="flex justify-center items-center w-[46px] h-[46px] bg-black rounded-full hover:scale-105 transition-all duration-300 ease-in-out"
             :class="{
-                'border-2 border-amber-300/70 shadow-[0_0_12px_rgba(251,191,36,0.4)]': userRating,
+                'border border-amber-300/40 shadow-[0_0_12px_rgba(251,191,36,0.4)]': userRating,
                 'border border-white/5': !userRating
             }"
         >

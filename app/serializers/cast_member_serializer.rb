@@ -1,4 +1,9 @@
 class CastMemberSerializer < BaseSerializer
+  def initialize(object, movie_id)
+    super(object)
+    @movie_id = movie_id
+  end
+
   def serialize
     {
       id: @object.id,
@@ -9,8 +14,7 @@ class CastMemberSerializer < BaseSerializer
   end
 
   private
-
   def character_names
-    @object.movie_people.map(&:character_name)
+    @object.movie_people.where(movie_id: @movie_id).map(&:character_name)
   end
 end

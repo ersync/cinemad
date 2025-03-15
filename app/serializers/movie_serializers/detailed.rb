@@ -15,9 +15,9 @@ module MovieSerializers
         release_date: movie.release_date,
         overview: movie.overview,
         crew: CrewSerializer.serialize_collection(
-          movie.crew_members
-               .includes(:movie_people, movie_people: :role)
-               .distinct),
+        movie.crew_members
+             .includes(:movie_people, movie_people: :role)
+             .distinct, movie.id),
         reviews_section: {
         stats: {
         total_count: movie.reviews.count

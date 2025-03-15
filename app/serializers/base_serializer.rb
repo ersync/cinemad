@@ -1,13 +1,13 @@
 class BaseSerializer
-  def self.serialize(object)
-    new(object).serialize
+  def self.serialize(object, *args)
+    new(object, *args).serialize
   end
-
-  def self.serialize_collection(objects)
-    objects.map { |object| serialize(object) }
+  
+  def self.serialize_collection(objects, *args)
+    objects.map { |object| serialize(object, *args) }
   end
-
-  def initialize(object)
+  
+  def initialize(object, *args)
     @object = object
   end
 end
