@@ -8,6 +8,9 @@ const searchQuery = ref('')
 const trendingMovies = ref([])
 const popularMovies = ref([])
 const latestMovies = ref([])
+const isLoadingTrending = ref(true)
+const isLoadingPopular = ref(true)
+const isLoadingLatest = ref(true)
 
 const authStore = useAuthStore()
 
@@ -21,6 +24,10 @@ const handleSearch = () => {
 
 const fetchMovies = async () => {
   try {
+    isLoadingTrending.value = true
+    isLoadingPopular.value = true
+    isLoadingLatest.value = true
+    
     const response = await fetch('/api/movies/home_page', {
       headers: {
         'Accept': 'application/json'
@@ -40,11 +47,19 @@ const fetchMovies = async () => {
     trendingMovies.value = data.sections?.trending || []
     popularMovies.value = data.sections?.popular || []
     latestMovies.value = data.sections?.latest || []
+    
+    isLoadingTrending.value = false
+    isLoadingPopular.value = false
+    isLoadingLatest.value = false
   } catch (error) {
     console.error('Error fetching movies:', error)
     trendingMovies.value = []
     popularMovies.value = []
     latestMovies.value = []
+    
+    isLoadingTrending.value = false
+    isLoadingPopular.value = false
+    isLoadingLatest.value = false
   }
 }
 
@@ -72,8 +87,9 @@ onMounted(() => {
           :movies="trendingMovies"
           title="Trending"
           :periods="['Today', 'This Week']"
-          :show-scrollbar="false"
+          :show-scrollbar="false" 
           :background-bar="true"
+          :is-loading="isLoadingTrending"
       />
 
       <!-- Stats Section -->
@@ -103,6 +119,7 @@ onMounted(() => {
           title="What's Popular"
           :periods="['Today', 'This Week']"
           :show-scrollbar="false"
+          :is-loading="isLoadingPopular"
       />
 
       <!-- Insights Section -->
@@ -120,7 +137,7 @@ onMounted(() => {
                   </svg>
                 </div>
               </div>
-              <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 transform hover:scale-105 transition-transform cursor-default">
+              <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 transform transition-transform cursor-default">
                 Discover, Discuss, Connect
               </h2>
               <p class="text-white/80 text-lg max-w-2xl mx-auto leading-relaxed">
@@ -193,6 +210,7 @@ onMounted(() => {
           title="Latest"
           :periods="['Today', 'This Week']"
           :show-scrollbar="false"
+          :is-loading="isLoadingLatest"
       />
     </div>
   </div>
@@ -273,7 +291,6 @@ onMounted(() => {
   inset: -4px;
   border-radius: 50%;
   background: inherit;
-  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   opacity: 0.5;
 }
 

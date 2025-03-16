@@ -105,7 +105,7 @@ onMounted(() => {
           </div>
 
           <!-- Right Side -->
-          <div class="min-w-[295px] mx-auto pt-0">
+          <div class="min-w-[295px] mx-auto pt-0 mb-5">
             <MovieAdditionalInfo />
           </div>
         </div>

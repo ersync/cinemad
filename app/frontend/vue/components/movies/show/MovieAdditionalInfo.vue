@@ -311,9 +311,6 @@ onMounted(() => {
   height: 100%;
 }
 
-
-
-
 /* Movie Facts Styles */
 .movie-facts-panel {
   position: relative;
@@ -518,7 +515,6 @@ onMounted(() => {
  opacity: 0.5;
 }
 
-/* Animations */
 @keyframes fade-slide-in {
  from {
    opacity: 0;
