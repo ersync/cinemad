@@ -44,7 +44,6 @@ const updateInteractionStore = (movie) => {
 
 const fetchMovieData = async (newSlug) => {
   try {
-    console.log('Fetching movie data for:', newSlug)
     const movieResponse = await movieStore.fetchMovie(newSlug)
 
     if (movieResponse && movieResponse.average_rating) {

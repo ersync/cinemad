@@ -125,7 +125,6 @@ router.beforeEach(async (to, from, next) => {
   loadingStore.startLoading()
 
   if (!authStore.checkedAuth) {
-    console.log('Checking auth status...')
     try {
       await authStore.checkAuth()
     } catch (error) {

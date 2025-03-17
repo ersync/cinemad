@@ -19,7 +19,6 @@ const heroBackgroundStyle = computed(() => ({
 }))
 
 const handleSearch = () => {
-  console.log('Searching for:', searchQuery.value)
 }
 
 const fetchMovies = async () => {

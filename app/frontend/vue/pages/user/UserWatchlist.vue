@@ -67,7 +67,6 @@ const isLoading = watchlistData.isLoading
 const error = watchlistData.error
 
 const watchlistTotalCount = computed(() => {
-  console.log('Meta value:', watchlistData.meta.value);
   return watchlistData.meta.value?.total_count || 0
 })
 

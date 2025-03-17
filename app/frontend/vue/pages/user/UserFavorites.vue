@@ -68,7 +68,6 @@ const isLoading = favoritesData.isLoading
 const error = favoritesData.error
 
 const favoritesTotalCount = computed(() => {
-  console.log('Meta value:', favoritesData.meta.value);
   return favoritesData.meta.value?.total_count || 0
 })
 

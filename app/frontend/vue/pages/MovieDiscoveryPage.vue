@@ -53,8 +53,6 @@ const handleSearch = async (newFilters) => {
 
     const response = await movieApiService.getDiscoveryMovies(searchParams)
     movies.value = response.movies
-    console.log('Movies assigned:',  movies.value)
-    console.log('FOUND', movies.value)
   } catch (error) {
     console.error('Error fetching movies:', error)
   } finally {

@@ -18,11 +18,9 @@ export const useAuthStore = defineStore('auth', () => {
 
     sessionCheckInterval.value = setInterval(async () => {
       if (isAuthenticated.value) {
-        console.log('Checking session validity...')
         const isStillValid = await checkAuth()
 
         if (!isStillValid) {
-          console.log('Session expired, logging out...')
           await logout()
           router.push({
             name: 'login',
