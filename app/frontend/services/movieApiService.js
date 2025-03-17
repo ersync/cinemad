@@ -172,6 +172,23 @@ class MovieApiService {
       return { success: false, error: error.message }
     }
   }
+  
+  
+  
+  async getReviews(slug, page = 1, perPage = 5) {
+    try {
+      const queryParams = new URLSearchParams({
+        page: page,
+        per_page: perPage
+      }).toString()
+      
+      const response = await this.request('get', slug, `reviews?${queryParams}`)
+      return { success: true, reviews: response.reviews }
+    } catch (error) {
+      return { success: false, error: error.message }
+    }
+  }
+  
 }
 
 export const movieApiService = new MovieApiService()

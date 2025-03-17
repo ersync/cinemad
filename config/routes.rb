@@ -24,6 +24,7 @@
 
           get 'average_rating'
           get 'cast'
+          get :reviews 
           get 'review_section'
           get 'recommendations'
         end

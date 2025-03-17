@@ -1,43 +1,97 @@
 <script setup>
-import { computed } from 'vue'
+import { ref, computed, provide } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMovieStore } from '@/vue/stores/movieStore'
 import SectionHeading from "@/vue/components/movies/show/SectionHeading.vue"
 import FeaturedReview from './FeaturedReview.vue'
+import MovieReviewsPopup from './MovieReviewsPopup.vue'
 
 const route = useRoute()
 const movieStore = useMovieStore()
 const movieSlug = computed(() => route.params.slug)
 
-const { data: movieData, isLoading } = movieStore.movieComputed(movieSlug.value)
+const { data: movieData, isLoading, reviewSection, reviews } = movieStore.movieComputed(movieSlug.value)
 
-const reviewData = computed(() => {
-  return movieData.value?.reviews_section || null
-})
 
 const featuredReview = computed(() => {
-  return reviewData.value?.featured_review || null
+  return reviewSection.value?.featured_review || 
+         reviewSection.value?.review_section?.featured_review || 
+         null
 })
 
 const totalReviews = computed(() => {
-  return reviewData.value?.stats?.total_count || 0
+  if (reviews.value?.items?.length > 0) {
+    return reviews.value.pagination.total_count || reviews.value.items.length
+  }
+  
+  return reviewSection.value?.stats?.total_count || 
+         reviewSection.value?.review_section?.stats?.total_count || 
+         0
 })
 
+const isReviewsPopupOpen = ref(false)
+
+const openReviewsPopup = () => {
+  isReviewsPopupOpen.value = true
+}
+
+const closeReviewsPopup = () => {
+  isReviewsPopupOpen.value = false
+}
+
+provide('openReviewsPopup', openReviewsPopup)
+
+
+const loadMoreReviews = async (page) => {
+  await movieStore.fetchReviews(movieSlug.value, page)
+}
 </script>
 
 <template>
-  <div class="mb-10 antialiased transition-all duration-200">
-    <SectionHeading
-        title="Reviews"
-        :counter="totalReviews"
-    />
-
+  <section class="mb-10">
+    <div class="flex justify-between items-center mb-8 antialiased transition-all duration-200">
+      <SectionHeading
+          title="Reviews"
+      />
+    
+      <div class="flex justify-between items-center">
+        <div class="flex-1"></div>
+        <div class="relative">
+          <button 
+            @click="openReviewsPopup"
+            class="group inline-flex items-center px-4 py-2.5 sm:px-6 sm:py-3
+                   bg-white/90
+                   text-indigo-600 font-medium
+                   rounded-2xl
+                   transition-all duration-300
+                   relative"
+          >
+            <span class="absolute inset-0 rounded-2xl border-2 border-transparent bg-gradient-to-r from-indigo-500 to-purple-600 opacity-70 -z-10"
+                  style="mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                         mask-composite: exclude;
+                         -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                         -webkit-mask-composite: source-out;"></span>
+            
+            <span class="absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-500/20 to-purple-600/20 blur-lg opacity-50 -z-20"></span>
+            
+            <span class="relative text-xs sm:text-base">
+              All Reviews
+              <span class="absolute -bottom-0.5 left-0 w-full h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 transform scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-300"></span>
+            </span>
+            <span class="ml-2 bg-indigo-100 text-indigo-700 rounded-full px-2 py-0.5 text-[9px] sm:text-sm font-semibold">{{ totalReviews }}</span>
+          </button>
+        </div>
+      </div>
+    
+      
+    </div>
+    
     <FeaturedReview
         v-if="featuredReview"
         :review="featuredReview"
-        class="mb-12 animate-fade-in mt-6"
+        class="animate-fade-in"
     />
-
+    
     <div
         v-else-if="!isLoading"
         class="text-center py-12 px-6 bg-gradient-to-br from-gray-50/50 to-white/80 rounded-2xl text-gray-900"
@@ -49,7 +103,15 @@ const totalReviews = computed(() => {
         Share your thoughts on this movie
       </p>
     </div>
-  </div>
+    
+    <MovieReviewsPopup 
+      :is-open="isReviewsPopupOpen"
+      @close="closeReviewsPopup"
+      @load-more="loadMoreReviews"
+    
+    />
+  </section>
+  
 </template>
 
 <style scoped>

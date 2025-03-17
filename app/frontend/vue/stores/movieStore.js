@@ -25,11 +25,20 @@ export const useMovieStore = defineStore('movieStore', () => {
         overview: null,
         crew: [],
         cast: [],
-        reviews_section: {
+        reviewSection: {
           stats: {
             total_count: 0
           },
           featured_review: null
+        },
+        reviews: {
+          items: [],
+          pagination: {
+            current_page: 1,
+            total_pages: 1,
+            total_count: 0
+          },
+          loading: false
         },
         age_rating: null,
         tagline: null,
@@ -42,8 +51,7 @@ export const useMovieStore = defineStore('movieStore', () => {
           backdrops: [],
           videos: []
         },
-        recommendations: [],
-        reviews: null
+        recommendations: []
       })
     }
 
@@ -94,6 +102,65 @@ export const useMovieStore = defineStore('movieStore', () => {
     }
   }
 
+  const fetchReviewSection = async (slug) => {
+    try {
+      const movieData = getOrCreateMovieCache(slug)
+      
+      const response = await movieApiService.getReviewSection(slug)
+      
+      if (response.success && response.review_section) {
+        movieData.reviewSection = response.review_section
+        
+        return movieData.reviewSection
+      }
+      return null
+    } catch (error) {
+      console.error('Error fetching review section:', error)
+      return null
+    }
+  }
+
+  const isReviewsLoading = (slug) => {
+    const movieData = getOrCreateMovieCache(slug)
+    return movieData.reviews.loading
+  }
+
+const fetchReviews = async (slug, page = 1, perPage = 5) => {
+    const movieData = getOrCreateMovieCache(slug)
+    
+    movieData.reviews.loading = true
+    
+    try {
+      const response = await movieApiService.getReviews(slug, page, perPage)
+      
+      if (response && response.success && response.reviews) {
+        if (page === 1) {
+          movieData.reviews.items = response.reviews.items || []
+        } else {
+          const existingIds = new Set(movieData.reviews.items.map(review => review.id))
+          
+          const newReviews = (response.reviews.items || []).filter(review => !existingIds.has(review.id))
+          
+          movieData.reviews.items = [...movieData.reviews.items, ...newReviews]
+        }
+        
+        movieData.reviews.pagination = response.reviews.pagination || {
+          current_page: page,
+          total_pages: 1,
+          total_count: response.reviews.pagination?.total_count || movieData.reviews.items.length
+        }
+        
+        return movieData.reviews
+      }
+      return movieData.reviews
+    } catch (error) {
+      console.error('Error fetching reviews:', error)
+      return movieData.reviews
+    } finally {
+      movieData.reviews.loading = false
+    }
+  }
+
   const fetchMedia = async (slug, mediaType) => {
     const loadingKey = `${slug}-${mediaType}`
     setLoading(loadingKey, true)
@@ -139,7 +206,6 @@ export const useMovieStore = defineStore('movieStore', () => {
     try {
       const movieData = getOrCreateMovieCache(slug)
 
-      // Always make API call, no cache check
       const response = await movieApiService.getCast(slug)
 
       if (response.success) {
@@ -169,16 +235,17 @@ export const useMovieStore = defineStore('movieStore', () => {
     }
   }
 
-    const movieComputed = (slug) => {
+  const movieComputed = (slug) => {
     const movieData = getOrCreateMovieCache(slug)
 
     return {
       data: computed(() => movieCache.value.get(slug)),
       cast: computed(() => movieCache.value.get(slug)?.cast || []),
       recommendations: computed(() => movieCache.value.get(slug)?.recommendations || []),
-      review_section: computed(() => movieCache.value.get(slug)?.review_section),
+      reviewSection: computed(() => movieCache.value.get(slug)?.reviewSection),
       reviews: computed(() => movieCache.value.get(slug)?.reviews),
       isLoading: computed(() => loading.value.get(slug) || false),
+      isReviewsLoading: computed(() => isReviewsLoading(slug)),
       error: computed(() => errors.value.get(slug)),
       isComplete: computed(() => movieCache.value.get(slug)?.complete || false),
       media: computed(() => movieCache.value.get(slug)?.media || {
@@ -202,7 +269,6 @@ export const useMovieStore = defineStore('movieStore', () => {
     return false
   }
 
-
   return {
     fetchMovie,
     fetchMedia,
@@ -211,8 +277,11 @@ export const useMovieStore = defineStore('movieStore', () => {
     clearAllMovies,
     movieComputed,
     isMediaLoading,
+    isReviewsLoading,
     fetchCast,
     fetchRecommendations,
+    fetchReviewSection,
+    fetchReviews,
     updateAverageRating
   }
 })

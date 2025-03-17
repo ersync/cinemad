@@ -10,6 +10,10 @@ class UserSerializer < BaseSerializer
   def self.serialize_basic(user)
     new(user).serialize_basic
   end
+  
+  def self.serialize_profile(user)
+    new(user).serialize_profile
+  end
 
   def serialize_basic
     {
@@ -20,6 +24,14 @@ class UserSerializer < BaseSerializer
       avg_rating: @object.avg_rating,
       avatar_url: formatted_avatar_url,
       stats: serialize_stats
+    }
+  end
+  
+  def serialize_profile
+    {
+      id: @object.id,
+      username: @object.username,
+      avatar_url: formatted_avatar_url
     }
   end
 

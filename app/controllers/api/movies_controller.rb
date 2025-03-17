@@ -7,6 +7,7 @@ module Api
       :cast,
       :review_section,
       :recommendations,
+      :reviews,
     ]
 
     skip_before_action :authenticate_user!, only: [
@@ -18,9 +19,22 @@ module Api
       :review_section,
       :recommendations,
       :cast,
-      :average_rating
+      :average_rating,
+      :reviews,
     ]
 
+    # GET /api/movies/home
+    # Returns movie collections for home page sections
+    def home_page
+      render_success(
+        sections: {
+          trending: MovieSerializers::Carousel.serialize_collection(Movie.trending.limit(15)),
+          popular: MovieSerializers::Carousel.serialize_collection(Movie.popular.limit(15)),
+          latest: MovieSerializers::Carousel.serialize_collection(Movie.latest.limit(15))
+        }
+      )
+    end
+    
     # GET /api/movies
     # Returns paginated list of movies based on filters
     def discovery
@@ -35,6 +49,27 @@ module Api
       )
     end
 
+    # GET /api/movies/search
+    # Returns movies matching the search query
+    def search
+      movies = Movie.search_by_title(params[:query]).limit(10)
+      render_success(
+        results: MovieSerializers::List.serialize_collection(movies)
+      )
+    end
+
+    # GET /api/movies/search_keywords
+    # Returns keywords matching the search query
+    def search_keywords
+      keywords = Keyword.search_by_name(params[:query])
+                        .limit(10)
+                        .pluck(:name)
+
+      render_success(
+        keywords: keywords
+      )
+    end
+
     # GET /api/movies/:id
     # Returns detailed movie information
     def show
@@ -42,19 +77,7 @@ module Api
         movie: MovieSerializers::Detailed.serialize(@movie)
       )
     end
-
-    # GET /api/movies/home
-    # Returns movie collections for home page sections
-    def home_page
-      render_success(
-        sections: {
-          trending: MovieSerializers::Carousel.serialize_collection(Movie.trending.limit(15)),
-          popular: MovieSerializers::Carousel.serialize_collection(Movie.popular.limit(15)),
-          latest: MovieSerializers::Carousel.serialize_collection(Movie.latest.limit(15))
-        }
-      )
-    end
-
+    
     # GET /api/movies/:id/average_rating
     # Returns movie's average rating and total ratings count
     def average_rating
@@ -78,7 +101,24 @@ module Api
         review_section: MovieSerializers::ReviewSection.serialize(@movie)
       )
     end
-
+    
+    # GET /api/movies/:id/reviews
+    # Returns paginated reviews for a movie
+    def reviews
+      page = params[:page] || 1
+      per_page = params[:per_page] || 5
+      
+      review_service = MovieReviewsService.new(@movie, page: page, per_page: per_page)
+      review_data = review_service.fetch_paginated_reviews
+      
+      render_success(
+        reviews: {
+          items: ReviewSerializer.serialize_collection(review_data[:items]),
+          pagination: review_data[:pagination]
+        }
+      )
+    end
+    
     # GET /api/movies/recommendations
     # Returns personalized movie recommendations
     def recommendations
@@ -88,27 +128,6 @@ module Api
       
       render_success(
         recommendations: serialized
-      )
-    end
-
-    # GET /api/movies/search
-    # Returns movies matching the search query
-    def search
-      movies = Movie.search_by_title(params[:query]).limit(10)
-      render_success(
-        results: MovieSerializers::List.serialize_collection(movies)
-      )
-    end
-
-    # GET /api/movies/search_keywords
-    # Returns keywords matching the search query
-    def search_keywords
-      keywords = Keyword.search_by_name(params[:query])
-                        .limit(10)
-                        .pluck(:name)
-
-      render_success(
-        keywords: keywords
       )
     end
 

@@ -66,7 +66,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="mt-5 sm:mt-6 sm:ml-[4.5rem]">
+      <div class="mt-5 sm:ml-[4.5rem]">
         <ReviewContent
             :content="review.content"
             class="text-slate-700 leading-relaxed"

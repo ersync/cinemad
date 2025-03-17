@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed, onMounted,watchEffect } from 'vue'
+import { ref, watch, computed, onMounted, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMovieStore } from '@/vue/stores/movieStore'
 import { useUserInteractionStore } from '@/vue/stores/userInteractionStore'
@@ -19,7 +19,13 @@ const interactionStore = useUserInteractionStore()
 const authStore = useAuthStore()
 
 const slug = computed(() => String(route.params.slug))
-const { data: movieData, isLoading, error } = movieStore.movieComputed(slug.value)
+const { 
+  data: movieData, 
+  isLoading, 
+  error,
+  reviewSection,
+  reviews
+} = movieStore.movieComputed(slug.value)
 
 watchEffect(() => {
   if (movieData.value?.title) {
@@ -38,33 +44,47 @@ const updateInteractionStore = (movie) => {
 
 const fetchMovieData = async (newSlug) => {
   try {
+    console.log('Fetching movie data for:', newSlug)
     const movieResponse = await movieStore.fetchMovie(newSlug)
 
     if (movieResponse && movieResponse.average_rating) {
       interactionStore.updateMovieAverageRating(newSlug, movieResponse.average_rating)
     }
 
-    const [castData, recommendationsData, reviewData, mediaVideos, mediaBackdrops, mediaPosters, interactionsData] = await Promise.all([
+    const [
+      castData, 
+      recommendationsData, 
+      reviewSectionData,
+      reviewsData,
+      mediaVideos, 
+      mediaBackdrops, 
+      mediaPosters, 
+      interactionsData
+    ] = await Promise.all([
       movieStore.fetchCast(newSlug),
       movieStore.fetchRecommendations(newSlug),
+      movieStore.fetchReviewSection(newSlug),
+      movieStore.fetchReviews(newSlug, 1, 5),
       movieStore.fetchMedia(newSlug, 'videos'),
       movieStore.fetchMedia(newSlug, 'backdrops'),
       movieStore.fetchMedia(newSlug, 'posters'),
       authStore.isAuthenticated ? interactionStore.fetchInteractions(newSlug) : Promise.resolve(null)
     ])
+    
   } catch (err) {
+    console.error('Error fetching movie data:', err)
   }
 }
 
 watch(
-    () => route.params.slug,
-    async (newSlug) => {
-      if (newSlug) {
-        await fetchMovieData(String(newSlug))
-        window.scrollTo({ top: 0, behavior: 'instant' })
-      }
-    },
-    { immediate: true }
+  () => route.params.slug,
+  async (newSlug) => {
+    if (newSlug) {
+      await fetchMovieData(String(newSlug))
+      window.scrollTo({ top: 0, behavior: 'instant' })
+    }
+  },
+  { immediate: true }
 )
 
 watch(() => movieData.value, (newMovieData) => {
@@ -95,7 +115,7 @@ onMounted(() => {
       <MovieHeader class="min-h-[570px]" />
 
       <div class="container">
-        <div class="flex flex-col lg:flex-row gap-x-3.5 lg:gap-x-1 gap-y-8 mt-5 sm:mt-8 mb-2">
+        <div class="flex flex-col lg:flex-row gap-x-3.5 lg:gap-x-1 mt-5 sm:mt-8 mb-2">
           <!-- Left Side -->
           <div class="font-SourceProNormal overflow-hidden px-2">
             <MovieCastSection />
@@ -105,7 +125,7 @@ onMounted(() => {
           </div>
 
           <!-- Right Side -->
-          <div class="min-w-[295px] mx-auto pt-0 mb-5">
+          <div class="min-w-[295px] mx-auto pt-0 mb-5 lg:mx-5">
             <MovieAdditionalInfo />
           </div>
         </div>
