@@ -3,83 +3,50 @@ defineProps({
   title: {
     type: String,
     required: true
-  },
-  counter: {
-    type: [Number, String],
-    default: null
   }
 })
 </script>
 
 <template>
   <header class="section-header">
-    <div class="flex items-center gap-x-3">
-      <div class="relative">
-        <h3 class="text-xl sm:text-2xl font-bold bg-gradient-text">
-          {{ title }}
-        </h3>
-      </div>
-
-      <span
-          v-if="counter"
-          class="counter-badge"
-      >
-        {{ counter }}
-      </span>
-    </div>
+    <h3 class="section-title">
+      {{ title }}
+      <span class="title-accent"></span>
+    </h3>
   </header>
 </template>
 
 <style scoped>
 .section-header {
-  @apply relative py-3;
+  @apply relative;
 }
 
-.bg-gradient-text {
-  @apply bg-clip-text text-transparent;
-  background-image: linear-gradient(135deg, #034275, #0284c7, #0369a1);
-  animation: shimmer 3s ease-in-out infinite;
+.section-title {
+  @apply relative inline-flex text-xl sm:text-2xl font-bold text-sky-900;
+  padding-bottom: 0.5rem;
+  letter-spacing: -0.01em;
 }
 
-.counter-badge {
-  @apply text-[0.9rem] font-semibold;
-  @apply w-7 h-7 sm:w-8 sm:h-8;
-  @apply flex justify-center items-center rounded-full;
-  @apply text-sky-700;
-  @apply transition-all duration-300;
-  background: linear-gradient(135deg, rgb(2 132 199 / 0.1), rgb(3 66 117 / 0.15));
-  box-shadow: 0 2px 4px rgb(2 132 199 / 0.1);
-  backdrop-filter: blur(8px);
+/* The subtle accent line that appears under the text */
+.title-accent {
+  @apply absolute left-0 bottom-0 h-[2px] w-full;
+  background: linear-gradient(to right, #0284c7, #0ea5e9, rgba(14, 165, 233, 0.1));
+  transform-origin: left;
+  transform: scaleX(0.4);
+  transition: transform 0.3s ease-out;
 }
 
-.counter-badge:hover {
-  @apply text-sky-800;
-  background: linear-gradient(135deg, rgb(2 132 199 / 0.15), rgb(3 66 117 / 0.2));
-  box-shadow: 0 4px 6px rgb(2 132 199 / 0.15);
-  transform: translateY(-1px);
-}
-
-@keyframes shimmer {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+/* Expand the line on hover */
+.section-title:hover .title-accent {
+  transform: scaleX(1);
 }
 
 /* Dark mode adjustments */
-:global(.dark) .counter-badge {
-  @apply text-sky-300;
-  background: linear-gradient(135deg, rgb(2 132 199 / 0.2), rgb(3 66 117 / 0.25));
-}
-
-:global(.dark) .counter-badge:hover {
+:global(.dark) .section-title {
   @apply text-sky-200;
-  background: linear-gradient(135deg, rgb(2 132 199 / 0.25), rgb(3 66 117 / 0.3));
 }
 
-:global(.dark) .bg-gradient-text {
-  background-image: linear-gradient(135deg, #60a5fa, #93c5fd, #60a5fa);
+:global(.dark) .title-accent {
+  background: linear-gradient(to right, #38bdf8, #0ea5e9, rgba(14, 165, 233, 0.1));
 }
 </style>

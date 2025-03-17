@@ -217,7 +217,7 @@ onUnmounted(() => {
 <template>
   <div class="flex flex-col relative mb-10">
     <!-- Header -->
-    <div class="flex gap-2 sm:gap-5 justify-between items-center mb-5">
+    <div class="flex gap-2 sm:gap-5 justify-between items-center mb-8">
 
       <SectionHeading
           title="Media"
@@ -235,7 +235,7 @@ onUnmounted(() => {
     <div class="relative group">
       <!-- Slider -->
       <div class="overflow-hidden" ref="viewport">
-        <div class="flex gap-1 pb-4 pt-2" ref="content">
+        <div class="flex gap-1" ref="content">
           <MediaItem
               v-for="(media, index) in mediaUrls"
               :key="index"

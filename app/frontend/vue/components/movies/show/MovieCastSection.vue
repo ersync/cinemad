@@ -28,7 +28,7 @@ defineEmits(['showFullCast'])
 </script>
 
 <template>
-  <div class="mb-12 antialiased min-h-[320px]">
+  <div class="mb-10 antialiased min-h-[320px]">
     <div class="relative">
       <SectionHeading title="Featured Cast" />
       <div class="mt-6">

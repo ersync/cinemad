@@ -100,7 +100,7 @@ onUnmounted(() => {
 <template>
   <section
       ref="containerRef"
-      class="relative py-8 overflow-hidden"
+      class="relative overflow-hidden mb-10"
       :class="[isVisible ? 'animate-fade-in' : 'opacity-0']"
       aria-labelledby="recommendations-heading"
   >
@@ -109,7 +109,7 @@ onUnmounted(() => {
           title="Recommendations"
       />
 
-      <div v-if="hasMultipleCards && !isLoading" class="flex items-center gap-3">
+      <div v-if="hasMultipleCards && !isLoading" class="flex items-center gap-3 py-0.5">
         <div class="hidden sm:flex items-center gap-1.5">
           <button
               v-for="index in Math.max(0, recommendations.length - 2)"
@@ -130,10 +130,10 @@ onUnmounted(() => {
           <button
               @click="scrollPrev"
               :disabled="!showLeftControl"
-              class="group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 shadow-sm hover:shadow transition-all duration-300 active:outline-none active:ring-2 active:ring-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed"
+              class="group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 shadow-sm hover:shadow transition-all duration-300 active:outline-none active:ring-2 active:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label="See previous recommendations"
           >
-            <svg class="w-4 h-4 sm:w-5 h-5 text-gray-700  group-hover:text-indigo-600  transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="w-4 h-4 sm:w-5 h-5 text-teal-500 transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
@@ -141,10 +141,10 @@ onUnmounted(() => {
           <button
               @click="scrollNext"
               :disabled="!showRightControl"
-              class="group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10  rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 shadow-sm hover:shadow transition-all duration-300 active:outline-none active:ring-2 active:ring-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed"
+              class="group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10  rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 shadow-sm hover:shadow transition-all duration-300 active:outline-none active:ring-2 active:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label="See more recommendations"
           >
-            <svg class="w-4 h-4 sm:w-5 h-5 text-gray-700 group-hover:text-indigo-600 transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="w-4 h-4 sm:w-5 h-5 text-teal-500 transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -157,7 +157,7 @@ onUnmounted(() => {
         <ScrollableWrapper>
           <div
               ref="scrollableRef"
-              class="scrollable-wrapper flex py-4 overflow-x-auto snap-x snap-mandatory hide-scrollbar"
+              class="scrollable-wrapper flex overflow-x-auto snap-x snap-mandatory hide-scrollbar"
           >
             <ul v-if="!isLoading && recommendations.length"
                 class="flex gap-5 snap-x snap-mandatory"
