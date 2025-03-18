@@ -49,7 +49,7 @@
 <% if user_signed_in? %>
   <div id="mobile-profile-menu"
        class="fixed inset-x-0 bottom-0 transform translate-y-full transition-transform duration-300 ease-out z-[75]">
-    <div class="bg-gradient-to-b from-[#032541] via-[#034275] to-[#032541] rounded-t-2xl shadow-2xl max-h-[85vh] overflow-y-auto">
+    <div class="bg-gradient-to-b from-[#01121f] via-[#012645] to-[#01121f] rounded-t-2xl shadow-2xl max-h-[85vh] overflow-y-auto">
       <div class="p-6 text-center border-b border-white/10">
         <div class="inline-block relative mb-3">
           <% if current_user.avatar.attached? %>
@@ -59,11 +59,11 @@
               class="w-20 h-20 rounded-full object-cover shadow-xl ring-4 ring-white/10"
             >
           <% else %>
-            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#034275] to-[#032541] flex items-center justify-center text-white text-2xl font-semibold shadow-xl ring-4 ring-white/10">
+            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#012645] to-[#01121f] flex items-center justify-center text-white text-2xl font-semibold shadow-xl ring-4 ring-white/10">
               <%= current_user.username[0].upcase %>
             </div>
           <% end %>
-          <div class="absolute bottom-0 right-0 w-5 h-5 bg-emerald-500 rounded-full border-4 border-[#032541]"></div>
+          <div class="absolute bottom-0 right-0 w-5 h-5 bg-emerald-500 rounded-full border-4 border-[#01121f]"></div>
         </div>
         <h2 class="text-white text-xl font-semibold mb-1"><%= current_user.username %></h2>
         <p class="text-white/60 text-sm"><%= current_user.email %></p>
