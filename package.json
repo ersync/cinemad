@@ -1,4 +1,6 @@
 {
+  "name": "cinemad",
+  "version": "1.0.0",
   "devDependencies": {
     "@types/node": "^20.10.6",
     "@vitejs/plugin-vue": "^5.1.3",
