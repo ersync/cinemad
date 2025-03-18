@@ -3,6 +3,7 @@ import { computed, ref, watch, nextTick } from 'vue'
 import { useMovieStore } from "@/vue/stores/movieStore"
 import { useUserInteractionStore } from "@/vue/stores/userInteractionStore"
 import MovieActionsPanelMobile from "./MovieActionsPanelMobile.vue"
+import CrewMemberMobile from "@/vue/components/movies/show/CrewMemberMobile.vue"
 
 const props = defineProps({
   movieSlug: {
@@ -58,24 +59,7 @@ const formatYear = (dateString) => {
 
 const uniqueCrewMembers = computed(() => {
   if (!movieData.value?.crew) return []
-
-  const crewMap = new Map()
-  movieData.value.crew.forEach(member => {
-    if (crewMap.has(member.id)) {
-      const existingRoles = crewMap.get(member.id).roles
-      if (!existingRoles.includes(member.role)) {
-        existingRoles.push(member.role)
-      }
-    } else {
-      crewMap.set(member.id, {
-        id: member.id,
-        name: member.name,
-        roles: [member.role]
-      })
-    }
-  })
-
-  return Array.from(crewMap.values())
+  return movieData.value.crew
 })
 </script>
 
@@ -219,14 +203,11 @@ const uniqueCrewMembers = computed(() => {
             ref="crewRef"
             class="grid grid-cols-2 gap-4 h-full"
         >
-          <div
+          <CrewMemberMobile
               v-for="crewMember in uniqueCrewMembers"
               :key="crewMember.id"
-              class="p-4 rounded-lg bg-white/5 backdrop-blur-sm"
-          >
-            <h4 class="font-medium text-white">{{ crewMember.name }}</h4>
-            <p class="text-sm text-white/70">{{ crewMember.roles.join(", ") }}</p>
-          </div>
+              :crew="crewMember"
+          />
         </div>
       </div>
     </div>
