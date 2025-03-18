@@ -5,7 +5,7 @@
     </p>
     <a
         href="#"
-        class="inline-block text-[#3498db] font-medium no-underline relative py-1 transition-colors duration-200 hover:text-[#2980b9] after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-0.5 after:bg-gradient-to-r after:from-[#3498db] after:to-[#2980b9] after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
+        class="inline-block font-medium relative py-1 transition-all duration-300 bg-gradient-to-r from-[#0a4d7c] to-[#0369a1] bg-clip-text text-transparent hover:from-[#0369a1] hover:to-[#0a4d7c] after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-1/3 after:h-[1px] after:bg-gradient-to-r after:from-transparent after:via-[#0369a1] after:to-transparent hover:after:w-full after:transition-all after:duration-300"
         @click.prevent="openReviewsPopup()"
     >
       Read the rest

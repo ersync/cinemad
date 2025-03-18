@@ -10,8 +10,8 @@ defineProps({
 <template>
   <header class="section-header">
     <h3 class="section-title">
-      {{ title }}
-      <span class="title-accent"></span>
+      <span class="title-text">{{ title }}</span>
+      <span class="title-decoration"></span>
     </h3>
   </header>
 </template>
@@ -22,31 +22,28 @@ defineProps({
 }
 
 .section-title {
-  @apply relative inline-flex text-xl sm:text-2xl font-bold text-sky-900;
-  padding-bottom: 0.5rem;
+  @apply relative inline-flex text-xl sm:text-2xl font-bold;
   letter-spacing: -0.01em;
 }
 
-/* The subtle accent line that appears under the text */
-.title-accent {
-  @apply absolute left-0 bottom-0 h-[2px] w-full;
-  background: linear-gradient(to right, #0284c7, #0ea5e9, rgba(14, 165, 233, 0.1));
-  transform-origin: left;
-  transform: scaleX(0.4);
-  transition: transform 0.3s ease-out;
+.title-text {
+  @apply relative z-10;
+  background: linear-gradient(135deg, #0a4d7c, #0369a1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
 }
 
-/* Expand the line on hover */
-.section-title:hover .title-accent {
-  transform: scaleX(1);
+.title-decoration {
+  @apply absolute -right-4 top-0 w-2 h-2 rounded-full;
+  background: #0369a1;
+  box-shadow: 0 0 10px rgba(3, 105, 161, 0.5);
+  transform: scale(0);
+  transition: transform 0.3s ease;
 }
 
-/* Dark mode adjustments */
-:global(.dark) .section-title {
-  @apply text-sky-200;
-}
-
-:global(.dark) .title-accent {
-  background: linear-gradient(to right, #38bdf8, #0ea5e9, rgba(14, 165, 233, 0.1));
+.section-title:hover .title-decoration {
+  transform: scale(1);
 }
 </style>

@@ -152,7 +152,7 @@ const handleClickOutside = (event) => {
 }
 
 const gradientStyle = {
-  background: 'linear-gradient(to right, #032541, #034275, #032541)'
+  background: 'linear-gradient(to right, #01121f, #012645, #01121f)'
 }
 
 onMounted(() => {
