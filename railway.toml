@@ -1,0 +1,10 @@
+[build]
+builder = "nixpacks"
+buildCommand = "bin/rails assets:precompile"
+
+[deploy]
+startCommand = "bin/rails server"
+healthcheckPath = "/"
+
+[nixpacks]
+nodejs = "20"
