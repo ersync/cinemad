@@ -16,9 +16,8 @@ export default defineConfig({
         manifest: true,
         rollupOptions: {
             input: {
-                main: resolve(__dirname, 'app/frontend/entrypoints/application.js'),
-                style: resolve(__dirname, 'app/frontend/styles/application.scss'),
-            }
+                main: resolve(__dirname, 'app/frontend/entrypoints/application.js')
+              }
         }
     },
     resolve: {
