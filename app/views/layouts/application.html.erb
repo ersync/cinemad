@@ -7,12 +7,6 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  <link rel="preload" href="/vite-dev/assets/fonts/Source-Sans-Light.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/vite-dev/assets/fonts/Source-Sans-Normal.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/vite-dev/assets/fonts/Source-Sans-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/vite-dev/assets/fonts/Source-Sans-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/vite-dev/assets/fonts/Source-Sans-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/vite-dev/assets/fonts/Concen-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   <%= render 'shared/favicon' %>
 
   <%= csrf_meta_tags %>
@@ -28,6 +22,7 @@
 <meta name="csrf-token" content="<%= form_authenticity_token %>">
 <%= render 'shared/svg_sprites' %>
 <%= render partial: "shared/header/header" %>
+<div id="mobile-search-results-container" class="sm:hidden"></div>
 <div class="w-full h-14 sm:h-16 bg-[#034275]"></div>
 <div id="app" class="min-h-screen"></div>
 <%= render partial: "shared/footer" %>

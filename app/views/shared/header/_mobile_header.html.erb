@@ -1,19 +1,188 @@
-<header class="sm:hidden flex items-center w-full h-14 bg-gradient-to-r from-[#01121f] via-[#012645] to-[#01121f] text-white/90 shadow-lg border-b border-white/5">
-  <div class="w-full px-4">
-    <div class="flex justify-between items-center h-full">
-      <div class="flex items-center w-[140px]">
-        <a href="/"><%= render 'shared/logo' %></a>
-      </div>
-
-      <%= render 'shared/header/mobile_header_actions' %>
+<header class="sm:hidden">
+  <div class="relative h-14 bg-gradient-to-r from-[#010e19] via-[#011a30] to-[#010e19] backdrop-blur-md border-b border-blue-500/10">
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute -top-10 left-1/4 w-48 h-48 rounded-full bg-blue-500/10 blur-xl opacity-70"></div>
+      <div class="absolute -bottom-20 right-1/3 w-56 h-56 rounded-full bg-indigo-600/10 blur-xl opacity-70"></div>
+      <div class="absolute top-1/2 right-1/4 w-32 h-32 rounded-full bg-cyan-400/5 blur-xl"></div>
     </div>
+    
+    <div id="main-header" class="relative h-full px-5 flex items-center justify-between">
+      <div class="flex items-center">
+        <% if user_signed_in? %>
+          <div class="relative group">
+            <a href="/users/<%= current_user.username %>" class="block">
+              <% if current_user.avatar.attached? %>
+                <%= image_tag current_user.avatar, class: "w-9 h-9 rounded-full object-cover ring-2 ring-blue-400/30 transition-all duration-300 group-hover:ring-blue-400/60" %>
+              <% else %>
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-medium text-sm shadow-lg ring-2 ring-blue-400/30 transition-all duration-300 group-hover:ring-blue-400/60">
+                  <%= current_user.username[0].upcase %>
+                </div>
+              <% end %>
+              <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full ring-2 ring-[#011528] transition-transform duration-300 group-hover:scale-110"></div>
+            </a>
+            
+            <div class="absolute left-0 -bottom-10 bg-[#011a30] text-white text-xs py-1 px-2 rounded shadow-lg opacity-0 pointer-events-none transition-opacity duration-200 group-hover:opacity-100 whitespace-nowrap">
+              <%= current_user.username %>
+            </div>
+          </div>
+        <% else %>
+          <a href="<%= new_user_session_path %>" class="group relative overflow-hidden rounded-full bg-white/8 backdrop-blur-sm border border-white/10 w-9 h-9 flex items-center justify-center text-white shadow-md transition-all duration-300 hover:bg-white/12 hover:border-white/20 hover:shadow-lg">
+            <svg class="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+            </svg>
+            
+            <div class="absolute left-0 -bottom-10 bg-[#011a30] text-white text-xs py-1 px-2 rounded shadow-lg opacity-0 pointer-events-none transition-opacity duration-200 group-hover:opacity-100 whitespace-nowrap">
+              Login
+            </div>
+          </a>
+        <% end %>
+      </div>
+      
+      <div class="flex-1 flex justify-end">
+        <div id="search-container" class="relative flex items-center justify-end h-10 w-10 transition-all duration-500 ease-in-out overflow-visible rounded-full">
+          <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="absolute right-0 P-1 w-6 h-6 text-blue-300 transition-all duration-500 ease-in-out z-10 cursor-pointer">
+            <circle cx="11" cy="11" r="8" stroke-width="1.5"></circle>
+            <path d="M16.5 16.5L21 21" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+          
+          <input 
+            type="text" 
+            placeholder="Search movies..." 
+            class="w-full h-10 pl-4 pr-8 rounded-full bg-[rgba(1,26,48,0.7)] text-white border-none outline-none opacity-0 transition-all duration-300 ease-in-out delay-150"
+            id="search-input"
+          >
+          
+          <input type="hidden" id="vue-search-query">
+          
+          <div id="mobile-vue-search-anchor" class="absolute top-full left-0 w-full"></div>
+        </div>
+      </div>
+      
+      <button id="menu-button" class="w-10 h-10 flex flex-col items-center justify-center gap-1.5 ml-1 rounded-full transition-all duration-300 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-600/10 to-blue-600/0 opacity-0 transition-opacity duration-300 rounded-full hover:opacity-100"></div>
+        
+        <span class="block w-5 h-0.5 bg-blue-300 rounded-full transition-all duration-300"></span>
+        <span class="block w-4 h-0.5 bg-blue-300 rounded-full transition-all duration-300 transform translate-x-0.5"></span>
+        <span class="block w-5 h-0.5 bg-blue-300 rounded-full transition-all duration-300"></span>
+      </button>
+    </div>
+    
+    <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-blue-500/0 via-blue-500/20 to-blue-500/0"></div>
   </div>
 </header>
 
-<%= render 'shared/header/mobile_menu' %>
-
 <div
   id="mobile-menu-overlay"
-  class="fixed top-14 bottom-0 left-0 right-0  bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 sm:hidden z-[55]"
-  >
+  class="fixed top-14 bottom-0 left-0 right-0 bg-[#010e19]/70 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 sm:hidden z-[55]"
+>
 </div>
+
+<div id="mobile-vue-search-mount" class="hidden">
+</div>
+
+<style>
+  #main-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  #search-container {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+  #search-icon {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  #search-input {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(1, 26, 48, 0.7);
+    border-radius: 20px;
+    opacity: 0;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    padding-right: 35px;
+  }
+  
+  #search-input:focus {
+    border-color: rgba(59, 130, 246, 0.4);
+    outline: none;
+  }
+  
+  #menu-button.open {
+    background-color: rgba(1, 26, 48, 0.8);
+  }
+  
+  #menu-button.open::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0) 70%);
+    opacity: 1;
+  }
+  
+  #menu-button.open span {
+    background: rgb(147, 197, 253);
+  }
+  
+  #menu-button.open span:first-child {
+    width: 16px;
+    transform: translateX(2px);
+  }
+  
+  #menu-button.open span:nth-child(2) {
+    width: 20px;
+    transform: translateX(-2px);
+  }
+  
+  #menu-button.open span:last-child {
+    width: 12px;
+    transform: translateX(4px);
+  }
+  
+  #mobile-vue-search-results {
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    width: 100% !important;
+    margin-top: 8px !important;
+    z-index: 60 !important;
+  }
+  
+  #search-container:hover #search-icon {
+    filter: drop-shadow(0 0 3px rgba(59, 130, 246, 0.5));
+  }
+  
+  @keyframes slow-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .animate-slow-spin {
+    animation: slow-spin 15s linear infinite;
+  }
+  
+  @keyframes shimmer {
+    0% { background-position: -100% 0; }
+    100% { background-position: 200% 0; }
+  }
+  
+  .login-shimmer {
+    background: linear-gradient(90deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.8) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 3s infinite linear;
+  }
+</style>

@@ -1,45 +1,140 @@
-<header class="hidden sm:flex items-center w-full h-16 bg-gradient-to-r from-[#01121f] via-[#012645] to-[#01121f] font-SourceProSemiBold text-white/90 shadow-lg border-b border-white/5">
-  <div class="container">
-    <div class="flex justify-between items-center h-full">
-      <nav class="flex items-center h-full">
-        <div class="w-[132px] mr-3 md:w-[142px] md:mr-5 lg:w-[162px] lg:mr-8">
-          <a href="/">
-            <%= render 'shared/logo' %>
-          </a>
+<header class="hidden sm:block w-full bg-gradient-to-r from-[#010e19] via-[#011a30] to-[#010e19] font-SourceProSemiBold text-white/90 border-b border-blue-500/10 relative">
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute -top-20 left-1/4 w-64 h-64 rounded-full bg-blue-500/5 blur-3xl opacity-60"></div>
+    <div class="absolute -bottom-20 right-1/3 w-72 h-72 rounded-full bg-indigo-500/5 blur-3xl opacity-50"></div>
+  </div>
+  
+  <div class="relative backdrop-blur-sm">
+    <div class="container max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center h-16">
+        <nav class="flex items-center h-full">
+          <!-- Logo with subtle glow -->
+          <div class="relative w-[132px] mr-3 md:w-[142px] md:mr-5 lg:w-[162px] lg:mr-8">
+            <a href="/" class="block">
+              <%= render 'shared/logo' %>
+            </a>
+            <div class="absolute -inset-1 bg-blue-500/10 blur-xl rounded-full -z-10"></div>
+          </div>
+
+          <ul class="flex space-x-1 md:space-x-2 lg:space-x-6 h-full">
+            <%= render 'shared/nav_dropdown', title: 'Movies', items: [
+              { text: 'Popular', path: '/discovery' },
+              { text: 'Now Playing', path: '/discovery' },
+              { text: 'Upcoming', path: '/discovery' },
+              { text: 'Top Rated', path: '/discovery' }
+            ] %>
+
+            <%= render 'shared/nav_dropdown', title: 'TV Shows', items: [
+              { text: 'Popular', path: '/discovery' },
+              { text: 'Airing Today', path: '/discovery' },
+              { text: 'On TV', path: '/discovery' },
+              { text: 'Top Rated', path: '/discovery' }
+            ] %>
+
+            <%= render 'shared/nav_dropdown', title: 'People', items: [
+              { text: 'Popular', path: '/discovery' },
+              { text: 'Trending', path: '/discovery' },
+              { text: 'Award Winners', path: '/discovery' },
+              { text: 'Rising Stars', path: '/discovery' }
+            ] %>
+
+            <%= render 'shared/nav_dropdown', title: 'More', items: [
+              { text: 'Discussions', path: '/discovery' },
+              { text: 'Leaderboard', path: '/discovery' },
+              { text: 'Support', path: '/discovery' },
+              { text: 'API', path: '/discovery' }
+            ] %>
+          </ul>
+        </nav>
+
+        <!-- Header actions -->
+        <div class="flex items-center space-x-2 md:space-x-3 lg:space-x-5">
+          <button class="flex items-center px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm hover:bg-white/10 transition-all duration-200 group">
+            <svg class="w-4 h-4 mr-1.5 text-blue-400/80 group-hover:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+            </svg>
+            EN
+          </button>
+
+          <% if user_signed_in? %>
+            <button class="relative w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/10 transition-all duration-200 group">
+              <svg class="w-5 h-5 text-white/80 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              </svg>
+              <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-500 rounded-full ring-2 ring-[#011528] group-hover:animate-pulse"></span>
+            </button>
+
+            <%= render 'shared/user_section' %>
+          <% else %>
+            <a href="<%= new_user_session_path %>" class="px-4 py-1.5 text-sm text-white/80 hover:text-white transition-colors duration-200 flex items-center">
+              <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+              </svg>
+              Login
+            </a>
+            
+            <a href="<%= new_user_registration_path %>" class="group relative overflow-hidden px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-600/80 to-indigo-600/80 text-sm transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/20">
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="h-[200%] w-[200%] animate-slow-spin rounded-full bg-gradient-to-tr from-blue-500/0 via-blue-500/30 to-blue-500/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+              </div>
+              <span class="relative flex items-center">
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                </svg>
+                Join
+              </span>
+            </a>
+          <% end %>
+
+          <button
+            onclick="window.dispatchEvent(new CustomEvent('toggleGlobalSearch'))"
+            class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/10 transition-all duration-200 group">
+            <svg class="w-5 h-5 text-white/80 group-hover:text-white group-hover:filter group-hover:drop-shadow-[0_0_3px_rgba(59,130,246,0.5)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
         </div>
-
-        <ul class="flex space-x-2 md:space-x-4 lg:space-x-8 h-full">
-          <%= render 'shared/nav_dropdown', title: 'Movies', items: [
-            { text: 'Popular', path: '/discovery' },
-            { text: 'Now Playing', path: '/discovery' },
-            { text: 'Upcoming', path: '/discovery' },
-            { text: 'Top Rated', path: '/discovery' }
-          ] %>
-
-          <%= render 'shared/nav_dropdown', title: 'TV Shows', items: [
-            { text: 'Popular', path: '/discovery' },
-            { text: 'Airing Today', path: '/discovery' },
-            { text: 'On TV', path: '/discovery' },
-            { text: 'Top Rated', path: '/discovery' }
-          ] %>
-
-          <%= render 'shared/nav_dropdown', title: 'People', items: [
-            { text: 'Popular', path: '/discovery' },
-            { text: 'Trending', path: '/discovery' },
-            { text: 'Award Winners', path: '/discovery' },
-            { text: 'Rising Stars', path: '/discovery' }
-          ] %>
-
-          <%= render 'shared/nav_dropdown', title: 'More', items: [
-            { text: 'Discussions', path: '/discovery' },
-            { text: 'Leaderboard', path: '/discovery' },
-            { text: 'Support', path: '/discovery' },
-            { text: 'API', path: '/discovery' }
-          ] %>
-        </ul>
-      </nav>
-
-      <%= render 'shared/header/desktop_header_actions' %>
+      </div>
     </div>
   </div>
 </header>
+
+<style>
+  @keyframes slow-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .animate-slow-spin {
+    animation: slow-spin 15s linear infinite;
+  }
+  
+  .nav-dropdown-item {
+    @apply relative px-3 py-2 text-sm text-white/80 hover:text-white flex items-center h-full transition-colors duration-200;
+  }
+  
+  .nav-dropdown-item::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-300;
+  }
+  
+  .nav-dropdown-item:hover::after {
+    @apply w-full;
+  }
+  
+  .nav-dropdown-menu {
+    @apply absolute top-full left-0 mt-0.5 w-48 bg-[#011528]/95 backdrop-blur-md border border-white/10 rounded-lg shadow-xl py-1 opacity-0 invisible transition-all duration-200 transform -translate-y-2 z-50;
+  }
+  
+  .nav-dropdown-item:hover .nav-dropdown-menu {
+    @apply opacity-100 visible translate-y-0;
+  }
+  
+  .nav-dropdown-menu-item {
+    @apply block w-full text-left px-4 py-2 text-sm text-white/80 hover:bg-white/10 hover:text-white transition-colors duration-200;
+  }
+</style>
