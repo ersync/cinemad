@@ -1,6 +1,5 @@
 <script setup>
 import { computed, ref } from 'vue'
-
 const props = defineProps({
   media: {
     type: String,
@@ -15,15 +14,11 @@ const props = defineProps({
     default: false
   }
 })
-
 const mouseDownTime = ref(0)
 const emit = defineEmits(['turn-to-iframe', 'close-iframe', 'open-lightbox'])
-
-// Computed properties
 const isVideo = computed(() => {
   return props.media.includes('youtube.com') || props.media.includes('vimeo.com')
 })
-
 const thumbnailUrl = computed(() => {
   if (props.media.includes('youtube.com')) {
     const videoId = props.media.split('v=')[1]
@@ -31,7 +26,6 @@ const thumbnailUrl = computed(() => {
   }
   return props.media
 })
-
 const embedUrl = computed(() => {
   if (props.media.includes('youtube.com')) {
     const videoId = props.media.split('v=')[1]
@@ -39,44 +33,35 @@ const embedUrl = computed(() => {
   }
   return props.media
 })
-
-// Methods
 const handleClick = () => {
   const clickDuration = Date.now() - mouseDownTime.value
   if (!props.isDragging && clickDuration < 200) {
     emit('turn-to-iframe')
   }
 }
-
 const closeIframe = () => {
   emit('close-iframe')
 }
-
 const openLightbox = () => {
   if (!props.isDragging) {
     emit('open-lightbox', props.media)
   }
 }
 </script>
-
 <template>
   <div class="select-none media-item relative h-[300px] overflow-hidden rounded-md
-              group">
+              group w-auto">
     <template v-if="isVideo && !isIframe">
       <div class="w-full h-full cursor-pointer"
            @click="handleClick"
            @mousedown="mouseDownTime = Date.now()">
-        <!-- Thumbnail -->
         <img :src="thumbnailUrl"
              :alt="'Video thumbnail'"
              class="w-full h-full object-cover transition-transform duration-500
                     ">
-
-        <!-- Play Button Overlay -->
         <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40
                     transition-all duration-300 flex items-center justify-center">
           <div class="transform">
-            <!-- Play Button -->
             <div class="w-16 h-16 rounded-full bg-white/90 group-hover:bg-white
                         flex items-center justify-center shadow-lg
                         group-hover:shadow-xl transition-all duration-300">
@@ -88,7 +73,6 @@ const openLightbox = () => {
         </div>
       </div>
     </template>
-
     <template v-else-if="isVideo && isIframe">
       <div class="relative w-full h-full">
         <iframe :src="embedUrl"
@@ -98,7 +82,6 @@ const openLightbox = () => {
                        gyroscope; picture-in-picture"
                 allowfullscreen>
         </iframe>
-        <!-- Close Button -->
         <button @click="closeIframe"
                 class="absolute top-2 right-2 bg-black/70 hover:bg-black/90
                        p-1.5 rounded-full transition-colors duration-200">
@@ -110,9 +93,7 @@ const openLightbox = () => {
         </button>
       </div>
     </template>
-
     <template v-else>
-      <!-- Image Item -->
       <div class="relative w-full h-full group cursor-pointer"
            @click="openLightbox">
         <img :src="props.media"
@@ -123,12 +104,10 @@ const openLightbox = () => {
     </template>
   </div>
 </template>
-
 <style scoped>
 .media-item {
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
-
 .media-item:hover {
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }

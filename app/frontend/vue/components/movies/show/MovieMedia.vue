@@ -28,6 +28,7 @@ const viewport = ref(null)
 const content = ref(null)
 const canScrollLeft = ref(false)
 const canScrollRight = ref(false)
+const isLoading = ref(true)
 let scrollBooster = null
 let dragStartTime = 0
 let dragStartPosition = { x: 0, y: 0 }
@@ -52,30 +53,35 @@ const getMediaArray = (type) => {
 
 const loadMedia = (mediaType) => {
   try {
-    let media = []
-
-    media = getMediaArray(mediaType)
-
-    mediaUrls.value = media
-    activeTab.value = mediaType
+    mediaUrls.value = []
     iframeVideos.value = []
+    isLoading.value = true
+    
+    setTimeout(() => {
+      let media = []
+      media = getMediaArray(mediaType)
+      mediaUrls.value = media
+      activeTab.value = mediaType
+      isLoading.value = false
 
-    if (scrollBooster) {
-      try {
-        scrollBooster.scrollTo({ x: 0, y: 0 })
-      } catch (err) {
-        console.error('Error scrolling with ScrollBooster:', err)
+      if (scrollBooster) {
+        try {
+          scrollBooster.scrollTo({ x: 0, y: 0 })
+        } catch (err) {
+          console.error('Error scrolling with ScrollBooster:', err)
+        }
+      } else if (viewport.value) {
+        viewport.value.scrollTo({ left: 0, behavior: 'smooth' })
       }
-    } else if (viewport.value) {
-      viewport.value.scrollTo({ left: 0, behavior: 'smooth' })
-    }
 
-    nextTick(() => {
-      checkScroll()
-    })
+      nextTick(() => {
+        checkScroll()
+      })
+    }, 800)
   } catch (err) {
     console.error('Failed to load media:', err)
     mediaUrls.value = []
+    isLoading.value = false
   }
 }
 
@@ -218,7 +224,6 @@ onUnmounted(() => {
   <div class="flex flex-col relative mb-10">
     <!-- Header -->
     <div class="flex gap-2 sm:gap-5 justify-between items-center mb-8">
-
       <SectionHeading
           title="Media"
       />
@@ -231,26 +236,41 @@ onUnmounted(() => {
       />
     </div>
 
-    <!-- Media Slider Container -->
     <div class="relative group">
-      <!-- Slider -->
-      <div class="overflow-hidden" ref="viewport">
+      <div class="overflow-hidden relative" ref="viewport">
+        <div v-if="isLoading" class="absolute inset-0 flex justify-center items-center z-10 bg-white/5 backdrop-blur-[2px]">
+          <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+          </div>
+        </div>
+        
         <div class="flex gap-1" ref="content">
-          <MediaItem
-              v-for="(media, index) in mediaUrls"
-              :key="index"
-              :media="media"
-              :isIframe="iframeVideos.includes(index)"
-              :is-dragging="isDragging"
-              @turn-to-iframe="turnToIframe(index)"
-              @close-iframe="closeIframe(index)"
-              @open-lightbox="openLightbox"
-              class="flex-none"
-          />
+          <!-- Content -->
+          <template v-if="!isLoading && mediaUrls.length > 0">
+            <MediaItem
+                v-for="(media, index) in mediaUrls"
+                :key="index"
+                :media="media"
+                :isIframe="iframeVideos.includes(index)"
+                :is-dragging="isDragging"
+                @turn-to-iframe="turnToIframe(index)"
+                @close-iframe="closeIframe(index)"
+                @open-lightbox="openLightbox"
+                class="flex-none"
+            />
+          </template>
+          
+          <template v-else-if="isLoading">
+            <div v-for="i in 6" :key="`skeleton-${i}`" 
+                 class="flex-none h-[300px] w-auto aspect-[16/9] min-w-[200px] overflow-hidden relative skeleton-loader rounded-md">
+              <div class="absolute inset-0 bg-gray-100"></div>
+              <div class="absolute inset-0 skeleton-shine"></div>
+            </div>
+          </template>
         </div>
       </div>
 
-      <!-- Navigation Arrows -->
       <button v-if="canScrollLeft"
               @click="scroll('left')"
               class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4
@@ -274,7 +294,6 @@ onUnmounted(() => {
       </button>
     </div>
 
-    <!-- Lightbox -->
     <Transition name="fade">
       <div v-if="lightboxImage"
            class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center select-none"
@@ -326,5 +345,62 @@ onUnmounted(() => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.skeleton-loader {
+  background-color: #f3f4f6;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.skeleton-shine {
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.7) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shine 1.5s infinite;
+  height: 100%;
+  width: 40%;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.double-bounce1, .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgba(59, 130, 246, 0.6);
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: sk-bounce 2s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  animation-delay: -1.0s;
+}
+
+@keyframes sk-bounce {
+  0%, 100% { 
+    transform: scale(0.0);
+  } 
+  50% { 
+    transform: scale(1.0);
+  }
 }
 </style>
