@@ -9,7 +9,6 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    
     // Mobile menu elements
     const menuButton = document.getElementById('menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -18,7 +17,7 @@
     // Profile elements
     const profileMenu = document.getElementById('mobile-profile-menu');
     const profileMenuOverlay = document.getElementById('profile-menu-overlay');
-    const profileButton = document.querySelector('button[onclick="toggleProfileMenu(event)"]');
+    const profileButton = document.getElementById('profile-menu-button');
     const menuItems = document.querySelectorAll('.menu-item');
     
     // User dropdown elements
@@ -38,25 +37,23 @@
       if (!menuButton || !mobileMenu) {
         return;
       }
-
+  
       const isMenuOpen = !mobileMenu.classList.contains('-translate-x-full');
-
+  
       if (isMenuOpen) {
         menuButton.classList.add('open');
       } else {
         menuButton.classList.remove('open');
       }
     }
-
+  
     function toggleMenu() {
-      
       if (!mobileMenu) {
-        console.error("Mobile menu not found - make sure it has id='mobile-menu'");
         return;
       }
-
+  
       mobileMenu.classList.toggle('-translate-x-full');
-
+  
       if (mobileMenuOverlay) {
         if (mobileMenu.classList.contains('-translate-x-full')) {
           mobileMenuOverlay.classList.add('opacity-0', 'pointer-events-none');
@@ -64,17 +61,17 @@
           mobileMenuOverlay.classList.remove('opacity-0', 'pointer-events-none');
         }
       }
-
+  
       updateMenuIcon();
       
       if (isSearchExpanded) {
         collapseSearch();
       }
     }
-
+  
     function closeMenu() {
       if (!mobileMenu) return;
-
+  
       mobileMenu.classList.add('-translate-x-full');
       
       if (mobileMenuOverlay) {
@@ -83,16 +80,16 @@
       
       updateMenuIcon();
     }
-
+  
     function toggleProfileMenu(event) {
       if (event) {
         event.stopPropagation();
       }
-
+  
       if (!profileMenu || !profileMenuOverlay) return;
-
+  
       const isMenuOpen = !profileMenu.classList.contains('translate-y-full');
-
+  
       if (isMenuOpen) {
         profileMenu.classList.add('translate-y-full');
         profileMenuOverlay.classList.add('opacity-0', 'pointer-events-none');
@@ -101,17 +98,17 @@
         profileMenuOverlay.classList.remove('opacity-0', 'pointer-events-none');
       }
     }
-
+  
     function handleProfileMenuClick(event) {
       if (!profileMenu) return;
-
+  
       if (profileButton && profileButton.contains(event.target)) {
         return;
       }
-
+  
       const isClickInsideMenu = profileMenu.contains(event.target);
       const isMenuOpen = !profileMenu.classList.contains('translate-y-full');
-
+  
       if (!isClickInsideMenu && isMenuOpen) {
         toggleProfileMenu();
       }
@@ -150,13 +147,13 @@
         userDropdown.classList.remove('opacity-100', 'scale-100');
       }
     }
-
+  
     function initializeDropdowns() {
       menuItems.forEach(item => {
         const button = item.querySelector('button');
         const content = item.querySelector('div');
         const arrow = item.querySelector('svg');
-
+  
         button?.addEventListener('click', () => {
           menuItems.forEach(otherItem => {
             if (otherItem !== item) {
@@ -166,23 +163,23 @@
               otherArrow?.classList.remove('rotate-90');
             }
           });
-
+  
           content?.classList.toggle('hidden');
           arrow?.classList.toggle('rotate-90');
         });
       });
     }
-
+  
     function initializeSwipeHandler() {
       if (!mobileMenu) return;
-
+  
       let touchStartX = 0;
       let touchEndX = 0;
-
+  
       mobileMenu.addEventListener('touchstart', e => {
         touchStartX = e.changedTouches[0].screenX;
       });
-
+  
       mobileMenu.addEventListener('touchend', e => {
         touchEndX = e.changedTouches[0].screenX;
         if (touchStartX - touchEndX > 50) {
@@ -190,14 +187,14 @@
         }
       });
     }
-
+  
     function handleClickOutside(event) {
       if (!menuButton || !mobileMenu) return;
-
+  
       const isClickInsideButton = menuButton.contains(event.target);
       const isClickInsideMenu = mobileMenu.contains(event.target);
       const isMenuOpen = !mobileMenu.classList.contains('-translate-x-full');
-
+  
       if (!isClickInsideButton && !isClickInsideMenu && isMenuOpen) {
         closeMenu();
       }
@@ -329,12 +326,22 @@
       menuButton.addEventListener('click', function(e) {
         toggleMenu();
       });
-    } else {
-      console.error("Menu button not found");
     }
     
-    mobileMenuOverlay?.addEventListener('click', closeMenu);
-    profileMenuOverlay?.addEventListener('click', (e) => toggleProfileMenu(e));
+    if (profileButton) {
+      profileButton.addEventListener('click', function(e) {
+        toggleProfileMenu(e);
+      });
+    }
+    
+    if (mobileMenuOverlay) {
+      mobileMenuOverlay.addEventListener('click', closeMenu);
+    }
+    
+    if (profileMenuOverlay) {
+      profileMenuOverlay.addEventListener('click', (e) => toggleProfileMenu(e));
+    }
+    
     document.addEventListener('click', handleClickOutside);
     document.addEventListener('click', handleProfileMenuClick);
     document.addEventListener('click', handleUserDropdownClickOutside);
@@ -369,11 +376,12 @@
         searchContainer.style.width = '95%';
       }
     });
-
+  
     initializeDropdowns();
     initializeSwipeHandler();
     updateMenuIcon();
-
+  
     window.toggleProfileMenu = toggleProfileMenu;
   });
+  
 </script>

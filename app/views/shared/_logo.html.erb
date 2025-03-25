@@ -1,12 +1,14 @@
-<div class="inline-block select-none relative group animate-pulse-glow">
-  <%= image_tag "logo.png",
-    class: "inline-block w-auto
-           [filter:brightness(0)_invert(1)_sepia(1)_saturate(2000%)_hue-rotate(170deg)]
-           transition-all duration-300
-           group-hover:[filter:brightness(0)_invert(1)_sepia(1)_saturate(2500%)_hue-rotate(170deg)_drop-shadow(0_0_8px_#4FB5FF)]",
-    alt: "CinEmad Logo"
-  %>
-</div>
+<a href="/" style="display: block; position: relative; z-index: 10; cursor: pointer !important;" onclick="window.location.href='/';">
+  <div class="inline-block select-none relative group animate-pulse-glow" style="pointer-events: none;">
+    <%= image_tag "logo.png",
+      class: "inline-block w-auto
+             [filter:brightness(0)_invert(1)_sepia(1)_saturate(2000%)_hue-rotate(170deg)]
+             transition-all duration-300
+             group-hover:[filter:brightness(0)_invert(1)_sepia(1)_saturate(2500%)_hue-rotate(170deg)_drop-shadow(0_0_8px_#4FB5FF)]",
+      alt: "CinEmad Logo"
+    %>
+  </div>
+</a>
 
 <style>
     @keyframes pulse-glow {
@@ -20,5 +22,14 @@
 
     .animate-pulse-glow img {
         animation: pulse-glow 4s ease-in-out infinite;
+    }
+    
+    /* Force cursor to be pointer */
+    a[href="/"] {
+        cursor: pointer !important;
+    }
+    
+    a[href="/"] * {
+        pointer-events: none;
     }
 </style>
