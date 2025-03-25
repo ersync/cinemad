@@ -27,7 +27,7 @@ defineProps({
 }
 
 .title-text {
-  @apply relative z-10;
+  @apply relative;
   background: linear-gradient(135deg, #0a4d7c, #0369a1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

@@ -3,8 +3,8 @@
     <Transition name="modal-fade">
       <div v-if="isOpen" class="review-popup-overlay" @click="closeOnOverlayClick">
         <div class="review-popup-container" @click.stop>
-          <div class="review-popup-header line-clamp-1">
-            <h2>Reviews for {{ movieData?.title }}</h2>
+          <div class="review-popup-header">
+            <h2 class="line-clamp-1">Reviews for {{ movieData?.title }}</h2>
             <button class="close-button" @click="close">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -170,7 +170,6 @@ const loadMoreReviews = async () => {
   await movieStore.fetchReviews(movieSlug.value, nextPage);
 };
 
-// Generate beautiful gradient avatars based on username
 const getAvatarGradient = (username) => {
   if (!username) return 'linear-gradient(135deg, #6366F1, #A855F7)';
   
