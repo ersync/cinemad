@@ -8,6 +8,7 @@ gem "devise", "~> 4.9"
 gem "pry-rails", "~> 0.3.9"
 gem "image_processing", "~> 1.2"
 gem "pg", "~> 1.1"
+gem 'dotenv-rails'
 gem "puma", ">= 5.0"
 gem "jbuilder"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
