@@ -1,4 +1,7 @@
 <template>
+    <router-link
+        :to="{ name: 'movie-show', params: { slug: movie.slug } }"
+    >
     <div
         class="relative w-[130px] md:w-[180px] overflow-hidden rounded-lg shadow-medium flex flex-col justify-between items-start"
     >
@@ -14,9 +17,7 @@
             </div>
 
             <div class="min-h-[195px] md:min-h-[270px]">
-                <router-link
-                    :to="{ name: 'movie-show', params: { slug: movie.slug } }"
-                >
+                
                     <img
                         :src="coverImage"
                         :alt="movie.title"
@@ -24,7 +25,7 @@
                         loading="lazy"
                         @error="handleImageError"
                     />
-                </router-link>
+               
             </div>
 
             <AvgRateBadge
@@ -35,9 +36,9 @@
             />
         </div>
 
-        <div class="h-[56px] md:h-[40px] mt-6 mb-1 px-2.5">
+        <div class="h-[35px] md:h-[40px] mt-6 mb-1 px-2.5">
             <h2
-                class="font-SourceProBold line-clamp-2 text-sm md:text-[1rem] leading-[20px] mb-0.5"
+                class="font-SourceProBold line-clamp-2 text-sm md:text-[1rem] leading-[17px] md:leading-[20px] mb-0.5"
             >
                 {{ movie.title }}
             </h2>
@@ -55,6 +56,7 @@
             {{ ageRating }}
         </span>
     </div>
+    </router-link>
 </template>
 
 <script setup>

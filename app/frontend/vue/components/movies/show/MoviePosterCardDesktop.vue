@@ -52,7 +52,7 @@ const toggleExpand = () => {
         <div class="w-9 h-9">
           <img src="https://www.themoviedb.org/t/p/original/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg" alt="">
         </div>
-        <div>
+        <div class="cursor-not-allowed">
           <h4 class="text-white/80 leading-4">Now Streaming</h4>
           <h3 class="font-SourceProSemiBold leading-4">Watch Now</h3>
         </div>

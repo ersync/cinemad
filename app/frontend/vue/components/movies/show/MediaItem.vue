@@ -92,6 +92,7 @@ const handleImageError = () => {
 }
 </script>
 
+
 <template>
   <div class="media-item-container" :class="{ 'is-dragging': isDragging }">
     <!-- For images (backdrops/posters) -->
@@ -111,9 +112,14 @@ const handleImageError = () => {
     </div>
     
     <!-- For videos -->
-    <div v-else class="media-item-wrapper backdrop">
+    <div v-else 
+         :class="[
+           'media-item-wrapper',
+           'backdrop'
+         ]">
+      <!-- Video thumbnail with play button -->
       <div v-if="!isIframe" 
-           class="relative cursor-pointer" 
+           class="video-thumbnail-container"
            @click="handleVideoClick">
         <div class="media-item-placeholder"></div>
         <img :src="getVideoThumbnail(media)" 
@@ -122,9 +128,9 @@ const handleImageError = () => {
              loading="lazy"
              @load="handleImageLoaded"
              @error="handleImageError" />
-        <div class="absolute inset-0 flex items-center justify-center">
-          <div class="w-16 h-16 rounded-full bg-black/50 flex items-center justify-center">
-            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+        <div class="play-button-overlay">
+          <div class="play-button">
+            <svg class="play-icon" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z" />
             </svg>
           </div>
@@ -132,18 +138,18 @@ const handleImageError = () => {
       </div>
       
       <!-- Video iframe -->
-      <div v-else class="relative">
+      <div v-else class="iframe-container">
         <iframe 
           :src="getVideoEmbedUrl(media)" 
-          class="w-full h-full absolute inset-0" 
+          class="video-iframe" 
           frameborder="0" 
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
           allowfullscreen>
         </iframe>
         <button 
           @click="handleCloseIframe" 
-          class="absolute top-2 right-2 bg-black/70 hover:bg-black text-white p-1 rounded-full z-10">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          class="close-button">
+          <svg class="close-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
@@ -168,12 +174,27 @@ const handleImageError = () => {
 }
 
 .backdrop {
-  width: 480px;
-  height:270px;
+  width: 300px;
+  height: 169px;
+}
+
+@media (min-width: 640px) {
+  .backdrop {
+    width: 480px;
+    height: 270px;
+  }
 }
 
 .poster {
-  height:270px;
+  width: 180px;
+  height: 270px;
+}
+
+@media (max-width: 639px) {
+  .poster {
+    width: 120px;
+    height: 180px;
+  }
 }
 
 .media-item-placeholder {
@@ -182,7 +203,7 @@ const handleImageError = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #1a1a1a;
+  background-color: #e6e6ea;
 }
 
 .media-item-image {
@@ -200,8 +221,93 @@ const handleImageError = () => {
   opacity: 1;
 }
 
+.video-thumbnail-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.play-button-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-button {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 640px) {
+  .play-button {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+.play-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: white;
+}
+
+@media (min-width: 640px) {
+  .play-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+.iframe-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.video-iframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.close-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.25rem;
+  border-radius: 9999px;
+  z-index: 10;
+}
+
+.close-button:hover {
+  background-color: black;
+}
+
+.close-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+@media (min-width: 640px) {
+  .close-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
 .is-dragging {
   cursor: grabbing;
 }
-
 </style>

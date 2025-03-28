@@ -271,7 +271,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col relative mb-10">
+  <div class="flex flex-col relative mb-10 h-[241px] sm:h-[354px]">
     <!-- Header -->
     <div class="flex gap-2 sm:gap-5 justify-between items-center mb-8">
       <SectionHeading
