@@ -7,7 +7,6 @@ import MediaItem from '@/vue/components/movies/show/MediaItem.vue'
 import SectionHeading from "@/vue/components/movies/show/SectionHeading.vue"
 import ScrollBooster from 'scrollbooster'
 
-
 const route = useRoute()
 const movieStore = useMovieStore()
 const movieSlug = computed(() => route.params.slug)
@@ -40,54 +39,105 @@ const isTouchDevice = () => {
 }
 
 const getMediaArray = (type) => {
-  if (!movieData.value?.media || !movieData.value.media[type]) return []
-
-  const mediaSection = movieData.value.media[type]
-
-  if (mediaSection && mediaSection.media && Array.isArray(mediaSection.media)) {
-    return mediaSection.media
+  if (!movieData.value?.media || !movieData.value.media[type]) {
+    console.log(`No ${type} found in store`);
+    return [];
   }
 
-  return []
+  const mediaSection = movieData.value.media[type];
+  
+  if (Array.isArray(mediaSection)) {
+    console.log(`Found ${mediaSection.length} ${type} in store (array format)`);
+    return mediaSection;
+  }
+  
+  if (mediaSection && mediaSection.media && Array.isArray(mediaSection.media)) {
+    console.log(`Found ${mediaSection.media.length} ${type} in store (object.media format)`);
+    return mediaSection.media;
+  }
+  
+  console.log(`Media section for ${type} has unexpected format:`, mediaSection);
+  return [];
+}
+
+const resetScrollPosition = () => {
+  if (scrollBooster) {
+    try {
+      scrollBooster.scrollTo({ x: 0, y: 0 })
+    } catch (err) {
+      console.error('Error scrolling with ScrollBooster:', err)
+    }
+  } else if (viewport.value) {
+    viewport.value.scrollTo({ left: 0, behavior: 'smooth' })
+  }
 }
 
 const loadMedia = (mediaType) => {
-  try {
-    mediaUrls.value = []
-    iframeVideos.value = []
-    isLoading.value = true
+  if (activeTab.value === mediaType) return;
+  
+  console.log(`Switching to media type: ${mediaType}`);
+  
+  iframeVideos.value = [];
+  activeTab.value = mediaType;
+  
+  isLoading.value = true;
+  mediaUrls.value = [];
+  
+  const mediaFromStore = getMediaArray(mediaType);
+  console.log(`Media from store for ${mediaType}:`, mediaFromStore);
+  
+  mediaUrls.value = mediaFromStore || [];
+  
+  if (mediaFromStore && mediaFromStore.length > 0) {
+    let loadedImages = 0;
+    const totalImages = Math.min(mediaFromStore.length, 3); // Only wait for first few images
+    
+    if (mediaType === 'videos') {
+      isLoading.value = false;
+      nextTick(() => {
+        resetScrollPosition();
+        checkScroll();
+      });
+      return;
+    }
+    
+    const handleImageLoad = () => {
+      loadedImages++;
+      if (loadedImages >= totalImages) {
+        isLoading.value = false;
+        nextTick(() => {
+          resetScrollPosition();
+          checkScroll();
+        });
+      }
+    };
+    
+    mediaFromStore.slice(0, totalImages).forEach(url => {
+      const img = new Image();
+      img.onload = handleImageLoad;
+      img.onerror = handleImageLoad;
+      img.src = url;
+    });
     
     setTimeout(() => {
-      let media = []
-      media = getMediaArray(mediaType)
-      mediaUrls.value = media
-      activeTab.value = mediaType
-      isLoading.value = false
-
-      if (scrollBooster) {
-        try {
-          scrollBooster.scrollTo({ x: 0, y: 0 })
-        } catch (err) {
-          console.error('Error scrolling with ScrollBooster:', err)
-        }
-      } else if (viewport.value) {
-        viewport.value.scrollTo({ left: 0, behavior: 'smooth' })
-      }
-
-      nextTick(() => {
-        checkScroll()
-      })
-    }, 800)
-  } catch (err) {
-    console.error('Failed to load media:', err)
-    mediaUrls.value = []
-    isLoading.value = false
+      isLoading.value = false;
+    }, 2000);
+  } else {
+    isLoading.value = false;
+    nextTick(() => {
+      resetScrollPosition();
+      checkScroll();
+    });
   }
 }
 
 watch(() => movieData.value?.media, (newMedia) => {
   if (newMedia) {
-    loadMedia(activeTab.value)
+    const currentMediaFromStore = getMediaArray(activeTab.value)
+    if (currentMediaFromStore && currentMediaFromStore.length > 0) {
+      mediaUrls.value = currentMediaFromStore
+      isLoading.value = false
+    }
   }
 }, { deep: true })
 
@@ -254,6 +304,7 @@ onUnmounted(() => {
                 :media="media"
                 :isIframe="iframeVideos.includes(index)"
                 :is-dragging="isDragging"
+                :media-type="activeTab"
                 @turn-to-iframe="turnToIframe(index)"
                 @close-iframe="closeIframe(index)"
                 @open-lightbox="openLightbox"
@@ -263,7 +314,10 @@ onUnmounted(() => {
           
           <template v-else-if="isLoading">
             <div v-for="i in 6" :key="`skeleton-${i}`" 
-                 class="flex-none h-[300px] w-auto aspect-[16/9] min-w-[200px] overflow-hidden relative skeleton-loader rounded-md">
+                 :class="[
+                   'flex-none overflow-hidden relative skeleton-loader rounded-md',
+                   activeTab === 'posters' ? 'h-[253px] w-[169px]' : 'h-[169px] w-[300px]'
+                 ]">
               <div class="absolute inset-0 bg-gray-100"></div>
               <div class="absolute inset-0 skeleton-shine"></div>
             </div>
@@ -348,7 +402,7 @@ onUnmounted(() => {
 }
 
 .skeleton-loader {
-  background-color: #f3f4f6;
+  background-color: #1a1a1a;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
@@ -356,7 +410,7 @@ onUnmounted(() => {
   background: linear-gradient(
     to right,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.7) 50%,
+    rgba(255, 255, 255, 0.1) 50%,
     rgba(255, 255, 255, 0) 100%
   );
   animation: shine 1.5s infinite;

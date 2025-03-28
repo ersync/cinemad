@@ -162,27 +162,37 @@ const fetchReviews = async (slug, page = 1, perPage = 5) => {
   }
 
   const fetchMedia = async (slug, mediaType) => {
-    const loadingKey = `${slug}-${mediaType}`
-    setLoading(loadingKey, true)
-
+    const loadingKey = `${slug}-${mediaType}`;
+    setLoading(loadingKey, true);
+  
     try {
-      const movieData = getOrCreateMovieCache(slug)
-
-      const response = await movieApiService.fetchMedia(slug, mediaType)
-
+      const movieData = getOrCreateMovieCache(slug);
+      
+      const response = await movieApiService.fetchMedia(slug, mediaType);
+  
       if (response.success) {
         if (!movieData.media) {
-          movieData.media = {}
+          movieData.media = {};
         }
-        movieData.media[mediaType] = response.urls || []
-        return movieData.media[mediaType]
+        
+        let mediaArray = [];
+        if (Array.isArray(response.urls)) {
+          mediaArray = response.urls;
+        } else if (response.urls && response.urls.media && Array.isArray(response.urls.media)) {
+          mediaArray = response.urls.media;
+        }
+        
+        movieData.media[mediaType] = mediaArray;
+        
+        return movieData.media[mediaType];
       }
-
-      return []
+  
+      return [];
     } catch (error) {
-      return []
+      console.error(`Store: Error fetching ${mediaType}:`, error);
+      return [];
     } finally {
-      setLoading(loadingKey, false)
+      setLoading(loadingKey, false);
     }
   }
 
