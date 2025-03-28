@@ -1,5 +1,6 @@
 <script setup>
-import {computed} from "vue"
+import { ref, computed, onMounted } from "vue"
+
 const props = defineProps({
   person: {
     type: Object,
@@ -9,6 +10,9 @@ const props = defineProps({
     }
   }
 })
+
+const emit = defineEmits(['image-loaded'])
+const imageLoaded = ref(false)
 
 const formattedName = computed(() => {
   const names = props.person.name.split(' ')
@@ -22,6 +26,23 @@ const formattedCharacterNames = computed(() => {
   return chars.length ? chars.join(', ') : 'Unknown'
 })
 
+const handleImageLoad = () => {
+  imageLoaded.value = true
+  emit('image-loaded')
+}
+
+const handleImageError = () => {
+  imageLoaded.value = true
+  emit('image-loaded')
+}
+
+onMounted(() => {
+  // Preload the image
+  const img = new Image()
+  img.onload = handleImageLoad
+  img.onerror = handleImageError
+  img.src = props.person.image_url
+})
 </script>
 
 <template>
@@ -36,6 +57,8 @@ const formattedCharacterNames = computed(() => {
             :alt="person.name"
             class="w-full h-full object-cover transition-all duration-300
                  group-hover:scale-[1.02] brightness-[0.98]"
+            @load="handleImageLoad"
+            @error="handleImageError"
         >
         <div class="absolute inset-x-0 top-0 h-[60%] bg-gradient-to-b from-white/10 to-transparent"></div>
       </div>
@@ -63,6 +86,3 @@ const formattedCharacterNames = computed(() => {
     </div>
   </li>
 </template>
-
-<style scoped>
-</style>

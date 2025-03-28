@@ -81,18 +81,17 @@ const loadMedia = (mediaType) => {
   activeTab.value = mediaType;
   
   isLoading.value = true;
-  mediaUrls.value = [];
+  // Don't clear mediaUrls immediately - this is key to the fix
   
   const mediaFromStore = getMediaArray(mediaType);
   console.log(`Media from store for ${mediaType}:`, mediaFromStore);
-  
-  mediaUrls.value = mediaFromStore || [];
   
   if (mediaFromStore && mediaFromStore.length > 0) {
     let loadedImages = 0;
     const totalImages = Math.min(mediaFromStore.length, 3); // Only wait for first few images
     
     if (mediaType === 'videos') {
+      mediaUrls.value = mediaFromStore;
       isLoading.value = false;
       nextTick(() => {
         resetScrollPosition();
@@ -100,6 +99,9 @@ const loadMedia = (mediaType) => {
       });
       return;
     }
+    
+    // Set the media URLs first
+    mediaUrls.value = mediaFromStore;
     
     const handleImageLoad = () => {
       loadedImages++;
@@ -119,10 +121,12 @@ const loadMedia = (mediaType) => {
       img.src = url;
     });
     
+    // Safety timeout (still needed but increased)
     setTimeout(() => {
       isLoading.value = false;
-    }, 2000);
+    }, 3000);
   } else {
+    mediaUrls.value = [];
     isLoading.value = false;
     nextTick(() => {
       resetScrollPosition();
@@ -297,7 +301,7 @@ onUnmounted(() => {
         
         <div class="flex gap-1" ref="content">
           <!-- Content -->
-          <template v-if="!isLoading && mediaUrls.length > 0">
+          <template v-if="mediaUrls.length > 0">
             <MediaItem
                 v-for="(media, index) in mediaUrls"
                 :key="index"
@@ -312,7 +316,7 @@ onUnmounted(() => {
             />
           </template>
           
-          <template v-else-if="isLoading">
+          <template v-if="isLoading && mediaUrls.length === 0">
             <div v-for="i in 6" :key="`skeleton-${i}`" 
                  :class="[
                    'flex-none overflow-hidden relative skeleton-loader rounded-md',

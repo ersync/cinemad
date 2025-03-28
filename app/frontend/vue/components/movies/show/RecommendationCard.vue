@@ -3,7 +3,6 @@
       class="recommendation-card shrink-0 snap-start group relative"
       :style="{ width: '300px' }"
   >
-
     <a :href="`/movies/${movie.slug}`"
     class="block relative w-full h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 rounded-xl"
     :aria-label="`View details for ${movie.title}`"
@@ -25,6 +24,8 @@
               :alt="`Background image for ${movie.title}`"
               loading="lazy"
               decoding="async"
+              @load="$emit('image-loaded')"
+              @error="$emit('image-loaded')"
           >
         </div>
 
@@ -112,6 +113,8 @@ const props = defineProps({
     }
   }
 })
+
+defineEmits(['image-loaded'])
 
 const ratingTextClass = computed(() => {
   const score = props.movie.average_rating

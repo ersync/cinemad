@@ -10,6 +10,7 @@
             v-for="person in cast"
             :key="person.id"
             :person="person"
+            @image-loaded="$emit('image-loaded')"
         />
       </ul>
     </ScrollableWrapper>
@@ -31,6 +32,8 @@ const props = defineProps({
     )
   }
 })
+
+const emit = defineEmits(['image-loaded'])
 
 const wrapperRef = ref(null)
 const isVisible = ref(true)
@@ -76,7 +79,8 @@ onUnmounted(() => {
   position: absolute;
   top: 0;
   right: 0;
-  background-image: linear-gradient(to right, rgba(246, 248, 252, 0) 0, #f6f8fc 100%);  will-change: opacity;
+  background-image: linear-gradient(to right, rgba(246, 248, 252, 0) 0, #f6f8fc 100%);
+  will-change: opacity;
   pointer-events: none;
   transition: opacity linear 0.3s;
 }

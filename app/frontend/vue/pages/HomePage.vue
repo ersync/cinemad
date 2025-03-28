@@ -70,7 +70,7 @@ onMounted(() => {
 
 <template>
   <div class="antialiased font-SourceProNormal">
-    <div class="relative h-[400px] sm:h-[500px] mb-10">
+    <div class="relative h-[400px] sm:h-[500px] mb-10 bg-gradient-to-b from-[#010e19]/70 via-[#011a30]/60 to-[#010e19]/90">
       <div 
         class="absolute inset-0 bg-cover bg-top transform scale-105 transition-transform duration-10000 ease-out animate-subtle-zoom"
         :style="heroBackgroundStyle"
@@ -112,7 +112,7 @@ onMounted(() => {
               </h2>
             </div>
             
-            <div class="mt-8 relative z-10 transform transition-all duration-500 hover:scale-[1.01]">
+            <div class="mt-8 relative z-10 transform transition-all duration-500">
               <SearchBar 
                 @search="handleSearch" 
                 v-model="searchQuery" 

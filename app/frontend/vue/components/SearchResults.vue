@@ -1,55 +1,59 @@
 <template>
   <div
 	v-if="visible"
-	class="bg-[#1a1a1a] rounded-xl shadow-2xl z-50 max-h-[400px] overflow-y-auto border border-white/10 backdrop-blur-lg"
+	class="bg-gray-900/90 backdrop-blur-2xl rounded-xl shadow-2xl z-50 max-h-[400px] overflow-y-auto border border-gray-700/50"
 	:class="containerClass"
   >
-	<div v-if="isLoading" class="p-4 text-center text-gray-400">
-	  <div class="flex item-center justify-center gap-2">
+  >
+	<!-- Loading State -->
+	<div v-if="isLoading" class="p-5 text-center">
+	  <div class="inline-flex items-center gap-3 text-gray-400">
 		<svg class="animate-spin w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 		  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
 		  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
 		</svg>
-	    <span class="-mt-[3px]">Searching...</span>
+		<span>Searching...</span>
 	  </div>
-	  
 	</div>
 	
+	<!-- Results List -->
 	<template v-else-if="results.length > 0">
-	  <div
-		v-for="movie in results"
-		:key="movie.id"
-		class="p-3 sm:p-4 hover:bg-white/5 cursor-pointer transition-all duration-200 border-b border-white/5 last:border-b-0"
-		@click="selectMovie(movie.slug)"
-	  >
+		<div
+	  	v-for="movie in results"
+	  	:key="movie.id"
+	  	class="p-3 sm:p-4 hover:bg-gray-950/95 bg-gray-900/50 cursor-pointer transition-all duration-150 border-b border-gray-800 last:border-b-0"
+	  	@click="selectMovie(movie.slug)"
+		>
 		<div class="flex items-start gap-3 sm:gap-4">
-		  <div class="w-10 h-14 sm:w-12 sm:h-16 rounded-md overflow-hidden flex-shrink-0">
+		  <!-- Movie Poster -->
+		  <div class="w-10 h-14 sm:w-12 sm:h-16 rounded-lg overflow-hidden flex-shrink-0 bg-gray-800/50">
 			<img
 			  :src="movie.cover_url"
-			  class="w-full h-full object-cover"
+			  class="w-full h-full object-cover hover:scale-105 transition-transform duration-200"
 			  v-if="movie.cover_url"
 			  :alt="movie.title"
 			>
 			<div
 			  v-else
-			  class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-600 text-xs sm:text-sm"
+			  class="w-full h-full flex items-center justify-center text-gray-500 text-xs sm:text-sm"
 			>
 			  No Image
 			</div>
 		  </div>
 	
+		  <!-- Movie Info -->
 		  <div class="flex-grow min-w-0">
-			<h3 class="text-white font-medium text-sm sm:text-base mb-1 truncate">{{ movie.title }}</h3>
+			<h3 class="text-white font-medium text-sm sm:text-base mb-1.5 truncate">{{ movie.title }}</h3>
 			<div class="flex flex-wrap items-center gap-2 sm:gap-3">
 			  <span class="text-xs sm:text-sm text-gray-400">{{ formatDate(movie.release_date) }}</span>
-			  <span v-if="movie.average_rating" class="flex items-center text-xs sm:text-sm text-yellow-400">
+			  <span v-if="movie.average_rating" class="flex items-center text-xs sm:text-sm text-amber-400">
 				<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 sm:h-4 sm:w-4 mr-0.5 sm:mr-1" viewBox="0 0 20 20" fill="currentColor">
 				  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
 				</svg>
 				{{ movie.average_rating.toFixed(1) }}
 			  </span>
 			</div>
-			<p v-if="movie.overview" class="text-gray-400 text-xs sm:text-sm mt-1 line-clamp-1">
+			<p v-if="movie.overview" class="text-gray-400 text-xs sm:text-sm mt-1.5 line-clamp-1">
 			  {{ movie.overview }}
 			</p>
 		  </div>
@@ -57,16 +61,17 @@
 	  </div>
 	</template>
 	
-	<div v-else-if="query && query.length >= 3" class="p-4 text-center text-gray-400">
+	<!-- No Results Message -->
+	<div v-else-if="query && query.length >= 3" class="p-5 text-center text-gray-400">
 	  No results found
 	</div>
 	
-	<div v-else class="p-4 text-center text-gray-400">
+	<!-- Initial State Message -->
+	<div v-else class="p-5 text-center text-gray-400">
 	  Please enter at least 3 characters to search
 	</div>
   </div>
 </template>
-
 <script setup>
 import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
@@ -157,7 +162,7 @@ const selectMovie = (slug) => {
 <style scoped>
 .overflow-y-auto {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
 }
 
 .overflow-y-auto::-webkit-scrollbar {
@@ -169,7 +174,8 @@ const selectMovie = (slug) => {
 }
 
 .overflow-y-auto::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.15);
   border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 </style>

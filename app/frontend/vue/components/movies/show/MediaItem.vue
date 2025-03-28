@@ -49,7 +49,6 @@ const getVideoThumbnail = (url) => {
     const id = getYoutubeId(url)
     return id ? `https://img.youtube.com/vi/${id}/mqdefault.jpg` : ''
   } else if (url.includes('vimeo')) {
-    // Vimeo thumbnails require an API call, so we'll use a placeholder
     return 'https://via.placeholder.com/300x169/1a1a1a/808080?text=Vimeo+Video'
   }
   return ''
@@ -89,6 +88,7 @@ const handleImageLoaded = () => {
 
 const handleImageError = () => {
   imageError.value = true
+  imageLoaded.value = true
 }
 </script>
 
@@ -102,7 +102,10 @@ const handleImageError = () => {
            mediaType === 'posters' ? 'poster' : 'backdrop'
          ]"
          @click="handleImageClick">
-      <div class="media-item-placeholder"></div>
+      <!-- Skeleton loader that stays until image is loaded -->
+      <div v-if="!imageLoaded" class="absolute inset-0 skeleton-loader rounded-md">
+        <div class="absolute inset-0 skeleton-shine"></div>
+      </div>
       <img :src="media" 
            class="media-item-image" 
            :class="{ 'loaded': imageLoaded }"
@@ -117,11 +120,13 @@ const handleImageError = () => {
            'media-item-wrapper',
            'backdrop'
          ]">
-      <!-- Video thumbnail with play button -->
       <div v-if="!isIframe" 
            class="video-thumbnail-container"
            @click="handleVideoClick">
-        <div class="media-item-placeholder"></div>
+        <!-- Skeleton loader for video thumbnails -->
+        <div v-if="!imageLoaded" class="absolute inset-0 skeleton-loader rounded-md">
+          <div class="absolute inset-0 skeleton-shine"></div>
+        </div>
         <img :src="getVideoThumbnail(media)" 
              class="media-item-image"
              :class="{ 'loaded': imageLoaded }"
@@ -195,15 +200,6 @@ const handleImageError = () => {
     width: 120px;
     height: 180px;
   }
-}
-
-.media-item-placeholder {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #e6e6ea;
 }
 
 .media-item-image {
@@ -309,5 +305,31 @@ const handleImageError = () => {
 
 .is-dragging {
   cursor: grabbing;
+}
+
+.skeleton-loader {
+  background-color: #1a1a1a;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.skeleton-shine {
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shine 1.5s infinite;
+  height: 100%;
+  width: 40%;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
 }
 </style>

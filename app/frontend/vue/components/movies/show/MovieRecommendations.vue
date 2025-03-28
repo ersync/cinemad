@@ -1,6 +1,5 @@
-
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMovieStore } from '@/vue/stores/movieStore'
 import ScrollableWrapper from '@/vue/components/movies/shared/ScrollableWrapper.vue'
@@ -12,7 +11,7 @@ import SectionHeading from "@/vue/components/movies/show/SectionHeading.vue"
 const route = useRoute()
 const movieStore = useMovieStore()
 const movieSlug = computed(() => route.params.slug)
-const { data: movieData, isLoading } = movieStore.movieComputed(movieSlug.value)
+const { data: movieData, isLoading: storeLoading } = movieStore.movieComputed(movieSlug.value)
 
 const containerRef = ref(null)
 const scrollableRef = ref(null)
@@ -20,9 +19,55 @@ const currentIndex = ref(0)
 const showLeftControl = ref(false)
 const showRightControl = ref(true)
 const isVisible = ref(false)
+const isLoading = ref(true)
+const imagesLoaded = ref(0)
+const totalImagesToLoad = ref(0)
 
 const recommendations = computed(() => movieData.value?.recommendations || [])
 const hasMultipleCards = computed(() => recommendations.value.length > 1)
+
+const handleImageLoaded = () => {
+  imagesLoaded.value++
+  if (imagesLoaded.value >= Math.min(totalImagesToLoad.value, 5)) {
+    isLoading.value = false
+  }
+}
+
+// Preload recommendation images
+const preloadRecommendationImages = () => {
+  if (recommendations.value.length > 0 && !storeLoading.value) {
+    const recsToPreload = recommendations.value.slice(0, 5)
+    totalImagesToLoad.value = recsToPreload.length
+    
+    // Reset counter
+    imagesLoaded.value = 0
+    isLoading.value = true
+    
+    // Preload images
+    recsToPreload.forEach(movie => {
+      const img = new Image()
+      img.onload = handleImageLoaded
+      img.onerror = handleImageLoaded
+      img.src = movie.background_url
+    })
+    
+    // Fallback in case some images never load
+    setTimeout(() => {
+      isLoading.value = false
+    }, 3000)
+  } else if (recommendations.value.length === 0 && !storeLoading.value) {
+    isLoading.value = false
+  }
+}
+
+// Watch for recommendations data changes
+watch(() => [recommendations.value, storeLoading.value], () => {
+  if (recommendations.value.length > 0 && !storeLoading.value) {
+    preloadRecommendationImages()
+  } else if (recommendations.value.length === 0 && !storeLoading.value) {
+    isLoading.value = false
+  }
+}, { immediate: true })
 
 const handleScroll = () => {
   if (!scrollableRef.value) return
@@ -87,6 +132,10 @@ if (typeof window !== 'undefined') {
 onMounted(() => {
   if (scrollableRef.value) {
     scrollableRef.value.addEventListener('scroll', handleScroll)
+  }
+  
+  if (recommendations.value.length > 0 && !storeLoading.value) {
+    preloadRecommendationImages()
   }
 })
 
@@ -172,6 +221,7 @@ onUnmounted(() => {
                     'transform': isVisible ? 'translateY(0)' : 'translateY(20px)'
                   }"
                   class="transition-all duration-500 ease-out"
+                  @image-loaded="handleImageLoaded"
               />
             </ul>
             <RecommendationsSkeleton v-else />
@@ -192,44 +242,3 @@ onUnmounted(() => {
     </div>
   </section>
 </template>
-
-<style scoped>
-button {
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.scrollable-container {
-  isolation: isolate;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-fade-in,
-  .transition-all {
-    animation: none !important;
-    transition: none !important;
-  }
-}
-</style>

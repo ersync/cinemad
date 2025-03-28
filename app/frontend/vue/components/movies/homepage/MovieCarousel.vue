@@ -10,7 +10,7 @@
     >
       <scrollable-wrapper>
         <div class="flex gap-5 mt-5">
-          <template v-if="isLoading">
+          <template v-if="isLoading || !allImagesLoaded">
             <movie-card-skeleton
                 v-for="index in skeletonCount" 
                 :key="`skeleton-${index}`"
@@ -21,6 +21,7 @@
                 v-for="movie in displayedMovies"
                 :key="movie.id"
                 :movie="movie"
+                @image-loaded="handleImageLoaded"
             />
           </template>
         </div>
@@ -30,7 +31,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import MovieCard from '@/vue/components/movies/homepage/MovieCard.vue'
 import MovieCardSkeleton from '@/vue/components/movies/homepage/MovieCardSkeleton.vue'
 import TabSelector from '@/vue/components/movies/shared/TabSelector.vue'
@@ -78,6 +79,9 @@ const selectedPeriod = ref(props.periods[0]?.toLowerCase().replace(' ', '_') || 
 const wrapperRef = ref(null)
 const resizeTimer = ref(null)
 const skeletonCount = ref(6)
+const imagesLoaded = ref(0)
+const totalImagesToLoad = ref(0)
+const allImagesLoaded = ref(false)
 
 const getCardWidth = () => {
   return window.innerWidth >= 640 ? 150 : 130 
@@ -101,7 +105,6 @@ const calculateSkeletonCount = () => {
   skeletonCount.value = Math.max(6, visibleCardsCount + extraScrollCards)
 }
 
-// Handle window resize events
 const handleResize = () => {
   if (resizeTimer.value) clearTimeout(resizeTimer.value)
   resizeTimer.value = setTimeout(() => {
@@ -143,6 +146,40 @@ const handleFading = (wrapper) => {
   }
 }
 
+const preloadMovieImages = () => {
+  if (displayedMovies.value.length > 0 && !props.isLoading) {
+    imagesLoaded.value = 0
+    allImagesLoaded.value = false
+    
+    const moviesToPreload = displayedMovies.value.slice(0, skeletonCount.value)
+    totalImagesToLoad.value = moviesToPreload.length
+    
+    moviesToPreload.forEach(movie => {
+      const img = new Image()
+      img.onload = handleImageLoaded
+      img.onerror = handleImageLoaded
+      img.src = movie.cover_url
+    })
+    
+    setTimeout(() => {
+      allImagesLoaded.value = true
+    }, 3000)
+  }
+}
+
+const handleImageLoaded = () => {
+  imagesLoaded.value++
+  if (imagesLoaded.value >= totalImagesToLoad.value) {
+    allImagesLoaded.value = true
+  }
+}
+
+watch(() => [props.movies, props.isLoading], () => {
+  if (props.movies.length > 0 && !props.isLoading) {
+    preloadMovieImages()
+  }
+}, { immediate: true })
+
 onMounted(() => {
   const wrapper = wrapperRef.value
   const scrollableElement = wrapper.querySelector('.scrollable-wrapper')
@@ -153,6 +190,10 @@ onMounted(() => {
   calculateSkeletonCount()
   
   window.addEventListener('resize', handleResize)
+  
+  if (displayedMovies.value.length > 0 && !props.isLoading) {
+    preloadMovieImages()
+  }
 })
 
 onBeforeUnmount(() => {
@@ -178,7 +219,7 @@ onBeforeUnmount(() => {
   position: absolute;
   top: 0;
   right: 0;
-  background-image: linear-gradient(to right, rgba(246, 248, 252, 0) 0, #f6f8fc 100%);  will-change: opacity;
+  background-image: linear-gradient(to right, rgba(246, 248, 252, 0) 0, #f6f8fc 100%);
   will-change: opacity;
   pointer-events: none;
 }

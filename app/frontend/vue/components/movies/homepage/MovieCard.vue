@@ -7,6 +7,8 @@
               :src="movie.cover_url"
               :alt="movie.title"
               class="w-full h-full object-cover"
+              @load="$emit('image-loaded')"
+              @error="$emit('image-loaded')"
           />
         </a>
       </div>
@@ -25,40 +27,33 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed } from 'vue'
 import AvgRateBadge from "@/vue/components/movies/shared/AvgRateBadge.vue"
 
-export default {
-  name: 'MovieCard',
-
-  components: {
-    AvgRateBadge,
-  },
-
-  props: {
-    movie: {
-      type: Object,
-      required: true,
-      validator: function(value) {
-        return value.id && value.title && value.cover_url
-      }
-    }
-  },
-
-  computed: {
-    moviePath() {
-      return `/movies/${this.movie.slug}`
-    },
-
-    formattedDate() {
-      if (!this.movie.release_date) return ''
-      const date = new Date(this.movie.release_date)
-      return date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric'
-      })
+const props = defineProps({
+  movie: {
+    type: Object,
+    required: true,
+    validator: function(value) {
+      return value.id && value.title && value.cover_url
     }
   }
-}
+})
+
+defineEmits(['image-loaded'])
+
+const moviePath = computed(() => {
+  return `/movies/${props.movie.slug}`
+})
+
+const formattedDate = computed(() => {
+  if (!props.movie.release_date) return ''
+  const date = new Date(props.movie.release_date)
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  })
+})
 </script>
