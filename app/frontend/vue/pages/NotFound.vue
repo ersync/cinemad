@@ -1,9 +1,5 @@
 <template>
   <div class="cinematic-404 ">
-	<div class="film-reel-container">
-	  <div class="film-reel left"></div>
-	  <div class="film-reel right"></div>
-	</div>
 	
 	<div class="spotlight-container">
 	  <div class="spotlight spotlight-left"></div>
@@ -34,7 +30,7 @@
 		</div>
 	  </div>
 	  
-	  <p class="error-message">The scene you're looking for is missing from our production.</p>
+	  <p class="error-message text-[20px] sm:text-[24px]">CUT! The page you're looking for isn't in our final edit.<br/>We are sorry, you can: </p>
 	  
 	  <div class="action-buttons">
 		<button class="neon-button" @click="goHome">
@@ -126,71 +122,6 @@ export default {
   padding: 20px;
 }
 
-/* Film reel animation */
-.film-reel-container {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 0;
-}
-
-.film-reel {
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  border: 15px solid rgba(0, 0, 0, 0.5);
-  background-color: #0a192f;
-  box-shadow: 
-	inset 0 0 15px rgba(0, 196, 196, 0.6),
-	0 0 25px rgba(0, 196, 196, 0.4);
-  animation: rotate 15s linear infinite;
-}
-
-.film-reel::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #0a192f;
-  box-shadow: 0 0 10px rgba(0, 196, 196, 0.6);
-}
-
-.film-reel::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: radial-gradient(circle, transparent 35%, rgba(0, 0, 0, 0.7) 40%, transparent 45%);
-  background-size: 20% 20%;
-  animation: rotate 7s linear infinite reverse;
-}
-
-.film-reel.left {
-  top: -60px;
-  left: -60px;
-}
-
-.film-reel.right {
-  bottom: -60px;
-  right: -60px;
-}
-
-@keyframes rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Spotlight effect */
 .spotlight-container {
   position: absolute;
   top: 0;
@@ -224,7 +155,6 @@ export default {
   height: 300px;
 }
 
-/* Content container */
 .content-container {
   position: relative;
   z-index: 2;
@@ -233,6 +163,7 @@ export default {
   align-items: center;
   text-align: center;
   max-width: 800px;
+  min-width: 400px;
   padding: 40px;
   background: rgba(10, 25, 47, 0.8);
   border-radius: 20px;
@@ -241,7 +172,6 @@ export default {
   border: 1px solid rgba(0, 196, 196, 0.2);
 }
 
-/* Glitch 404 heading */
 .glitch-heading {
   font-size: 12rem;
   font-weight: 900;
@@ -299,7 +229,6 @@ export default {
   100% { transform: translate(0); }
 }
 
-/* Director slate */
 .director-slate {
   width: 300px;
   margin: 20px 0 30px;
@@ -348,9 +277,7 @@ export default {
   border-bottom: none;
 }
 
-/* Error message */
 .error-message {
-  font-size: 1.5rem;
   margin: 20px 0 30px;
   color: #ffffff;
   opacity: 0.8;
@@ -358,7 +285,6 @@ export default {
   max-width: 600px;
 }
 
-/* Action buttons */
 .action-buttons {
   display: flex;
   gap: 20px;
@@ -416,7 +342,6 @@ export default {
 }
 
 
-/* Projector beam */
 .projector-beam {
   position: absolute;
   top: 0;

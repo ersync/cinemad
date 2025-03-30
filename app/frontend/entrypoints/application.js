@@ -4,6 +4,9 @@ import { useAuthStore } from '@/vue/stores/authStore'
 import App from '@/vue/App.vue'
 import router from "@/vue/router"
 
+import '@/scripts/header.js'
+import '@/scripts/theme_toggle.js'
+
 document.addEventListener('DOMContentLoaded', () => {
   const app = createApp(App)
   const pinia = createPinia()
@@ -11,8 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   app.use(router)
   app.mount('#app')
   
-  // This lets my Rails views trigger a logout in Vue
-  // Rails dispatches 'app:logout' event -> Vue catches it here -> authStore handles the actual logout
   window.addEventListener('app:logout', () => {
     const authStore = useAuthStore()
     authStore.logout()
