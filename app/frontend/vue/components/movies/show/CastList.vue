@@ -80,6 +80,7 @@ onUnmounted(() => {
   top: 0;
   right: 0;
   background-image: linear-gradient(to right, rgba(246, 248, 252, 0) 0, #f6f8fc 100%);
+  @apply dark:bg-gradient-to-r dark:from-transparent dark:to-gray-900;
   will-change: opacity;
   pointer-events: none;
   transition: opacity linear 0.3s;
@@ -91,5 +92,21 @@ onUnmounted(() => {
 
 .fade_invisible::after {
   opacity: 0;
+}
+
+.scrollbar::-webkit-scrollbar {
+  @apply h-1.5;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-500;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div v-if="Object.keys(errors).length > 0"
-       class="text-sm bg-red-50 border border-red-200 rounded-lg p-3 sm:p-4 text-red-600">
+       class="text-sm bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30 rounded-lg p-3 sm:p-4 text-red-600 dark:text-red-400">
     <ul class="list-disc list-inside">
       <li v-for="(error, key) in formattedErrors" :key="key">
         {{ error }}

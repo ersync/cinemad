@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[202px] shadow-medium gap-3.5 border border-tmdbLightGray rounded-lg overflow-hidden flex justify-start items-start mb-5">
+  <div class="h-[202px] shadow-medium gap-3.5 border border-tmdbLightGray dark:border-gray-700 rounded-lg overflow-hidden flex justify-start items-start mb-5 bg-white dark:bg-gray-800">
     <div class="w-[133px] h-full shrink-0">
       <RouterLink :to="{ name: 'movie-show', params: { slug: movie.slug }}">
         <img :src="movie.cover_url" :alt="movie.title">
@@ -14,12 +14,12 @@
             :shouldAnimate="false"
         />
         <div>
-          <h3 class="font-SourceProBold text-[1.2rem] hover:text-tmdbLighterBlue transition-colors leading-5 md:leading-6 line-clamp-1">
+          <h3 class="font-SourceProBold text-[1.2rem] hover:text-tmdbLighterBlue dark:text-gray-100 dark:hover:text-blue-400 transition-colors leading-5 md:leading-6 line-clamp-1">
             <RouterLink :to="{ name: 'movie-show', params: { slug: movie.slug }}">
               {{ movie.title }}
             </RouterLink>
           </h3>
-          <span class="text-black/35 text-[0.9rem] md:text-base line-clamp-1">
+          <span class="text-black/35 dark:text-gray-400 text-[0.9rem] md:text-base line-clamp-1">
             {{ formatDate(movie.release_date) }}
           </span>
         </div>
@@ -27,7 +27,7 @@
 
       <!-- Movie Overview -->
       <div class="mt-3 md:mt-4 leading-5">
-        <p class="text-[0.8em] sm:text-base leading-5 line-clamp-3 md:line-clamp-3">
+        <p class="text-[0.8em] sm:text-base leading-5 line-clamp-3 md:line-clamp-3 dark:text-gray-300">
           {{ movie.overview }}
         </p>
       </div>
@@ -51,8 +51,8 @@
                          transition-all duration-300 transform hover:scale-110"
                     :class="[
                       isFavorite
-                        ? 'bg-gradient-to-br from-rose-500 to-pink-600 text-white shadow-lg shadow-rose-500/30'
-                        : 'bg-gradient-to-br from-rose-50 to-rose-100/80 text-rose-400'
+                        ? 'bg-gradient-to-br from-rose-500 to-pink-600 text-white shadow-lg shadow-rose-500/30 dark:shadow-rose-500/20'
+                        : 'bg-gradient-to-br from-rose-50 to-rose-100/80 dark:from-rose-900/30 dark:to-rose-800/30 text-rose-400 dark:text-rose-300'
                     ]">
                 <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" viewBox="0 0 24 24" fill="currentColor">
                   <path v-if="isFavorite"
@@ -62,7 +62,7 @@
                 </svg>
               </span>
               <span class="hidden md:inline text-sm font-medium transition-colors duration-200"
-                    :class="isFavorite ? 'text-rose-500' : 'text-gray-500'">
+                    :class="isFavorite ? 'text-rose-500 dark:text-rose-400' : 'text-gray-500 dark:text-gray-400'">
                 {{ isFavorite ? 'Favorited' : 'Favorite' }}
               </span>
             </button>
@@ -74,8 +74,8 @@
                          transition-all duration-300 transform hover:scale-110"
                     :class="[
                       inWatchlist
-                        ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg shadow-purple-500/30'
-                        : 'bg-gradient-to-br from-indigo-50 to-indigo-100/80 text-indigo-400'
+                        ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg shadow-purple-500/30 dark:shadow-purple-500/20'
+                        : 'bg-gradient-to-br from-indigo-50 to-indigo-100/80 dark:from-indigo-900/30 dark:to-indigo-800/30 text-indigo-400 dark:text-indigo-300'
                     ]">
                 <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" viewBox="0 0 24 24" fill="currentColor">
                   <path v-if="inWatchlist"
@@ -85,7 +85,7 @@
                 </svg>
               </span>
               <span class="hidden md:inline text-sm font-medium transition-colors duration-200"
-                    :class="inWatchlist ? 'text-indigo-500' : 'text-gray-500'">
+                    :class="inWatchlist ? 'text-indigo-500 dark:text-indigo-400' : 'text-gray-500 dark:text-gray-400'">
                 {{ inWatchlist ? 'In Watchlist' : 'Watchlist' }}
               </span>
             </button>

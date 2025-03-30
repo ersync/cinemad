@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <label class="block text-xs sm:text-sm font-medium text-[#032541] mb-2">
+    <label class="block text-xs sm:text-sm font-medium text-[#032541] dark:text-gray-300 mb-2">
       {{ label }}
     </label>
     <div class="relative">
@@ -10,15 +10,16 @@
           :type="type === 'password' ? (showPassword ? 'text' : 'password') : type"
           :required="required"
           :placeholder="placeholder"
-          class="w-full px-3 py-2 sm:px-3 sm:py-2 rounded-xl border border-[#032541]/20 bg-white text-[#202035] text-sm sm:text-base
-               placeholder-[#032541]/40 focus:border-[#032541]/40 focus:outline-none
+          class="w-full px-3 py-2 sm:px-3 sm:py-2 rounded-xl border border-[#032541]/20 dark:border-gray-600 
+               bg-white dark:bg-gray-700 text-[#202035] dark:text-gray-200 text-sm sm:text-base
+               placeholder-[#032541]/40 dark:placeholder-gray-400 focus:border-[#032541]/40 dark:focus:border-gray-500 focus:outline-none
                transition-all duration-200"
       />
       <button
           v-if="type === 'password'"
           @click.prevent="togglePassword"
           type="button"
-          class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#032541]/40 "
+          class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#032541]/40 dark:text-gray-400"
       >
         <svg v-if="showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
@@ -88,18 +89,18 @@ const strengthText = computed(() => {
 
 const strengthTextClass = computed(() => {
   const classes = {
-    0: 'text-pink-600',
-    1: 'text-pink-400',
-    2: 'text-yellow-600',
+    0: 'text-pink-600 dark:text-pink-500',
+    1: 'text-pink-400 dark:text-pink-400',
+    2: 'text-yellow-600 dark:text-yellow-500',
     3: 'text-green-500',
-    4: 'text-green-700'
+    4: 'text-green-700 dark:text-green-500'
   }
   return classes[passwordStrength.value]
 })
 
 function getStrengthBarClass(level) {
   const strength = passwordStrength.value
-  const baseClass = 'bg-gray-200'
+  const baseClass = 'bg-gray-200 dark:bg-gray-600'
   const activeClasses = {
     1: 'bg-red-500',
     2: 'bg-yellow-500',

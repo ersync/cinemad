@@ -183,4 +183,31 @@ const changePage = (page) => {
     min-width: 34px;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .pagination-btn, .page-number {
+    color: #d1d1d1;
+  }
+  
+  .pagination-btn:hover:not(:disabled), .page-number:hover:not(.active) {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .page-number.active {
+    background: rgba(66, 153, 225, 0.2);
+    color: #63b3ed;
+    border: 1px solid rgba(116, 153, 225, 0.3);
+  }
+  
+  .ellipsis {
+    color: #888888;
+  }
+  
+  @media (hover: hover) {
+    .page-number.active:hover {
+      background: rgba(66, 153, 225, 0.3);
+    }
+  }
+}
 </style>

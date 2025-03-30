@@ -15,7 +15,7 @@
                     class="peer sr-only"
                 />
                 <span
-                    class="filter-tag peer-checked:bg-indigo-600 peer-checked:border-indigo-600 peer-checked:text-white"
+                    class="filter-tag peer-checked:bg-indigo-600 dark:peer-checked:bg-indigo-500 peer-checked:border-indigo-600 dark:peer-checked:border-indigo-500 peer-checked:text-white"
                 >
                     <span class="flex items-center">
                         <svg

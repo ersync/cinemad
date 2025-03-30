@@ -18,7 +18,7 @@
 
 </head>
 
-<body class="flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen dark">
 <meta name="csrf-token" content="<%= form_authenticity_token %>">
 <%= render 'shared/svg_sprites' %>
 <%= render partial: "shared/header/header" %>
@@ -26,5 +26,6 @@
 <div class="w-full h-14 sm:h-16 bg-[#034275]"></div>
 <div id="app" class="min-h-screen"></div>
 <%= render partial: "shared/footer" %>
+<div id="mobile-menu-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" style="z-index: 45;"></div>
 </body>
 </html>

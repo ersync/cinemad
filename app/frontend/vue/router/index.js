@@ -49,6 +49,14 @@ const router = createRouter({
     }
   },
   {
+    path: '/auth/callback',
+    name: 'authCallback',
+    component: () => import('@/vue/components/auth/AuthCallbackPage.vue'),
+    meta: {
+      title: 'Completing Sign In - Cinemad'
+    }
+  },
+  {
     path: '/users/:username',
     component: () => import('@/vue/components/user/UserLayout.vue'),
     meta: { requiresAuth: true, keepAlive: true },
@@ -113,6 +121,14 @@ router.beforeEach(async (to, from, next) => {
 
   loadingStore.startLoading()
 
+  const urlParams = new URLSearchParams(window.location.search)
+  const authSuccess = urlParams.get('auth_success')
+  
+  if (authSuccess === 'true') {
+    next()
+    return
+  }
+  
   if (!authStore.checkedAuth) {
   try {
     await authStore.checkAuth()

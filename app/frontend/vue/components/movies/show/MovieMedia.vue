@@ -81,14 +81,13 @@ const loadMedia = (mediaType) => {
   activeTab.value = mediaType;
   
   isLoading.value = true;
-  // Don't clear mediaUrls immediately - this is key to the fix
   
   const mediaFromStore = getMediaArray(mediaType);
   console.log(`Media from store for ${mediaType}:`, mediaFromStore);
   
   if (mediaFromStore && mediaFromStore.length > 0) {
     let loadedImages = 0;
-    const totalImages = Math.min(mediaFromStore.length, 3); // Only wait for first few images
+    const totalImages = Math.min(mediaFromStore.length, 3)
     
     if (mediaType === 'videos') {
       mediaUrls.value = mediaFromStore;
@@ -100,7 +99,6 @@ const loadMedia = (mediaType) => {
       return;
     }
     
-    // Set the media URLs first
     mediaUrls.value = mediaFromStore;
     
     const handleImageLoad = () => {
@@ -121,7 +119,6 @@ const loadMedia = (mediaType) => {
       img.src = url;
     });
     
-    // Safety timeout (still needed but increased)
     setTimeout(() => {
       isLoading.value = false;
     }, 3000);
@@ -292,7 +289,7 @@ onUnmounted(() => {
 
     <div class="relative group">
       <div class="overflow-hidden relative" ref="viewport">
-        <div v-if="isLoading" class="absolute inset-0 flex justify-center items-center z-10 bg-white/5 backdrop-blur-[2px]">
+        <div v-if="isLoading" class="absolute inset-0 flex justify-center items-center z-10 bg-white/5 dark:bg-gray-900/5 backdrop-blur-[2px]">
           <div class="spinner">
             <div class="double-bounce1"></div>
             <div class="double-bounce2"></div>
@@ -319,11 +316,11 @@ onUnmounted(() => {
           <template v-if="isLoading && mediaUrls.length === 0">
             <div v-for="i in 6" :key="`skeleton-${i}`" 
                  :class="[
-                   'flex-none overflow-hidden relative skeleton-loader rounded-md',
+                   'flex-none overflow-hidden relative rounded-md',
                    activeTab === 'posters' ? 'h-[253px] w-[169px]' : 'h-[169px] w-[300px]'
                  ]">
-              <div class="absolute inset-0 bg-gray-100"></div>
-              <div class="absolute inset-0 skeleton-shine"></div>
+              <div class="absolute inset-0 bg-gray-200 dark:bg-gray-700/80"></div>
+              <div class="absolute inset-0"></div>
             </div>
           </template>
         </div>
@@ -332,9 +329,10 @@ onUnmounted(() => {
       <button v-if="canScrollLeft"
               @click="scroll('left')"
               class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4
-                     bg-white/90 hover:bg-white p-2 rounded-full shadow-lg
+                     bg-white/90 dark:bg-gray-800/90 hover:bg-white dark:hover:bg-gray-800 p-2 rounded-full 
+                     shadow-lg dark:shadow-gray-900/30
                      transition-all duration-200 z-10 opacity-0 group-hover:opacity-100
-                     group-hover:translate-x-2">
+                     group-hover:translate-x-2 text-gray-800 dark:text-gray-200">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
         </svg>
@@ -343,9 +341,10 @@ onUnmounted(() => {
       <button v-if="canScrollRight"
               @click="scroll('right')"
               class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4
-                     bg-white/90 hover:bg-white p-2 rounded-full shadow-lg
+                     bg-white/90 dark:bg-gray-800/90 hover:bg-white dark:hover:bg-gray-800 p-2 rounded-full 
+                     shadow-lg dark:shadow-gray-900/30
                      transition-all duration-200 z-10 opacity-0 group-hover:opacity-100
-                     group-hover:-translate-x-2">
+                     group-hover:-translate-x-2 text-gray-800 dark:text-gray-200">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
         </svg>
@@ -392,7 +391,7 @@ onUnmounted(() => {
 
 .overflow-hidden::-webkit-scrollbar-thumb,
 .overflow-x-auto::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 rounded-full hover:bg-gray-400 transition-colors;
+  @apply bg-gray-300 dark:bg-gray-600 rounded-full hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors;
 }
 
 .fade-enter-active,
@@ -405,32 +404,6 @@ onUnmounted(() => {
   opacity: 0;
 }
 
-.skeleton-loader {
-  background-color: #1a1a1a;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-}
-
-.skeleton-shine {
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  animation: shine 1.5s infinite;
-  height: 100%;
-  width: 40%;
-}
-
-@keyframes shine {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(250%);
-  }
-}
-
 .spinner {
   width: 40px;
   height: 40px;
@@ -441,7 +414,7 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: rgba(59, 130, 246, 0.6);
+  @apply bg-indigo-500/60 dark:bg-indigo-400/60;
   opacity: 0.6;
   position: absolute;
   top: 0;

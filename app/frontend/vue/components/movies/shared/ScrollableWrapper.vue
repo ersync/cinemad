@@ -1,11 +1,3 @@
-<template>
-  <div class="scrollable-wrapper" ref="wrapperRef">
-    <div class="scrollable-content">
-      <slot></slot>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { ref, onMounted } from 'vue'
 import ScrollBooster from 'scrollbooster'
@@ -52,6 +44,15 @@ onMounted(() => {
   wrapper.addEventListener('scroll', () => handleFading(wrapper))
 })
 </script>
+
+<template>
+  <div class="scrollable-wrapper" ref="wrapperRef">
+    <div class="scrollable-content">
+      <slot></slot>
+    </div>
+  </div>
+</template>
+
 <style scoped>
 .scrollable-wrapper {
   @apply relative overflow-x-auto pb-4;
@@ -62,10 +63,8 @@ onMounted(() => {
   height: 6px;
 }
 
-
-
 .scrollable-wrapper::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 rounded-full hover:bg-gray-400 transition-colors;
+  @apply bg-gray-300 dark:bg-gray-600 rounded-full hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors;
 }
 
 .scrollable-content {

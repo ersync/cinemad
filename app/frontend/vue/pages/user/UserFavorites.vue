@@ -12,10 +12,10 @@
     <div v-if="isLoading" class="mt-4">
       <MovieListCardSkeleton v-for="n in 3" :key="n" />
     </div>
-    <div v-else-if="error" class="mt-4 text-red-600">
+    <div v-else-if="error" class="mt-4 text-red-600 dark:text-red-400">
       <p>{{ error }}</p>
     </div>
-    <div v-else-if="!favorites.length" class="mt-4">
+    <div v-else-if="!favorites.length" class="mt-4 text-gray-700 dark:text-gray-300">
       <p>You haven't added any movies to your favorites.</p>
     </div>
     <div v-else>

@@ -1,6 +1,6 @@
 <template>
   <span v-if="!imageUrl"
-        class="flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-lg font-semibold text-white shadow-lg ring-2 ring-white/30 hover:ring-white/20 transition-all duration-200">
+        class="flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 dark:from-indigo-600 dark:to-purple-800 text-lg font-semibold text-white shadow-lg ring-2 ring-white/30 dark:ring-indigo-500/30 hover:ring-white/20 dark:hover:ring-indigo-400/20 transition-all duration-200">
     {{ username[0].toUpperCase() }}
   </span>
   <img v-else

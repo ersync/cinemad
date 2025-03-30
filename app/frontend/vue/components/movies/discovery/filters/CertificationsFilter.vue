@@ -14,7 +14,7 @@
           class="peer sr-only"
         >
         <span 
-          class="filter-tag peer-checked:bg-indigo-600 peer-checked:border-indigo-600 peer-checked:text-white"
+          class="filter-tag peer-checked:bg-indigo-600 dark:peer-checked:bg-indigo-500 peer-checked:border-indigo-600 dark:peer-checked:border-indigo-500 peer-checked:text-white"
           :class="getCertClass(cert)"
         >
           {{ cert }}
@@ -36,11 +36,11 @@ const certificationOptions = ['G', 'PG', 'PG-13', 'R', 'NC-17']
 
 const getCertClass = (cert) => {
   switch(cert) {
-    case 'G': return 'border-green-300'
-    case 'PG': return 'border-yellow-300'
-    case 'PG-13': return 'border-orange-300'
-    case 'R': return 'border-red-300'
-    case 'NC-17': return 'border-red-500'
+    case 'G': return 'border-green-300 dark:border-green-700'
+    case 'PG': return 'border-yellow-300 dark:border-yellow-700'
+    case 'PG-13': return 'border-orange-300 dark:border-orange-700'
+    case 'R': return 'border-red-300 dark:border-red-700'
+    case 'NC-17': return 'border-red-500 dark:border-red-800'
     default: return ''
   }
 }

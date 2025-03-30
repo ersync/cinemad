@@ -94,21 +94,20 @@ const handleImageError = () => {
 
 
 <template>
-  <div class="media-item-container" :class="{ 'is-dragging': isDragging }">
-    <!-- For images (backdrops/posters) -->
+  <div class="flex-none relative mr-1" :class="{ 'cursor-grabbing': isDragging, 'cursor-grab': !isDragging }">
     <div v-if="!isVideo(media)" 
          :class="[
-           'media-item-wrapper',
-           mediaType === 'posters' ? 'poster' : 'backdrop'
+           'relative overflow-hidden rounded-lg shadow-md dark:shadow-gray-900/30',
+           'bg-gray-100 dark:bg-gray-800',
+           mediaType === 'posters' ? 'w-[120px] h-[180px] sm:w-[180px] sm:h-[270px]' : 'w-[300px] h-[169px] sm:w-[480px] sm:h-[270px]'
          ]"
          @click="handleImageClick">
-      <!-- Skeleton loader that stays until image is loaded -->
-      <div v-if="!imageLoaded" class="absolute inset-0 skeleton-loader rounded-md">
-        <div class="absolute inset-0 skeleton-shine"></div>
+      <div v-if="!imageLoaded" class="absolute inset-0 bg-gray-200 dark:bg-gray-700/80 rounded-md">
+        <div class="absolute inset-0"></div>
       </div>
       <img :src="media" 
-           class="media-item-image" 
-           :class="{ 'loaded': imageLoaded }"
+           class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
+           :class="{ 'opacity-100': imageLoaded, 'opacity-0': !imageLoaded }"
            loading="lazy"
            @load="handleImageLoaded"
            @error="handleImageError" />
@@ -117,25 +116,26 @@ const handleImageError = () => {
     <!-- For videos -->
     <div v-else 
          :class="[
-           'media-item-wrapper',
-           'backdrop'
+           'relative overflow-hidden rounded-lg shadow-md dark:shadow-gray-900/30',
+           'bg-gray-100 dark:bg-gray-800',
+           'w-[300px] h-[169px] sm:w-[480px] sm:h-[270px]'
          ]">
       <div v-if="!isIframe" 
-           class="video-thumbnail-container"
+           class="relative w-full h-full cursor-pointer"
            @click="handleVideoClick">
         <!-- Skeleton loader for video thumbnails -->
-        <div v-if="!imageLoaded" class="absolute inset-0 skeleton-loader rounded-md">
-          <div class="absolute inset-0 skeleton-shine"></div>
+        <div v-if="!imageLoaded" class="absolute inset-0 bg-gray-200 dark:bg-gray-700/80 rounded-md">
+          <div class="absolute inset-0"></div>
         </div>
         <img :src="getVideoThumbnail(media)" 
-             class="media-item-image"
-             :class="{ 'loaded': imageLoaded }"
+             class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
+             :class="{ 'opacity-100': imageLoaded, 'opacity-0': !imageLoaded }"
              loading="lazy"
              @load="handleImageLoaded"
              @error="handleImageError" />
-        <div class="play-button-overlay">
-          <div class="play-button">
-            <svg class="play-icon" fill="currentColor" viewBox="0 0 24 24">
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-black/50 flex items-center justify-center">
+            <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z" />
             </svg>
           </div>
@@ -143,18 +143,18 @@ const handleImageError = () => {
       </div>
       
       <!-- Video iframe -->
-      <div v-else class="iframe-container">
+      <div v-else class="relative w-full h-full">
         <iframe 
           :src="getVideoEmbedUrl(media)" 
-          class="video-iframe" 
+          class="absolute w-full h-full top-0 left-0"
           frameborder="0" 
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
           allowfullscreen>
         </iframe>
         <button 
           @click="handleCloseIframe" 
-          class="close-button">
-          <svg class="close-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          class="absolute top-2 right-2 bg-black/70 hover:bg-black text-white p-1 rounded-full z-10">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
@@ -162,174 +162,3 @@ const handleImageError = () => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.media-item-container {
-  flex: 0 0 auto;
-  position: relative;
-  margin-right: 4px;
-}
-
-.media-item-wrapper {
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-  background-color: #1a1a1a;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.backdrop {
-  width: 300px;
-  height: 169px;
-}
-
-@media (min-width: 640px) {
-  .backdrop {
-    width: 480px;
-    height: 270px;
-  }
-}
-
-.poster {
-  width: 180px;
-  height: 270px;
-}
-
-@media (max-width: 639px) {
-  .poster {
-    width: 120px;
-    height: 180px;
-  }
-}
-
-.media-item-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.media-item-image.loaded {
-  opacity: 1;
-}
-
-.video-thumbnail-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-}
-
-.play-button-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.play-button {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 9999px;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@media (min-width: 640px) {
-  .play-button {
-    width: 4rem;
-    height: 4rem;
-  }
-}
-
-.play-icon {
-  width: 1.5rem;
-  height: 1.5rem;
-  color: white;
-}
-
-@media (min-width: 640px) {
-  .play-icon {
-    width: 2rem;
-    height: 2rem;
-  }
-}
-
-.iframe-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.video-iframe {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-}
-
-.close-button {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 0.25rem;
-  border-radius: 9999px;
-  z-index: 10;
-}
-
-.close-button:hover {
-  background-color: black;
-}
-
-.close-icon {
-  width: 1rem;
-  height: 1rem;
-}
-
-@media (min-width: 640px) {
-  .close-icon {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-}
-
-.is-dragging {
-  cursor: grabbing;
-}
-
-.skeleton-loader {
-  background-color: #1a1a1a;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-}
-
-.skeleton-shine {
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  animation: shine 1.5s infinite;
-  height: 100%;
-  width: 40%;
-}
-
-@keyframes shine {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(250%);
-  }
-}
-</style>

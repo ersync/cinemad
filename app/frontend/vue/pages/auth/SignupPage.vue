@@ -83,8 +83,8 @@ async function handleSubmit() {
     
     <form @submit.prevent="handleSubmit" class="mt-4 space-y-5 sm:mt-3 sm:space-y-5 animate-fade-in">
       <div class="text-center">
-        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Create Account</h2>
-        <p class="mt-2 text-xs sm:text-sm text-gray-600">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">Create Account</h2>
+        <p class="mt-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
           Join our community of movie enthusiasts
         </p>
       </div>
@@ -121,7 +121,7 @@ async function handleSubmit() {
           <button
               @click.prevent="formData.showPassword = !formData.showPassword"
               type="button"
-              class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
           >
             <i class="fas" :class="formData.showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
           </button>
@@ -137,7 +137,6 @@ async function handleSubmit() {
           class="transform transition-all duration-200"
       />
 
-      <!-- Terms acceptance -->
       <div class="flex items-start">
         <div class="flex items-center h-5">
           <input
@@ -145,15 +144,15 @@ async function handleSubmit() {
               id="terms"
               type="checkbox"
               required
-              class="w-4 h-4 rounded border-gray-300 text-[#032541] focus:ring-[#032541] transition-colors duration-200"
+              class="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-[#032541] dark:text-indigo-500 focus:ring-[#032541] dark:focus:ring-indigo-500 transition-colors duration-200"
           />
         </div>
         <div class="ml-3 text-xs sm:text-sm mt-0.5">
-          <label for="terms" class="text-gray-600">
+          <label for="terms" class="text-gray-600 dark:text-gray-400">
             I agree to the
-            <a href="/terms" class="text-[#032541] hover:text-[#202035] hover:underline">Terms of Service</a>
+            <a href="/terms" class="text-[#032541] dark:text-indigo-400 hover:text-[#202035] dark:hover:text-indigo-300 hover:underline">Terms of Service</a>
             and
-            <a href="/privacy" class="text-[#032541] hover:text-[#202035] hover:underline">Privacy Policy</a>
+            <a href="/privacy" class="text-[#032541] dark:text-indigo-400 hover:text-[#202035] dark:hover:text-indigo-300 hover:underline">Privacy Policy</a>
           </label>
         </div>
       </div>
@@ -168,16 +167,16 @@ async function handleSubmit() {
           icon="fa-user-plus"
           text="Create Account"
           loading-text="Creating account..."
-          class="w-full py-3 px-4 bg-gradient-to-r from-[#032541] to-[#202035] text-white rounded-lg hover:from-[#032541]/90 hover:to-[#202035]/90 transform transition-all duration-200 hover:shadow-lg"
+          class="w-full py-3 px-4 bg-gradient-to-r from-[#032541] to-[#202035] dark:from-indigo-800 dark:to-purple-900 text-white rounded-lg hover:from-[#032541]/90 hover:to-[#202035]/90 dark:hover:from-indigo-700 dark:hover:to-purple-800 transform transition-all duration-200 hover:shadow-lg"
       />
 
       <SocialLogin class="space-y-3" />
 
-      <p class="text-sm sm:text-base text-center text-gray-600">
+      <p class="text-sm sm:text-base text-center text-gray-600 dark:text-gray-400">
         Already have an account?
         <router-link
             to="/login"
-            class="font-medium text-[#032541] hover:text-[#202035] transition-all duration-200 hover:underline"
+            class="font-medium text-[#032541] dark:text-indigo-400 hover:text-[#202035] dark:hover:text-indigo-300 transition-all duration-200 hover:underline"
         >
           Sign in
         </router-link>

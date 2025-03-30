@@ -77,11 +77,15 @@ defineEmits(['showFullCast'])
         <div v-if="isLoading" class="font-SourceProNormal scrollbar overflow-x-auto">
           <ul class="flex gap-3.5 mb-2.5 h-[268px]">
             <li v-for="n in 10" :key="n" class="animate-pulse">
-              <div class="w-[100px] sm:w-[140px] overflow-hidden rounded-lg border border-gray-200 mb-2.5 pb-2.5 shadow-sm">
-                <div class="h-[147px] sm:h-[207px] bg-gray-200 rounded-t-lg"></div>
+              <div class="w-[100px] sm:w-[140px] overflow-hidden rounded-lg 
+                          border border-gray-200/90 dark:border-gray-700/80
+                          mb-2.5 pb-2.5 
+                          shadow-[2px_8px_20px_rgb(0,0,0,0.02)] dark:shadow-[2px_8px_20px_rgb(0,0,0,0.1)]
+                          bg-white/80 dark:bg-gray-800/90 backdrop-blur-sm">
+                <div class="h-[147px] sm:h-[207px] bg-gray-200 dark:bg-gray-700 rounded-t-lg"></div>
                 <div class="mt-3 mx-2.5 space-y-2">
-                  <div class="h-4 bg-gray-200 rounded w-3/4"></div>
-                  <div class="h-3 bg-gray-200 rounded w-1/2"></div>
+                  <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                  <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
                 </div>
               </div>
             </li>

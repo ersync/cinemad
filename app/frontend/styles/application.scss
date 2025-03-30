@@ -60,54 +60,52 @@
 
 
 
-$primary-dark: #1a1d29;
-$primary-light: #f6f8fc;
-$accent-color: #ff6b6b;
-$secondary-accent: #5d7ae2;
-
-body {
-  margin: 0;
-  padding: 0;
-  background-color: $primary-light;
-  color: #333;
-  position: relative;
-  overflow-x: hidden;
-
-  &::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    background-image: radial-gradient(#5d7ae2 1px, transparent 1px);
-    background-size: 50px 50px;
-    opacity: 0.03;
-    z-index: -1;
-  }
-
-  &::after {
-    content: '';
-    position: fixed;
-    top: -10%;
-    right: -10%;
-    width: 60%;
-    height: 60%;
-    background: linear-gradient(135deg, rgba($secondary-accent, 0.07), rgba($secondary-accent, 0.01));
-    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-    z-index: -2;
-    animation: subtle-float 20s infinite alternate ease-in-out;
-  }
-}
-
-
-@keyframes subtle-float {
-  0% {
-    transform: rotate(-3deg) translate(0, 0);
-  }
-  100% {
-    transform: rotate(3deg) translate(10px, 10px);
-  }
-}
-
+ body {
+   margin: 0;
+   padding: 0;
+   background-color: #f6f8fc;
+   color: #333;
+   position: relative;
+   overflow-x: hidden;
+ 
+   &::before {
+     content: '';
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     pointer-events: none;
+     background-image: radial-gradient(rgba(93, 122, 226, 0.3) 1px, transparent 1px);
+     background-size: 50px 50px;
+     opacity: 0.03;
+     z-index: -1;
+   }
+ 
+   &::after {
+     content: '';
+     position: fixed;
+     top: -10%;
+     right: -10%;
+     width: 60%;
+     height: 60%;
+     background: linear-gradient(135deg, rgba(93, 122, 226, 0.07), rgba(93, 122, 226, 0.01));
+     border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+     z-index: -2;
+   }
+ }
+ 
+ body.dark {
+   background: linear-gradient(to bottom right, #010e19, #011528, #010e19);
+   color: #f6f8fc;
+   
+   &::before {
+     background-image: radial-gradient(rgba(93, 122, 226, 0.3) 1px, transparent 1px);
+     opacity: 0.05;
+   }
+   
+   &::after {
+     background: linear-gradient(135deg, rgba(60, 239, 255, 0.05), rgba(93, 122, 226, 0.02));
+     opacity: 0.2;
+   }
+ }

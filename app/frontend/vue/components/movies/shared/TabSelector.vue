@@ -1,21 +1,45 @@
 <template>
-  <div class="inline-flex p-1 bg-[#fefefe10] backdrop-blur-md rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.06),inset_0_0_0_1px_rgba(255,255,255,0.1)] relative overflow-hidden before:content-[''] before:absolute before:inset-0 before:rounded-xl before:p-[1px] before:bg-gradient-to-br before:from-white/30 before:to-white/5 before:[mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)] before:[mask-composite:exclude] before:pointer-events-none">
+  <div class="inline-flex p-1 rounded-2xl 
+              bg-white/90 dark:bg-gray-800/90 backdrop-blur-md
+              relative overflow-hidden">
     <button
         v-for="option in options"
         :key="getOptionValue(option)"
         :class="[
-          'relative py-1.5 px-2 rounded-lg text-sm font-medium tracking-[0.01em] transition-all duration-250 ease-[cubic-bezier(0.4,0,0.2,1)] overflow-hidden mx-0.5 cursor-pointer border-none bg-transparent outline-none sm:py-3 sm:px-5 sm:text-[15px]',
+          'relative py-1.5 px-2.5 sm:py-2 sm:px-4 rounded-xl text-xs sm:text-[14px] font-medium',
+          'transition-colors duration-200',
+          'overflow-hidden mx-0.5 cursor-pointer border-none bg-transparent outline-none',
+          'group',
           isSelected(option)
-            ? 'text-[#081422] font-semibold'
-            : 'text-[rgba(94,92,100,1)] hover:text-gray-500 hover:bg-[#00000008]'
+            ? 'text-indigo-600 dark:text-indigo-400 font-semibold'
+            : 'text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
         ]"
         @click="$emit('tab-selected', getOptionValue(option))"
     >
-      <span class="relative z-10">{{ getOptionLabel(option) }}</span>
-      <div
-          v-if="isSelected(option)"
-    class="absolute inset-0 rounded-lg bg-gradient-to-b from-gray-200/50 to-slate-200/50 shadow-[0_2px_8px_rgba(0,0,0,0.05),0_0_0_1px_rgba(255,255,255,0.5)] backdrop-filter backdrop-blur-sm origin-center animate-[selectTab_0.3s_cubic-bezier(0.25,1,0.5,1)_forwards]"
-      ></div>
+      <span class="relative z-10 whitespace-nowrap flex items-center">
+        {{ getOptionLabel(option) }}
+        <span v-if="isSelected(option)" class="ml-1.5 sm:ml-2 bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-200 
+                      rounded-full px-1.5 py-0.5 sm:px-2 text-[8px] sm:text-xs font-semibold">
+          {{ getOptionCount(option) }}
+        </span>
+      </span>
+      
+      <span v-if="isSelected(option)" class="absolute inset-0 rounded-xl">
+        <span class="absolute inset-0 rounded-xl border-2 border-transparent 
+                    bg-gradient-to-r from-indigo-500 to-purple-600 dark:from-indigo-600 dark:to-purple-700 
+                    opacity-70 -z-10"
+              style="mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                     mask-composite: exclude;
+                     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                     -webkit-mask-composite: source-out;"></span>
+        
+        <span class="absolute inset-0 rounded-xl 
+                    bg-gradient-to-r from-indigo-500/10 to-purple-600/10 dark:from-indigo-600/20 dark:to-purple-700/20 
+                    blur-md opacity-40 -z-20"></span>
+                    
+        <span class="absolute inset-0 rounded-xl 
+                    bg-white/90 dark:bg-gray-800/90"></span>
+      </span>
     </button>
   </div>
 </template>
@@ -42,6 +66,10 @@ const getOptionLabel = (option) => {
   return typeof option === 'object' ? option.label : option
 }
 
+const getOptionCount = (option) => {
+  return typeof option === 'object' ? option.count || '' : ''
+}
+
 const isSelected = (option) => {
   return getOptionValue(option) === props.selectedValue
 }
@@ -51,11 +79,19 @@ const isSelected = (option) => {
 @keyframes selectTab {
   from {
     opacity: 0;
-    transform: scale(0.9);
+    transform: scale(0.96) translateY(2px);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(0);
   }
+}
+
+button {
+  will-change: transform, color, background-color;
+}
+
+button:active {
+  transform: scale(0.98);
 }
 </style>

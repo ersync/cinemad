@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-white shadow-sm sm:px-6 py-1">
+  <nav class="bg-white dark:bg-gray-800 shadow-sm dark:shadow-gray-900/30 sm:px-6 py-1">
     <div class="max-w-6xl mx-auto">
       <ul class="flex items-center justify-center space-x-1 sm:space-x-4">
         <!-- Overview Section -->
@@ -10,8 +10,8 @@
                 class="flex items-center px-2 py-1.5 sm:px-5 sm:py-3 rounded-lg transition-all duration-200 font-medium text-base"
                 :class="[
                 isOverviewActive
-                  ? 'bg-blue-50 text-tmdbLighterBlue'
-                  : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
+                  ? 'bg-blue-50 dark:bg-blue-900/30 text-tmdbLighterBlue dark:text-blue-400'
+                  : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
               ]"
             >
               <svg
@@ -34,11 +34,11 @@
             </button>
 
             <!-- Dropdown Menu -->
-            <div class="absolute left-0 top-full w-56 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.15)] bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div class="absolute left-0 top-[115%] w-56 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 dark:ring-white dark:ring-opacity-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
               <div class="py-2">
                 <RouterLink
                     :to="{ name: 'userProfile', params: { username: username }}"
-                    class="block px-5 py-3 text-[15px] text-gray-700 hover:bg-gray-50 hover:text-tmdbLighterBlue transition-colors duration-200"
+                    class="block px-5 py-3 text-[15px] text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-tmdbLighterBlue dark:hover:text-blue-400 transition-colors duration-200"
                 >
                   <div class="flex items-center text-sm sm:text-base">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,7 +50,7 @@
 
                 <RouterLink
                     :to="{ name: 'editProfile', params: { username: username }}"
-                    class="block px-5 py-3 text-[15px] text-gray-700 hover:bg-gray-50 hover:text-tmdbLighterBlue transition-colors duration-200"
+                    class="block px-5 py-3 text-[15px] text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-tmdbLighterBlue dark:hover:text-blue-400 transition-colors duration-200"
                 >
                   <div class="flex items-center text-sm sm:text-base">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,8 +76,8 @@
                   class="flex items-center px-2 py-1.5 sm:p-2 rounded-md font-medium text-base"
                   :class="[
                   isActive
-                    ? 'bg-blue-50 text-tmdbLighterBlue'
-                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
+                    ? 'bg-blue-50 dark:bg-blue-900/30 text-tmdbLighterBlue dark:text-blue-400'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
                 ]"
               >
                 <svg
@@ -102,7 +102,6 @@
     </div>
   </nav>
 </template>
-
 <script setup>
 import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'

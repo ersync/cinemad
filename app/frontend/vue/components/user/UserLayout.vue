@@ -1,7 +1,7 @@
 <template>
   <div class="mb-32 font-SourceProNormal antialiased">
     <div v-if="error" class="max-w-7xl mx-auto px-4 py-8 text-center">
-      <p class="text-red-600">{{ error }}</p>
+      <p class="text-red-600 dark:text-red-400">{{ error }}</p>
     </div>
 
     <div v-else-if="isLoading">

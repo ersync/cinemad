@@ -50,9 +50,7 @@ const loadMoreReviews = async (page) => {
 <template>
   <section class="mb-10">
     <div class="flex justify-between items-center mb-8 antialiased transition-all duration-200">
-      <SectionHeading
-          title="Reviews"
-      />
+      <SectionHeading title="Reviews" />
     
       <div class="flex justify-between items-center">
         <div class="flex-1"></div>
@@ -60,30 +58,37 @@ const loadMoreReviews = async (page) => {
           <button 
             @click="openReviewsPopup"
             class="group inline-flex items-center px-4 py-2.5 sm:px-6 sm:py-3
-                   bg-white/90
-                   text-indigo-600 font-medium
+                   bg-white/90 dark:bg-gray-800/90
+                   text-indigo-600 dark:text-indigo-400 font-medium
                    rounded-2xl
                    transition-all duration-300
                    relative"
           >
-            <span class="absolute inset-0 rounded-2xl border-2 border-transparent bg-gradient-to-r from-indigo-500 to-purple-600 opacity-70 -z-10"
+            <span class="absolute inset-0 rounded-2xl border-2 border-transparent 
+                        bg-gradient-to-r from-indigo-500 to-purple-600 dark:from-indigo-600 dark:to-purple-700 
+                        opacity-70 -z-10"
                   style="mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
                          mask-composite: exclude;
                          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
                          -webkit-mask-composite: source-out;"></span>
             
-            <span class="absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-500/20 to-purple-600/20 blur-lg opacity-50 -z-20"></span>
+            <span class="absolute inset-0 rounded-2xl 
+                        bg-gradient-to-r from-indigo-500/20 to-purple-600/20 dark:from-indigo-600/30 dark:to-purple-700/30 
+                        blur-lg opacity-50 -z-20"></span>
             
             <span class="relative text-xs sm:text-base">
               All Reviews
-              <span class="absolute -bottom-0.5 left-0 w-full h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 transform scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-300"></span>
+              <span class="absolute -bottom-0.5 left-0 w-full h-0.5 
+                         bg-gradient-to-r from-indigo-500 to-purple-500 dark:from-indigo-400 dark:to-purple-400 
+                         transform scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-300"></span>
             </span>
-            <span class="ml-2 bg-indigo-100 text-indigo-700 rounded-full px-2 py-0.5 text-[9px] sm:text-sm font-semibold">{{ totalReviews }}</span>
+            <span class="ml-2 bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-200 
+                      rounded-full px-2 py-0.5 text-[9px] sm:text-sm font-semibold">
+              {{ totalReviews }}
+            </span>
           </button>
         </div>
       </div>
-    
-      
     </div>
     
     <FeaturedReview
@@ -94,12 +99,14 @@ const loadMoreReviews = async (page) => {
     
     <div
         v-else-if="!isLoading"
-        class="text-center py-12 px-6 bg-gradient-to-br from-gray-50/50 to-white/80 rounded-2xl text-gray-900"
+        class="text-center py-12 px-6 
+               bg-gradient-to-br from-gray-50/50 to-white/80 dark:from-gray-800/50 dark:to-gray-900/80 
+               rounded-2xl text-gray-900 dark:text-gray-100"
     >
-      <h3 class="text-2xl font-semibold mb-3 text-[#034275]">
+      <h3 class="text-2xl font-semibold mb-3 text-[#034275] dark:text-indigo-300">
         No Reviews Yet
       </h3>
-      <p class="text-gray-500 text-base leading-relaxed">
+      <p class="text-gray-500 dark:text-gray-400 text-base leading-relaxed">
         Share your thoughts on this movie
       </p>
     </div>
@@ -108,10 +115,8 @@ const loadMoreReviews = async (page) => {
       :is-open="isReviewsPopupOpen"
       @close="closeReviewsPopup"
       @load-more="loadMoreReviews"
-    
     />
   </section>
-  
 </template>
 
 <style scoped>

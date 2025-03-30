@@ -1,45 +1,45 @@
 <template>
-  <div class="shadow-sm py-2 my-8">
+  <div class="shadow-sm py-2 my-8 dark:shadow-gray-900/30">
     <div class="flex flex-row justify-between items-center">
       <!-- Left Section -->
       <div class="flex items-center« space-x-2 sm:space-x-6">
         <div class="flex items-center space-x-2 sm:space-x-4">
-          <h3 class="text-xl sm:text-2xl font-semibold text-gray-800">{{ title }}</h3>
+          <h3 class="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-gray-100">{{ title }}</h3>
           <div v-if="showCount"
-               class="flex items-center justify-center px-2.5 py-1 sm:px-2.5 sm:py-1.5 text-sm sm:text-base bg-blue-100/80 rounded-full">
-  <span class="text-sm sm:text-base font-medium text-tmdbLighterBlue">
-    {{itemsCount}} <span class="hidden sm:inline">{{ itemsCount === 1 ? 'Movie' : 'Movies' }}</span>
-  </span>
+               class="flex items-center justify-center px-2.5 py-1 sm:px-2.5 sm:py-1.5 text-sm sm:text-base bg-blue-100/80 dark:bg-blue-900/30 rounded-full">
+            <span class="text-sm sm:text-base font-medium text-tmdbLighterBlue dark:text-blue-400">
+              {{itemsCount}} <span class="hidden sm:inline">{{ itemsCount === 1 ? 'Movie' : 'Movies' }}</span>
+            </span>
           </div>
         </div>
       </div>
 
-      <!-- Right Section - View Toggle and Sort Filter -->
+      <!-- Right Section -->
       <div class="flex items-center space-x-1 sm:space-x-4 self-center">
         <div class="flex items-center">
-          <div class="flex items-center bg-gray-100 rounded-lg border border-gray-200">
-            <button class="rounded-r-none p-[9px] rounded-lg hover:bg-white hover:shadow-sm transition-all duration-200"
-                    :class="{ 'bg-white shadow-sm': viewMode === 'grid' }"
+          <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+            <button class="rounded-r-none p-[9px] rounded-lg hover:bg-white dark:hover:bg-gray-600 hover:shadow-sm transition-all duration-200"
+                    :class="{ 'bg-white dark:bg-gray-600 shadow-sm': viewMode === 'grid' }"
                     @click="setViewMode('grid')">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-4 h-4 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
               </svg>
             </button>
-            <button class="rounded-l-none p-[9px] rounded-md hover:bg-white hover:shadow-sm transition-all duration-200"
-                    :class="{ 'bg-white shadow-sm': viewMode === 'list' }"
+            <button class="rounded-l-none p-[9px] rounded-md hover:bg-white dark:hover:bg-gray-600 hover:shadow-sm transition-all duration-200"
+                    :class="{ 'bg-white dark:bg-gray-600 shadow-sm': viewMode === 'list' }"
                     @click="setViewMode('list')">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-4 h-4 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
           </div>
         </div>
 
-        <SortFilter
+        <!-- <SortFilter
             :filter-options="filterOptions"
             @filter-change="handleFilterChange"
             @order-change="handleOrderChange"
-        />
+        /> -->
       </div>
     </div>
   </div>

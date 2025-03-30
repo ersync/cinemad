@@ -28,22 +28,46 @@ defineProps({
 
 .title-text {
   @apply relative;
-  background: linear-gradient(135deg, #0a4d7c, #0369a1);
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
 }
 
 .title-decoration {
   @apply absolute -right-4 top-0 w-2 h-2 rounded-full;
-  background: #0369a1;
-  box-shadow: 0 0 10px rgba(3, 105, 161, 0.5);
+  background: #8b5cf6;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.8);
   transform: scale(0);
+  animation: pulse 2s infinite;
   transition: transform 0.3s ease;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.8);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+  }
 }
 
 .section-title:hover .title-decoration {
   transform: scale(1);
+}
+
+:global(.dark) .title-text {
+  background: linear-gradient(135deg, #8b5cf6, #c084fc);
+  text-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+}
+
+:global(.dark) .title-decoration {
+  background: #c084fc;
+  box-shadow: 0 0 15px rgba(192, 132, 252, 0.8);
 }
 </style>

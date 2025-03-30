@@ -4,7 +4,7 @@
 	class="bg-gray-900/90 backdrop-blur-2xl rounded-xl shadow-2xl z-50 max-h-[400px] overflow-y-auto border border-gray-700/50"
 	:class="containerClass"
   >
-  >
+  
 	<!-- Loading State -->
 	<div v-if="isLoading" class="p-5 text-center">
 	  <div class="inline-flex items-center gap-3 text-gray-400">
@@ -61,12 +61,10 @@
 	  </div>
 	</template>
 	
-	<!-- No Results Message -->
 	<div v-else-if="query && query.length >= 3" class="p-5 text-center text-gray-400">
 	  No results found
 	</div>
 	
-	<!-- Initial State Message -->
 	<div v-else class="p-5 text-center text-gray-400">
 	  Please enter at least 3 characters to search
 	</div>

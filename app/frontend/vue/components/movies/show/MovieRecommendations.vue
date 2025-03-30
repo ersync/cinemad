@@ -51,7 +51,6 @@ const preloadRecommendationImages = () => {
       img.src = movie.background_url
     })
     
-    // Fallback in case some images never load
     setTimeout(() => {
       isLoading.value = false
     }, 3000)
@@ -60,7 +59,6 @@ const preloadRecommendationImages = () => {
   }
 }
 
-// Watch for recommendations data changes
 watch(() => [recommendations.value, storeLoading.value], () => {
   if (recommendations.value.length > 0 && !storeLoading.value) {
     preloadRecommendationImages()
@@ -154,9 +152,7 @@ onUnmounted(() => {
       aria-labelledby="recommendations-heading"
   >
     <div class="flex items-center justify-between mb-8">
-      <SectionHeading
-          title="Recommendations"
-      />
+      <SectionHeading title="Recommendations" />
 
       <div v-if="hasMultipleCards && !isLoading" class="flex items-center gap-3 py-0.5">
         <div class="hidden sm:flex items-center gap-1.5">
@@ -164,12 +160,12 @@ onUnmounted(() => {
               v-for="index in Math.max(0, recommendations.length - 2)"
               :key="index - 1"
               @click="scrollToCard(index - 1)"
-              class="w-2 h-2 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
+              class="w-2 h-2 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500/70"
               :class="[
-              currentIndex === (index - 1)
-                ? 'bg-indigo-500 scale-125'
-                : 'bg-gray-300 hover:bg-gray-400'
-            ]"
+                currentIndex === (index - 1)
+                  ? 'bg-gradient-to-r from-indigo-500 to-purple-500 scale-125 shadow-[0_0_0_2px_rgba(99,102,241,0.2)]'
+                  : 'bg-gray-300/80 hover:bg-gray-400/90 dark:bg-gray-600/70 dark:hover:bg-gray-500/80'
+              ]"
               :aria-label="`Go to position ${index}`"
               :aria-current="currentIndex === (index - 1) ? 'true' : 'false'"
           ></button>
@@ -179,22 +175,36 @@ onUnmounted(() => {
           <button
               @click="scrollPrev"
               :disabled="!showLeftControl"
-              class="group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 shadow-sm hover:shadow transition-all duration-300 active:outline-none active:ring-2 active:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              class="group flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full 
+                     bg-white/90 backdrop-blur-sm dark:bg-gray-800/90
+                     border border-gray-200/80 dark:border-gray-700/80
+                     shadow-sm hover:shadow-md
+                     transition-all duration-300 
+                     active:scale-95
+                     disabled:opacity-50 disabled:cursor-not-allowed
+                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/70 focus-visible:ring-offset-2"
               aria-label="See previous recommendations"
           >
-            <svg class="w-4 h-4 sm:w-5 h-5 text-teal-500 transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            <svg class="w-4 h-4 sm:w-[15px] sm:h-[15px] text-indigo-500 dark:text-indigo-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
 
           <button
               @click="scrollNext"
               :disabled="!showRightControl"
-              class="group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10  rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 shadow-sm hover:shadow transition-all duration-300 active:outline-none active:ring-2 active:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              class="group flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full 
+                     bg-white/90 backdrop-blur-sm dark:bg-gray-800/90
+                     border border-gray-200/80 dark:border-gray-700/80
+                     shadow-sm hover:shadow-md
+                     transition-all duration-300 
+                     active:scale-95
+                     disabled:opacity-50 disabled:cursor-not-allowed
+                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/70 focus-visible:ring-offset-2"
               aria-label="See more recommendations"
           >
-            <svg class="w-4 h-4 sm:w-5 h-5 text-teal-500 transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            <svg class="w-4 h-4 sm:w-[15px] sm:h-[15px] text-indigo-500 dark:text-indigo-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
             </svg>
           </button>
         </div>
@@ -232,13 +242,13 @@ onUnmounted(() => {
 
     <div
         v-if="!isLoading && recommendations.length === 0"
-        class="flex flex-col items-center justify-center py-12 px-4 text-center rounded-xl bg-gray-50 border border-gray-100"
+        class="flex flex-col items-center justify-center py-12 px-4 text-center rounded-xl bg-gray-50/80 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-sm"
     >
-      <svg class="w-16 h-16 text-gray-300 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg class="w-16 h-16 text-gray-300 dark:text-gray-600 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
       </svg>
-      <h4 class="text-lg font-medium text-gray-700 mb-2">No recommendations found</h4>
-      <p class="text-gray-500 max-w-md">We don't have any movie recommendations for this title yet. Check back later!</p>
+      <h4 class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">No recommendations found</h4>
+      <p class="text-gray-500 dark:text-gray-400 max-w-md">We don't have any movie recommendations for this title yet. Check back later!</p>
     </div>
   </section>
 </template>

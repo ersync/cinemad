@@ -1,3 +1,12 @@
+<script setup>
+defineProps({
+  loading: Boolean,
+  icon: String,
+  text: String,
+  loadingText: String
+})
+</script>
+
 <template>
   <button
       type="submit"
@@ -5,10 +14,12 @@
       class="group relative w-full flex justify-center py-2 px-3 sm:py-3 sm:px-4
            text-sm font-medium rounded-xl text-white
            bg-gradient-to-r from-[#1a1b2e] via-[#1d2339] to-[#1f2a45]
+           dark:from-indigo-900 dark:via-indigo-800 dark:to-purple-900
            hover:from-[#1d1e32] hover:via-[#20263f] hover:to-[#22304e]
+           dark:hover:from-indigo-800 dark:hover:via-indigo-700 dark:hover:to-purple-800
            focus:outline-none transition-all duration-200
            disabled:opacity-50 disabled:cursor-not-allowed
-           shadow-[0_2px_10px_rgba(0,0,0,0.1)]"
+           shadow-[0_2px_10px_rgba(0,0,0,0.1)] dark:shadow-[0_2px_10px_rgba(0,0,0,0.3)]"
   >
     <span class="absolute inset-y-0 left-0 flex items-center pl-3">
       <i :class="icon" class="fas text-white/60"></i>
@@ -23,12 +34,3 @@
     <span v-else>{{ text }}</span>
   </button>
 </template>
-
-<script setup>
-defineProps({
-  loading: Boolean,
-  icon: String,
-  text: String,
-  loadingText: String
-})
-</script>
