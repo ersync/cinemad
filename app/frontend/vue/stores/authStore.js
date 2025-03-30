@@ -55,13 +55,35 @@ export const useAuthStore = defineStore('auth', () => {
   async function checkAuth() {
     loading.value = true
     error.value = null
-
+  
     try {
+      const urlParams = new URLSearchParams(window.location.search)
+      const authSuccess = urlParams.get('auth_success')
+      const authError = urlParams.get('auth_error')
+      
+      if (authSuccess === 'true') {
+        window.history.replaceState({}, document.title, window.location.pathname)
+        
+        const response = await authApiService.getCurrentUser()
+        if (response.success && response.user) {
+          setUser(response.user)
+          return true
+        }
+      }
+      
+      if (authError) {
+        error.value = decodeURIComponent(authError)
+        // Clean up URL
+        window.history.replaceState({}, document.title, window.location.pathname)
+        return false
+      }
+      
       const response = await authApiService.getCurrentUser()
       if (response.success && response.user) {
         setUser(response.user)
         return true
       }
+      
       resetState()
       return false
     } catch (err) {
@@ -94,6 +116,21 @@ export const useAuthStore = defineStore('auth', () => {
       throw err;
     } finally {
       loading.value = false;
+    }
+  }
+
+  async function loginWithGoogle() {
+    loading.value = true
+    error.value = null
+
+    try {
+      await authApiService.initiateGoogleAuth()
+      return { success: true }
+    } catch (err) {
+      error.value = err.userMessage || 'Failed to initiate Google login'
+      throw err
+    } finally {
+      loading.value = false
     }
   }
 
@@ -178,6 +215,7 @@ export const useAuthStore = defineStore('auth', () => {
     // Actions
     checkAuth,
     login,
+    loginWithGoogle,  // New method
     register,
     logout,
     updateProfile,

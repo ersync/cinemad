@@ -12,6 +12,8 @@ export const ErrorTypes = {
   UNKNOWN: 'UNKNOWN'
 }
 
+NProgress.configure({ showSpinner: false })
+
 export class ApiError extends Error {
   constructor(message, type, status, data, config) {
     super(message)

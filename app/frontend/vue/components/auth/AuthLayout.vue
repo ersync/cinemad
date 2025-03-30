@@ -1,18 +1,17 @@
 <template>
-  <div class="min-h-screen relative bg-gradient-to-br from-[#EEF2F6] via-[#F5F8FC] to-[#EDF1F9] flex items-center justify-center p-4 ">
+  <div class="min-h-screen relative bg-gradient-to-br from-[#EEF2F6] via-[#F5F8FC] to-[#EDF1F9] dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4">
     <!-- Animated background blobs -->
-    <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-    <div class="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-    <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+    <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-300 dark:bg-purple-900/40 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-70 animate-blob"></div>
+    <div class="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 dark:bg-indigo-800/40 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+    <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 dark:bg-blue-900/40 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
 
     <!-- Main container -->
     <div class="w-full max-w-5xl">
-      <div class="backdrop-blur-sm bg-white/90 rounded-3xl shadow-[0_20px_50px_-12px_rgba(32,32,53,0.15)] overflow-hidden border border-white/20">
+      <div class="backdrop-blur-sm bg-white/90 dark:bg-gray-800/90 rounded-3xl shadow-[0_20px_50px_-12px_rgba(32,32,53,0.15)] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] overflow-hidden border border-white/20 dark:border-gray-700/30">
         <div class="md:grid md:grid-cols-2 h-full">
           <!-- Left side - Branding -->
           <div class="relative hidden md:block">
             <div class="absolute inset-0">
-              <!-- Enhanced gradient overlay for better text visibility -->
               <div class="absolute inset-0 bg-gradient-to-br from-[#0F172A]/90 via-[#1E293B]/85 to-[#032541]/95 backdrop-blur-sm z-10"></div>
               
             </div>
@@ -26,7 +25,6 @@
                     </div>
                   </div>
                   
-                  <!-- Main heading with more dramatic typography -->
                   <h1 class="text-6xl font-bold leading-tight tracking-tight animate-fade-in">
                     The Ultimate<br/>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-300 to-violet-300">
@@ -34,7 +32,6 @@
                     </span>
                   </h1>
                   
-                  <!-- Improved subheading with better spacing and font -->
                   <p class="text-xl font-light text-gray-200 leading-relaxed animate-fade-in-delay max-w-md">
                     Discover, rate, and curate your cinematic journey with our award-winning platform designed for true film enthusiasts.
                   </p>
@@ -58,7 +55,6 @@
               </div>
           
               <slot name="testimonial">
-                <!-- Enhanced testimonial with better visual design -->
                 <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 animate-fade-in-delay-2 mt-5">
                   <div class="flex">
                     <!-- Star rating -->
@@ -100,8 +96,7 @@
             </div>
           </div>
 
-          <!-- Right side - Form -->
-          <div class="p-6 pt-2 sm:p-8 bg-white/80 backdrop-blur-sm">
+          <div class="p-6 pt-2 sm:p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
             <div class="w-full max-w-md mx-auto space-y-8">
               <slot></slot>
             </div>
@@ -111,53 +106,3 @@
     </div>
   </div>
 </template>
-
-<style scoped>
-.animate-blob {
-  animation: blob 7s infinite;
-}
-.animation-delay-2000 {
-  animation-delay: 2s;
-}
-.animation-delay-4000 {
-  animation-delay: 4s;
-}
-
-@keyframes blob {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(20px, -30px) scale(1.1);
-  }
-  66% {
-    transform: translate(-10px, 10px) scale(0.9);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.8s ease-out;
-}
-
-.animate-fade-in-delay {
-  animation: fadeIn 0.8s ease-out 0.2s both;
-}
-
-.animate-fade-in-delay-2 {
-  animation: fadeIn 0.8s ease-out 0.4s both;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-</style>

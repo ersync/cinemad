@@ -35,6 +35,36 @@ class AuthApiService {
     })
   }
 
+  async initiateGoogleAuth() {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/users/auth/google_oauth2';
+    form.style.display = 'none';
+    
+    if (csrfToken) {
+      const csrfInput = document.createElement('input');
+      csrfInput.type = 'hidden';
+      csrfInput.name = 'authenticity_token';
+      csrfInput.value = csrfToken;
+      form.appendChild(csrfInput);
+    }
+    
+    document.body.appendChild(form);
+    form.submit();
+    
+    return { success: true };
+  }
+
+  async verifyOAuthCallback(params) {
+    try {
+      return await this.fetchInstance.makeRequest('post', '/api/auth/verify_oauth', { params })
+    } catch (error) {
+      throw error
+    }
+  }
+
   async register(userData) {
     if (!userData?.username || !userData?.email || !userData?.password || !userData?.password_confirmation) {
       throw new ApiError(
@@ -77,7 +107,6 @@ class AuthApiService {
       user: userData
     })
   }
-
 }
 
 export const authApiService = new AuthApiService()
