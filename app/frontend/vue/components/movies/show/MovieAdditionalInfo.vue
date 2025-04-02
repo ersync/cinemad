@@ -184,25 +184,7 @@ onMounted(() => {
 </template>
 
 <style>
-  :root {
-    --primary-dark: #1a1d29;
-    --primary-light: #f6f8fc;
-    --accent-color: #ff6b6b;
-    --secondary-accent: #5d7ae2;
-    --gradient-start: #4f46e5;
-    --gradient-mid: #7c3aed;
-    --gradient-end: #db2777;
-    --light-gradient: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(124, 58, 237, 0.08), rgba(219, 39, 119, 0.08));
-    --medium-gradient: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(93, 122, 226, 0.2), rgba(219, 39, 119, 0.2));
-    --strong-gradient: linear-gradient(135deg, #4f46e5, #7c3aed, #db2777);
-    
-    --dark-bg: #010e19;
-    --dark-card-bg: rgba(1, 26, 48, 0.7);
-    --dark-border: rgba(59, 130, 246, 0.2);
-    --dark-text-primary: rgba(255, 255, 255, 0.9);
-    --dark-text-secondary: rgba(255, 255, 255, 0.6);
-    --dark-shadow: rgba(0, 0, 0, 0.3);
-  }
+
   
   .movie-sidebar {
     font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

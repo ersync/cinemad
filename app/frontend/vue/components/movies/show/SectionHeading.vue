@@ -11,6 +11,7 @@ defineProps({
   <header class="section-header">
     <h3 class="section-title">
       <span class="title-text">{{ title }}</span>
+      <span class="title-decoration"></span>
     </h3>
   </header>
 </template>
@@ -35,19 +36,5 @@ defineProps({
   text-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
 }
 
-.title-decoration {
-  @apply absolute -right-4 top-0 w-2 h-2 rounded-full;
-  background: #8b5cf6;
-  box-shadow: 0 0 15px rgba(139, 92, 246, 0.8);
-}
 
-:global(.dark) .title-text {
-  background: linear-gradient(135deg, #8b5cf6, #c084fc);
-  text-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
-}
-
-:global(.dark) .title-decoration {
-  background: #c084fc;
-  box-shadow: 0 0 15px rgba(192, 132, 252, 0.8);
-}
 </style>
