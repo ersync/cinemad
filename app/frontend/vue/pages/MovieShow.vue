@@ -134,25 +134,5 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.fade-in {
-  animation: fadeIn 0.3s ease-in;
-}
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.container {
-  @apply max-w-[1300px] mx-auto px-4;
-}
-
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: .7; }
-}
 </style>

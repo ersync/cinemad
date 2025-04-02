@@ -1,34 +1,59 @@
 <a href="/" style="display: block; position: relative; z-index: 10; cursor: pointer !important;" onclick="window.location.href='/';">
-  <div class="inline-block select-none relative group animate-pulse-glow" style="pointer-events: none;">
+  <div id="logoContainer" class="inline-block select-none relative group" style="pointer-events: none;">
     <%= image_tag vite_asset_path('assets/images/logo.png'),
-      class: "inline-block w-auto
-             [filter:brightness(0)_invert(1)_sepia(1)_saturate(2000%)_hue-rotate(170deg)]
-             transition-all duration-300
-             group-hover:[filter:brightness(0)_invert(1)_sepia(1)_saturate(2500%)_hue-rotate(170deg)_drop-shadow(0_0_8px_#4FB5FF)]",
+      id: "logoImage",
+      class: "inline-block w-auto [filter:brightness(0)_invert(1)_sepia(1)_saturate(2000%)_hue-rotate(170deg)] transition-all duration-300",
       alt: "CinEmad Logo"
     %>
   </div>
 </a>
-
 <style>
-    @keyframes pulse-glow {
-        0%, 100% {
-            filter: brightness(0) invert(1) sepia(1) saturate(2000%) hue-rotate(170deg);
-        }
-        50% {
-            filter: brightness(0) invert(1) sepia(1) saturate(2500%) hue-rotate(170deg) drop-shadow(0 0 8px #4FB5FF);
-        }
+  @keyframes pulse-glow {
+    0%, 100% {
+      filter: brightness(0) invert(1) sepia(1) saturate(2000%) hue-rotate(170deg);
     }
-
-    .animate-pulse-glow img {
-        animation: pulse-glow 4s ease-in-out infinite;
+    50% {
+      filter: brightness(0) invert(1) sepia(1) saturate(2500%) hue-rotate(170deg) drop-shadow(0 0 8px #4FB5FF);
     }
-    
-    a[href="/"] {
-        cursor: pointer !important;
-    }
-    
-    a[href="/"] * {
-        pointer-events: none;
-    }
+  }
+  
+  .animate-pulse-glow img {
+    animation: pulse-glow 4s ease-in-out;
+  }
+  
+  a[href="/"] {
+    cursor: pointer !important;
+  }
+  
+  a[href="/"] * {
+    pointer-events: none;
+  }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const logoContainer = document.getElementById('logoContainer');
+    
+    function pulseLogo() {
+      logoContainer.classList.add('animate-pulse-glow');
+      
+      setTimeout(() => {
+        logoContainer.classList.remove('animate-pulse-glow');
+        
+        setTimeout(pulseLogo, 6000);
+      }, 4000);
+    }
+    
+    setTimeout(pulseLogo, 1000);
+    
+    logoContainer.parentElement.addEventListener('mouseenter', () => {
+      logoContainer.classList.add('animate-pulse-glow');
+    });
+    
+    logoContainer.parentElement.addEventListener('mouseleave', () => {
+      if (!logoContainer.dataset.timedPulse) {
+        logoContainer.classList.remove('animate-pulse-glow');
+      }
+    });
+  });
+</script>

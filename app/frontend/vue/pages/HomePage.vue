@@ -83,15 +83,15 @@ onMounted(() => {
       </div>
     
       <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-[20%] right-[10%] w-32 h-32 rounded-full bg-blue-500/10 blur-3xl animate-float-slow"></div>
-        <div class="absolute bottom-[30%] left-[15%] w-40 h-40 rounded-full bg-indigo-500/10 blur-3xl animate-float-slower"></div>
-        <div class="absolute top-[40%] left-[25%] w-24 h-24 rounded-full bg-cyan-400/10 blur-2xl animate-float"></div>
+        <div class="absolute top-[20%] right-[10%] w-32 h-32 rounded-full bg-blue-500/10 blur-3xl"></div>
+        <div class="absolute bottom-[30%] left-[15%] w-40 h-40 rounded-full bg-indigo-500/10 blur-3xl"></div>
+        <div class="absolute top-[40%] left-[25%] w-24 h-24 rounded-full bg-cyan-400/10 blur-2xl"></div>
       </div>
     
       <div class="relative h-full flex items-center">
         <div class="container mx-auto px-6 md:px-12">
           <div class="max-w-3xl" data-aos="fade-up" data-aos-duration="800">
-            <div class="inline-flex items-center px-3 py-1 mb-6 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-sm text-blue-300 animate-pulse-subtle">
+            <div class="inline-flex items-center px-3 py-1 mb-6 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-sm text-blue-300">
               <span class="w-2 h-2 rounded-full bg-blue-400 mr-2"></span>
               <span>Discover the latest in entertainment</span>
             </div>
@@ -255,7 +255,7 @@ onMounted(() => {
                 class="group relative overflow-hidden inline-flex items-center px-8 py-3.5 rounded-full bg-gradient-to-r from-blue-600/80 to-indigo-600/80 text-white font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20"
               >
                 <div class="absolute inset-0 flex items-center justify-center">
-                  <div class="h-[200%] w-[200%] animate-slow-spin rounded-full bg-gradient-to-tr from-blue-500/0 via-blue-500/30 to-blue-500/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+                  <div class="h-[200%] w-[200%] rounded-full bg-gradient-to-tr from-blue-500/0 via-blue-500/30 to-blue-500/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
                 </div>
                 <span class="relative flex items-center">
                   {{ authStore.user ? 'Discover Movies' : 'Join CinEmad' }}
@@ -395,46 +395,6 @@ onMounted(() => {
 
 .animate-subtle-zoom {
   animation: subtle-zoom 20s infinite ease-in-out;
-}
-
-/* Floating animations */
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-15px); }
-  100% { transform: translateY(0px); }
-}
-
-@keyframes float-slow {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-  100% { transform: translateY(0px); }
-}
-
-@keyframes float-slower {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-25px); }
-  100% { transform: translateY(0px); }
-}
-
-.animate-float {
-  animation: float 6s infinite ease-in-out;
-}
-
-.animate-float-slow {
-  animation: float-slow 8s infinite ease-in-out;
-}
-
-.animate-float-slower {
-  animation: float-slower 10s infinite ease-in-out;
-}
-
-@keyframes pulse-subtle {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.8; }
-}
-
-.animate-pulse-subtle {
-  animation: pulse-subtle 3s infinite ease-in-out;
 }
 
 .search-glow {

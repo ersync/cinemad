@@ -160,27 +160,12 @@
     filter: drop-shadow(0 0 3px rgba(59, 130, 246, 0.5));
   }
   
-  @keyframes slow-spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  
-  .animate-slow-spin {
-    animation: slow-spin 15s linear infinite;
-  }
-  
-  @keyframes shimmer {
-    0% { background-position: -100% 0; }
-    100% { background-position: 200% 0; }
-  }
-  
   .login-shimmer {
     background: linear-gradient(90deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.8) 100%);
     background-size: 200% 100%;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: shimmer 3s infinite linear;
   }
   
   #mobile-menu-overlay {
