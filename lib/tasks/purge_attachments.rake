@@ -9,7 +9,6 @@ namespace :movies do
 
     puts pastel.cyan("\n▶ Starting attachment purge process...")
 
-    # Get initial counts for comparison
     initial_counts = {
       covers: Movie.all.count { |m| m.cover.attached? },
       backgrounds: Movie.all.count { |m| m.background.attached? },
@@ -29,7 +28,6 @@ namespace :movies do
     puts pastel.cyan("    - Total videos: #{initial_counts[:videos]}")
     puts pastel.cyan("    - Total storage used: #{(initial_counts[:total_storage].to_f / 1.megabyte).round(2)} MB")
 
-    # Create progress bar
     total_movies = Movie.count
     progress = ProgressBar.create(
       title: "Purging Attachments",
@@ -38,7 +36,6 @@ namespace :movies do
       output: $stdout
     )
 
-    # Process each movie
     Movie.find_each do |movie|
       # Purge all attachment types
       movie.cover.purge if movie.cover.attached?
@@ -49,13 +46,11 @@ namespace :movies do
       progress.increment
     end
 
-    # Purge videos if they exist
     if defined?(Video)
       puts pastel.cyan("\n  ▶ Purging videos...")
       Video.delete_all
     end
 
-    # Get final counts
     final_counts = {
       covers: Movie.all.count { |m| m.cover.attached? },
       backgrounds: Movie.all.count { |m| m.background.attached? },

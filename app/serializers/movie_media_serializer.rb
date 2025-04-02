@@ -11,9 +11,5 @@ class MovieMediaSerializer
     def serialize_videos(movie)
       MovieServices::MediaService.new(movie).videos
     end
-
-    def serialize_popular(movie)
-      MovieServices::MediaService.new(movie).popular_media
-    end
   end
 end

@@ -5,16 +5,16 @@ namespace :people do
   desc "Attach images to Person records from demo assets"
   task attach_images: :environment do
     ActiveRecord::Base.logger.level = Logger::INFO
-    pastel = Pastel.new
+    original_verbose = $VERBOSE
+    $VERBOSE = nil
+      pastel = Pastel.new
 
-    # Use different constant names to avoid conflicts
     DEMO_ASSETS_DIR = Rails.root.join('public', 'demo_assets')
     PEOPLE_CAST_DIR = File.join(DEMO_ASSETS_DIR, 'cast')
 
     puts pastel.cyan("\n▶ Starting image attachment process...")
 
     begin
-      # Check if demo assets are already downloaded
       if Dir.exist?(DEMO_ASSETS_DIR) && Dir.exist?(PEOPLE_CAST_DIR)
         puts pastel.green("  ✓ Using existing demo assets")
       else
@@ -91,5 +91,6 @@ namespace :people do
     rescue => e
       puts pastel.red("\n✗ Error: #{e.message}")
     end
+    $VERBOSE = original_verbose
   end
 end

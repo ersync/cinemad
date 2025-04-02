@@ -59,24 +59,4 @@ RSpec.describe MovieMediaService, type: :service do
     end
   end
 
-  describe '#popular_media' do
-    let!(:videos) { create_list(:video, 3, movie: movie) }
-    let!(:backdrops) { create_list(:active_storage_attachment, 3, record: movie, name: 'backdrops') }
-
-    it 'returns a mix of random videos and backdrops' do
-      popular_media = service.popular_media
-      expect(popular_media.length).to eq(4)
-      expect(popular_media.count { |m| m[:isVideo] }).to be_between(0, 2)
-      expect(popular_media.count { |m| !m[:isVideo] }).to be_between(0, 2)
-    end
-
-    context 'when no media is present' do
-      let(:movie_without_media) { create(:movie) }
-      subject(:service_without_media) { described_class.new(movie_without_media) }
-
-      it 'returns an empty array' do
-        expect(service_without_media.popular_media).to be_empty
-      end
-    end
-  end
 end

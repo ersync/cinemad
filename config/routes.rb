@@ -18,7 +18,6 @@ Rails.application.routes.draw do
             get :posters
             get :backdrops
             get :videos
-            get :popular
           end
         end
 

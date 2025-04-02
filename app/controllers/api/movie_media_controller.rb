@@ -21,11 +21,6 @@ module Api
       )
     end
 
-    def popular
-      render_success(
-        media: MovieMediaSerializer.serialize_popular(@movie)
-      )
-    end
 
     private
 
