@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Category, type: :model do
-  let(:category) { create(:category) } # Using `create` to ensure proper database interaction
+  let(:category) { create(:category) }
 
   describe 'associations' do
     it { is_expected.to have_many(:movie_categories).dependent(:destroy) }
@@ -10,12 +10,12 @@ RSpec.describe Category, type: :model do
 
   describe 'behavior' do
     it 'returns an empty collection of movies when there are no associations' do
-      expect(category.movies).to be_empty # Actual DB interaction, no mocking needed
+      expect(category.movies).to be_empty
     end
 
     it 'handles invalid movie_categories gracefully' do
       invalid_movie_category = build(:movie_category, category: category, movie: nil)
-      expect(invalid_movie_category).not_to be_valid # Directly testing validity
+      expect(invalid_movie_category).not_to be_valid 
       expect(category.movies.count).to eq(0)
     end
 
