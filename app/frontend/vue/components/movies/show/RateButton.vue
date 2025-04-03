@@ -1,10 +1,10 @@
 <template>
     <div class="relative group cursor-pointer h-full py-1">
         <div
-            class="flex justify-center items-center w-[46px] h-[46px] bg-black rounded-full hover:scale-105 transition-all duration-300 ease-in-out"
+            class="flex justify-center items-center w-[46px] h-[46px] bg-gradient-to-br from-[#121218] to-[#0a0a1f] rounded-full hover:scale-105 transition-all duration-300 ease-in-out shadow-md"
             :class="{
-                'border border-amber-300/40 shadow-[0_0_12px_rgba(251,191,36,0.4)]': userRating,
-                'border border-white/5': !userRating
+                'border border-amber-300/40 shadow-[0_0_16px_rgba(251,191,36,0.35)]': userRating,
+                'border border-indigo-800/20': !userRating
             }"
         >
             <svg
@@ -20,12 +20,12 @@
             <div
                 v-if="!disabled"
                 v-cloak
-                class="fixed-width-rating-popup flex justify-center items-center absolute top-full mt-1 left-[100%] -translate-x-[55%] z-40 px-3 invisible opacity-0 group-hover:opacity-100 group-hover:visible transition-all duration-200 delay-75 gap-3 rounded-lg bg-gradient-to-br from-[#032541] to-[#021b2f] border border-blue-900/30 shadow-lg backdrop-filter backdrop-blur-sm text-white cursor-pointer"
+                class="fixed-width-rating-popup flex justify-center items-center absolute top-full mt-1.5 left-[100%] -translate-x-[55%] z-40 px-4 py-2 invisible opacity-0 group-hover:opacity-100 group-hover:visible transition-all duration-200 delay-75 gap-3.5 rounded-lg bg-gradient-to-br from-[#0c1b2a] to-[#050e17] border border-blue-900/20 shadow-xl backdrop-filter backdrop-blur-md text-white cursor-pointer"
             >
                 <button
                     @click.prevent="unsetRate"
                     :disabled="!userRating"
-                    class="flex items-center justify-center p-1.5 rounded-md hover:bg-[#021b2f] transition-colors duration-200"
+                    class="flex items-center justify-center p-1.5 rounded-md hover:bg-[#0a141f] transition-colors duration-200"
                     :class="{
                         'opacity-50 cursor-not-allowed': !userRating,
                         'cursor-pointer': userRating,
@@ -36,17 +36,16 @@
                         <svg class="w-4 h-4 mb-0.5">
                             <use xlink:href="#star"></use>
                         </svg>
-                        <span class="text-[12px] font-medium">Unrate!</span>
+                        <span class="text-[12px] font-medium">Unrate</span>
                     </div>
                 </button>
 
-                <div ref="ratingContainerRef">
+                <div ref="ratingContainerRef" class="py-1">
                     <span
                         @mousemove="setHoveredRateWidth"
                         @mouseleave="resetHoveredRateWidth"
                         class="relative inline-block flex justify-center items-center"
                     >
-
                         <a
                             :style="{ width: hoveredRateWidth }"
                             @click.prevent="setRate"
@@ -72,7 +71,7 @@
 
                         <!-- Empty stars -->
                         <span v-for="index in 5" :key="`empty-${index}`">
-                            <svg class="h-7 w-7 text-gray-300/80">
+                            <svg class="h-7 w-7 text-gray-300/60">
                                 <use xlink:href="#star-empty"></use>
                             </svg>
                         </span>
@@ -81,19 +80,17 @@
 
                 <div
                     v-if="userRating"
-                    class="rating-display flex items-center justify-center min-w-[40px]"
+                    class="rating-display flex items-center justify-center min-w-[28px]"
                 >
-                    <span class="text-yellow-400 font-medium whitespace-nowrap">
-                        {{ userRating / 10 / 2 }}/5
+                    <span class="inline-flex items-center gap-1 text-amber-300 font-medium">
+                        <span class="text-base font-semibold">{{ userRating / 10 / 2 }}</span>
                     </span>
                 </div>
                 <div
                     v-else
-                    class="rating-display flex items-center justify-center min-w-[40px] opacity-0"
+                    class="rating-display flex items-center justify-center min-w-[28px] opacity-0"
                 >
-                    <span class="text-transparent whitespace-nowrap">
-                        0/5
-                    </span>
+                    <span class="text-transparent">0</span>
                 </div>
             </div>
         </div>

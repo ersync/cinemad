@@ -73,7 +73,7 @@ const formattedRating = computed(() => {
            class="bg-white/10 backdrop-blur-md rounded-2xl p-6 space-y-4
                   transform transition-all duration-300 animate-fadeIn">
         <!-- Title -->
-        <h3 class="text-xl font-bold text-white">{{ movieData?.title }}</h3>
+        <h3 class="text-lg font-bold text-white">{{ movieData?.title }}</h3>
 
         <!-- Release Date & Rating -->
         <div class="flex items-center gap-4 text-white/80">

@@ -115,7 +115,7 @@ onMounted(async () => {
         />
       </div>
       <span class="block font-SourceProBold leading-[10px]">
-        User <span class="hidden sm:block"><br></span> Score
+        Avg <span class="hidden sm:block"><br></span> Score
       </span>
     </div>
   </div>
@@ -132,7 +132,8 @@ onMounted(async () => {
       <div v-if="action.tooltip"
            class="absolute bottom-full left-1/2 -translate-x-1/2 px-2 py-1 mb-1
                   bg-black text-white text-sm rounded whitespace-nowrap z-10
-                  opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-200
+                  pointer-events-none">
         {{ action.tooltip }}
       </div>
     </div>
@@ -144,7 +145,8 @@ onMounted(async () => {
       <div v-if="!isAuthenticated"
            class="absolute bottom-full left-1/2 -translate-x-1/2 px-2 py-1 mb-1
                   bg-black text-white text-sm rounded whitespace-nowrap z-10
-                  opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-200
+                  pointer-events-none">
         Please login to rate movies
       </div>
     </div>

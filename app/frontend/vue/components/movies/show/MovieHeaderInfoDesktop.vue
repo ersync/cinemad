@@ -34,6 +34,16 @@ const formattedReleaseDate = computed(() => {
   }
 })
 
+const formattedCategories = computed(() => {
+  if (!movieData.value?.categories || !movieData.value.categories.length) return ''
+  
+  const capitalizedCategories = movieData.value.categories
+    .map(category => category.charAt(0).toUpperCase() + category.slice(1))
+  return capitalizedCategories
+})
+
+
+
 const releaseYear = computed(() => {
   if (!movieData.value?.release_date) return ''
   try {
@@ -73,8 +83,19 @@ const releaseYear = computed(() => {
           <span class="h-4 w-[1px] bg-white/40 hidden lg:block"></span>
 
           <div class="flex items-center gap-x-2">
-            <span class="text-white/80 hover:text-white transition-colors duration-300">
-              {{ movieData?.categories?.join(" • ") }}
+            <span v-if="formattedCategories.length" class="text-white/80 hover:text-white transition-colors duration-300">
+              <span v-for="(category, index) in formattedCategories" :key="category">
+                {{ category }}
+                <svg v-if="index < formattedCategories.length - 1" 
+                     class="inline-block ml-0.5 mr-1 opacity-40" 
+                     width="6" 
+                     height="6" 
+                     viewBox="0 0 6 6" 
+                     fill="currentColor" 
+                     xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3" y="0" width="4.24" height="4.24" transform="rotate(45 3 0)" />
+                </svg>
+              </span>
             </span>
             <span class="h-4 w-[1px] bg-white/40"></span>
             <span class="flex items-center gap-2 text-white/80">
@@ -133,7 +154,7 @@ const releaseYear = computed(() => {
 
     <div>
       <p class="text-[1.1rem] italic text-white/70 leading-4 mt-3 md:mt-0">
-        {{ movieData?.tagline }}
+        "{{ movieData?.tagline }}"
       </p>
       <div>
         <h3 class="text-[1.3rem] font-SourceProSemiBold mt-3 mb-1.5">Overview</h3>

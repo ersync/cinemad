@@ -103,7 +103,7 @@ onMounted(() => {
           :should-animate="true"
       />
       <span class="font-semibold text-xs text-white/85 hidden min-[372px]:block w-12">
-        Average Score
+        Avg Score
       </span>
     </div>
 
