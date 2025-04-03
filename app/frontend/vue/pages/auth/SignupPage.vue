@@ -29,6 +29,10 @@ async function validateForm() {
     errors.username = 'Username must be at least 6 characters'
   }
 
+  if (/[@.\/]/.test(formData.username)) {
+    errors.username = 'Username cannot contain @, periods, or slashes'
+  }
+  
   if (formData.password !== formData.passwordConfirmation) {
     errors.password = 'Passwords do not match'
   }
@@ -50,7 +54,7 @@ async function handleSubmit() {
       return
     }
 
-    await authStore.register({
+    const response = await authStore.register({
       username: formData.username,
       email: formData.email,
       password: formData.password,
@@ -58,8 +62,9 @@ async function handleSubmit() {
       terms: formData.acceptTerms
     })
 
-    const redirectPath = route.query.redirect || '/'
-    router.push(redirectPath)
+    if (response && response.id && response.email) {
+      document.location.href = "/"
+    }
 
   } catch (error) {
     if (error.response?.data?.errors) {

@@ -72,7 +72,7 @@ onMounted(() => {
   <div class="antialiased font-SourceProNormal">
     <div class="relative h-[400px] sm:h-[500px] mb-10 bg-gradient-to-b from-[#010e19]/70 via-[#011a30]/60 to-[#010e19]/90">
       <div 
-        class="absolute inset-0 bg-cover bg-top transform scale-105 transition-transform duration-10000 ease-out animate-subtle-zoom"
+        class="absolute inset-0 bg-cover bg-top transform transition-transform duration-10000 ease-out"
         :style="heroBackgroundStyle"
       >
         <div class="absolute inset-0 bg-gradient-to-b from-[#010e19]/70 via-[#011a30]/60 to-[#010e19]/90"></div>
@@ -384,17 +384,6 @@ onMounted(() => {
   .stats-label {
     @apply text-xs;
   }
-}
-
-/* Subtle zoom animation */
-@keyframes subtle-zoom {
-  0% { transform: scale(1.05); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1.05); }
-}
-
-.animate-subtle-zoom {
-  animation: subtle-zoom 20s infinite ease-in-out;
 }
 
 .search-glow {
